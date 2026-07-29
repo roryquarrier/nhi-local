@@ -11,6 +11,10 @@ import { COPY, ZALO_LINK, zaloDeepLink } from '../lib/translations';
 
 const en = COPY.en;
 const vi = COPY.vi;
+
+const base = import.meta.env.BASE_URL;
+const heroVideo = base + 'media/hero_danang_sup.mp4';
+const heroPoster = base + 'media/hero_poster.jpg';
 ---
 
 <!-- Tall scroll runway: video playhead is bound to progress through this section -->
@@ -22,14 +26,14 @@ const vi = COPY.vi;
       playsinline
       muted
       preload="auto"
-      poster="/media/hero_poster.jpg"
+      poster={heroPoster}
     >
       <source
         media="(min-aspect-ratio: 1/1)"
-        src="/media/hero_danang_sup.mp4"
+        src={heroVideo}
         type="video/mp4"
       />
-      <source src="/media/hero_danang_sup.mp4" type="video/mp4" />
+      <source src={heroVideo} type="video/mp4" />
     </video>
     <!-- Poster layer for the static fallback -->
     <div class="hero-poster" aria-hidden="true"></div>

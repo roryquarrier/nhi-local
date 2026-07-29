@@ -12,6 +12,8 @@ const description =
   'Stand-up paddleboard, surf, and freedive sessions on Man Thai Beach, Da Nang. Small groups, equipment provided, 60-minute sessions.';
 
 import '../styles/global.css';
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -30,14 +32,14 @@ import '../styles/global.css';
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image" content={base + 'og-image.jpg'} />
     <meta property="og:url" content="https://nhilocal.com" />
 
     <!-- Twitter card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/og-image.jpg" />
+    <meta name="twitter:image" content={base + 'og-image.jpg'} />
 
     <!-- Fonts: Be Vietnam Pro (sans, full Vietnamese diacritics) + JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,7 +49,9 @@ import '../styles/global.css';
       rel="stylesheet"
     />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={base + 'favicon.svg'} />
+
+    <style is:inline set:html={`:root { --hero-poster-url: url("${base}media/hero_poster.jpg"); }`}></style>
 
     <!-- Resolve language BEFORE first paint: URL param > localStorage > 'en'.
          Static copy is rendered in both languages and toggled via CSS on
