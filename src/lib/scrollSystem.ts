@@ -44,19 +44,56 @@ function bindScrub(video: HTMLVideoElement) {
   const duration = video.duration;
   if (!duration || !isFinite(duration)) return;
 
-  let rafId: number | null = null;
-  let lastTime = -1;
+  // Latest-value-wins: never drop a progress update. The RAF callback reads
+  // the most recent value, so fast scrolls don't lurch to stale positions.
+  let latestProgress = 0;
+  let rafPending = false;
+
+  // requestVideoFrameCallback (Chrome/Edge/Safari 17+) fires exactly when a
+  // new video frame is painted — the perfect signal that the previous seek is
+  // done and we can issue the next one. Falls back to RAF on unsupported
+  // browsers.
+  const rvfc =
+    'requestVideoFrameCallback' in video
+      ? (video as HTMLVideoElement & {
+          requestVideoFrameCallback: (
+            cb: (now: number, metadata: { presentationTime: number }) => void
+          ) => number;
+          cancelVideoFrameCallback: (handle: number) => void;
+        })
+      : null;
+
+  const scheduleSeek = () => {
+    if (rafPending) return;
+    rafPending = true;
+
+    if (rvfc) {
+      rvfc.requestVideoFrameCallback(() => {
+        rafPending = false;
+        applySeek();
+      });
+    } else {
+      requestAnimationFrame(() => {
+        rafPending = false;
+        applySeek();
+      });
+    }
+  };
+
+  const applySeek = () => {
+    const targetTime = latestProgress * duration;
+    if (Math.abs(targetTime - video.currentTime) > 0.008) {
+      video.currentTime = targetTime;
+    }
+    // If a new update arrived during the paint, keep chasing it.
+    if (Math.abs(latestProgress * duration - targetTime) > 0.008) {
+      scheduleSeek();
+    }
+  };
 
   const scrub = (progress: number) => {
-    if (rafId !== null) return;
-    rafId = requestAnimationFrame(() => {
-      const targetTime = progress * duration;
-      if (Math.abs(targetTime - lastTime) > 0.01) {
-        video.currentTime = targetTime;
-        lastTime = targetTime;
-      }
-      rafId = null;
-    });
+    latestProgress = progress;
+    scheduleSeek();
   };
 
   ScrollTrigger.create({
