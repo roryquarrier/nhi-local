@@ -17,8 +17,10 @@ const heroVideo = base + 'media/hero_danang_sup.mp4';
 const heroPoster = base + 'media/hero_poster.jpg';
 ---
 
-<!-- Tall scroll runway: video playhead is bound to progress through this section -->
-<section id="hero-section" class="relative" style="height: 500vh;">
+<!-- Scroll runway: video playhead is bound to progress through this section.
+     150vh = ~1.5 screen heights to cover the full 8s video, so the video
+     advances at roughly the same pace as normal page scroll. -->
+<section id="hero-section" class="relative" style="height: 150vh;">
   <!-- Fixed video layer -->
   <div class="hero-video-wrap">
     <video

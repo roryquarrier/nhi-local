@@ -44,45 +44,38 @@ function bindScrub(video: HTMLVideoElement) {
   const duration = video.duration;
   if (!duration || !isFinite(duration)) return;
 
-  // One source frame at 24fps. Seeks smaller than half a frame land on the
-  // frame already displayed, so they are skipped rather than issued.
+  // One source frame at 24fps. Seeks smaller than this land on the same
+  // displayed frame, so they are skipped to avoid pointless decode work.
   const FRAME = 1 / 24;
-  // Seeking to exactly `duration` can put the element in the `ended` state;
-  // clamp just short of the last frame.
   const MAX_TIME = duration - FRAME;
-  // If `seeked` somehow never fires, release the gate so the scrub can't
-  // deadlock (the failure mode that froze the rVFC-gated versions).
-  const SEEK_TIMEOUT_MS = 250;
 
-  // Latest-value-wins: scroll updates overwrite `latestTime`; at most one seek
-  // is in flight, and each completed seek immediately chases the newest value.
-  let latestTime = 0;
-  let seekInFlight = false;
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  // Latest-value-wins: every scroll update overwrites this. The RAF loop
+  // reads the newest value once per frame and issues a single seek. We do
+  // NOT gate on the 'seeked' event or requestVideoFrameCallback — gating
+  // serializes seeks (each decode must finish before the next starts),
+  // which makes the playhead move in discrete steps instead of flowing.
+  // Setting currentTime while a seek is in-flight is safe: the browser
+  // coalesces and retargets to the latest value automatically.
+  let latestProgress = 0;
+  let needsSeek = false;
 
-  const pump = () => {
-    if (seekInFlight) return;
-    if (Math.abs(latestTime - video.currentTime) < FRAME / 2) return;
-
-    seekInFlight = true;
-    video.currentTime = latestTime;
-    timeoutId = setTimeout(onSeekDone, SEEK_TIMEOUT_MS);
+  const onFrame = () => {
+    if (needsSeek) {
+      const targetTime = Math.min(latestProgress * duration, MAX_TIME);
+      if (Math.abs(targetTime - video.currentTime) >= FRAME / 2) {
+        video.currentTime = targetTime;
+      }
+      needsSeek = false;
+    }
+    requestAnimationFrame(onFrame);
   };
-
-  // `seeked` fires on every completed seek in every browser, paused or not —
-  // unlike requestVideoFrameCallback, which only fires when a NEW frame is
-  // painted and therefore deadlocks on paused/same-frame seeks.
-  const onSeekDone = () => {
-    clearTimeout(timeoutId);
-    seekInFlight = false;
-    pump();
-  };
-  video.addEventListener('seeked', onSeekDone);
 
   const scrub = (progress: number) => {
-    latestTime = Math.min(progress * duration, MAX_TIME);
-    pump();
+    latestProgress = progress;
+    needsSeek = true;
   };
+
+  requestAnimationFrame(onFrame);
 
   ScrollTrigger.create({
     trigger: '#hero-section',
