@@ -44,56 +44,58 @@ function bindScrub(video: HTMLVideoElement) {
   const duration = video.duration;
   if (!duration || !isFinite(duration)) return;
 
-  // Latest-value-wins: never drop a progress update. The RAF callback reads
-  // the most recent value, so fast scrolls don't lurch to stale positions.
+  // Latest-value-wins: scroll updates overwrite a shared variable. The seek
+  // loop reads the newest value, so fast scrolls don't lurch to stale positions.
   let latestProgress = 0;
-  let rafPending = false;
+  let seeking = false;
 
   // requestVideoFrameCallback (Chrome/Edge/Safari 17+) fires exactly when a
-  // new video frame is painted — the perfect signal that the previous seek is
-  // done and we can issue the next one. Falls back to RAF on unsupported
-  // browsers.
+  // seeked frame has been painted — the signal that the previous seek is done.
   const rvfc =
     'requestVideoFrameCallback' in video
       ? (video as HTMLVideoElement & {
           requestVideoFrameCallback: (
             cb: (now: number, metadata: { presentationTime: number }) => void
           ) => number;
-          cancelVideoFrameCallback: (handle: number) => void;
         })
       : null;
 
-  const scheduleSeek = () => {
-    if (rafPending) return;
-    rafPending = true;
+  const doSeek = () => {
+    const targetTime = latestProgress * duration;
+    if (Math.abs(targetTime - video.currentTime) <= 0.008) {
+      seeking = false;
+      return;
+    }
 
+    seeking = true;
+    video.currentTime = targetTime;
+
+    // When the frame paints, clear the seeking flag and chase any newer progress.
     if (rvfc) {
       rvfc.requestVideoFrameCallback(() => {
-        rafPending = false;
-        applySeek();
+        seeking = false;
+        if (Math.abs(latestProgress * duration - video.currentTime) > 0.008) {
+          doSeek();
+        }
       });
     } else {
+      // Fallback: assume the seek is done on the next frame.
       requestAnimationFrame(() => {
-        rafPending = false;
-        applySeek();
+        seeking = false;
+        if (Math.abs(latestProgress * duration - video.currentTime) > 0.008) {
+          doSeek();
+        }
       });
-    }
-  };
-
-  const applySeek = () => {
-    const targetTime = latestProgress * duration;
-    if (Math.abs(targetTime - video.currentTime) > 0.008) {
-      video.currentTime = targetTime;
-    }
-    // If a new update arrived during the paint, keep chasing it.
-    if (Math.abs(latestProgress * duration - targetTime) > 0.008) {
-      scheduleSeek();
     }
   };
 
   const scrub = (progress: number) => {
     latestProgress = progress;
-    scheduleSeek();
+    if (!seeking) {
+      doSeek();
+    }
+    // If a seek is in-flight, latestProgress is updated so it will be
+    // picked up the moment the current frame paints (chase logic above).
   };
 
   ScrollTrigger.create({
