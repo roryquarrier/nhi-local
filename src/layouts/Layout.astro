@@ -1,0 +1,121 @@
+---
+interface Props {
+  lang?: 'en' | 'vi';
+  title?: string;
+  description?: string;
+}
+
+const lang = Astro.props.lang ?? 'en';
+const title = Astro.props.title ?? 'Nhi Local — Sunrise SUP on Man Thai Beach';
+const description =
+  Astro.props.description ??
+  'Stand-up paddleboard, surf, and freedive sessions on Man Thai Beach, Da Nang. Small groups, equipment provided, 60-minute sessions.';
+
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- hreflang alternates -->
+    <link rel="alternate" hreflang="en" href="/" />
+    <link rel="alternate" hreflang="vi" href="/?lang=vi" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:url" content="https://nhilocal.com" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/og-image.jpg" />
+
+    <!-- Fonts: Be Vietnam Pro (sans, full Vietnamese diacritics) + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Resolve language BEFORE first paint: URL param > localStorage > 'en'.
+         Static copy is rendered in both languages and toggled via CSS on
+         html[lang]; React islands listen for the 'langchange' event. -->
+    <script is:inline>
+      (function () {
+        try {
+          var p = new URLSearchParams(location.search).get("lang");
+          var s = localStorage.getItem("nhi-lang");
+          var l = p === "vi" || p === "en" ? p : s === "vi" || s === "en" ? s : "en";
+          document.documentElement.lang = l;
+        } catch (e) {
+          /* default server-rendered lang stands */
+        }
+      })();
+    </script>
+
+    <!-- cal.com floating popup embed (EN booking funnel).
+         The floating button is hidden in VI mode via CSS so only the Zalo path is shown. -->
+    <script type="text/javascript" is:inline>
+      (function (C, A, L) {
+        let p = function (a, ar) { a.q.push(ar); };
+        let d = C.document;
+        C.Cal = C.Cal || function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement("script")).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () { p(api, arguments); };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+      Cal("init", "sup", { origin: "https://app.cal.com" });
+      Cal.config = Cal.config || {};
+      Cal.config.forwardQueryParams = true;
+      Cal.ns.sup("floatingButton", {
+        "calLink": "rory-quarrier-nsavjf/sup",
+        "config": { "layout": "month_view", "useSlotsViewOnSmallScreen": "true" }
+      });
+      Cal.ns.sup("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
+    </script>
+
+    <!-- Hide cal.com floating button in VI mode (VI books via Zalo).
+         Selector variants cover current cal.com embed markup; the canonical
+         rules also live in global.css. -->
+    <style is:global>
+      html[lang="vi"] #cal-namespace-sup-floating-button,
+      html[lang="vi"] .cal-embed-floating-button,
+      html[lang="vi"] button[data-cal-namespace="sup"] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body class="bg-dawn text-linen font-sans antialiased">
+    <slot />
+  </body>
+</html>

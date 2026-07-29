@@ -1,0 +1,212 @@
+---
+/**
+ * Hero — fixed full-bleed video scrubbed by scroll, five milestone overlays,
+ * clock ticker, wordmark dock, and permanently docking booking bar.
+ *
+ * The static fallback (html.fallback) collapses this to a poster hero with
+ * the static-only copy block; all scrub-only overlays are hidden.
+ * Both languages are rendered; CSS on html[lang] shows one.
+ */
+import { COPY, ZALO_LINK, zaloDeepLink } from '../lib/translations';
+
+const en = COPY.en;
+const vi = COPY.vi;
+---
+
+<!-- Tall scroll runway: video playhead is bound to progress through this section -->
+<section id="hero-section" class="relative" style="height: 500vh;">
+  <!-- Fixed video layer -->
+  <div class="hero-video-wrap">
+    <video
+      id="hero-video"
+      playsinline
+      muted
+      preload="auto"
+      poster="/media/hero_poster.jpg"
+    >
+      <source
+        media="(min-aspect-ratio: 1/1)"
+        src="/media/hero_danang_sup.mp4"
+        type="video/mp4"
+      />
+      <source src="/media/hero_danang_sup.mp4" type="video/mp4" />
+    </video>
+    <!-- Poster layer for the static fallback -->
+    <div class="hero-poster" aria-hidden="true"></div>
+
+    <!-- Static fallback hero copy (PRIMARY experience) -->
+    <div class="static-only absolute inset-0 z-10">
+      <div class="scrim-bottom absolute inset-x-0 bottom-0 h-2/3"></div>
+      <div class="absolute inset-x-0 bottom-0 p-6 pb-12 sm:p-10 sm:pb-16">
+        <p class="font-mono text-xs tracking-widest text-lilac uppercase">
+          <span data-lang="en">{en.hero.staticEyebrow}</span>
+          <span data-lang="vi">{vi.hero.staticEyebrow}</span>
+        </p>
+        <h1 class="mt-3 max-w-xl text-4xl font-bold text-linen sm:text-5xl">
+          <span data-lang="en">{en.hero.staticTitle}</span>
+          <span data-lang="vi">{vi.hero.staticTitle}</span>
+        </h1>
+        <p class="mt-4 max-w-lg text-lilac">
+          <span data-lang="en">{en.hero.staticSubtitle}</span>
+          <span data-lang="vi">{vi.hero.staticSubtitle}</span>
+        </p>
+        <a
+          href="#booking"
+          class="mt-6 inline-block rounded-full bg-tungsten px-7 py-3 font-semibold text-dawn"
+        >
+          <span data-lang="en">{en.hero.staticCta}</span>
+          <span data-lang="vi">{vi.hero.staticCta}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= Scrub-only overlays ======================= -->
+
+  <!-- Clock ticker — top-left, mono. Appears at 25%, counts 04:07 → 05:30. -->
+  <div id="clock-ticker" class="clock-ticker scrub-only" aria-hidden="true">
+    <div class="scrim-top rounded-lg px-3 py-2">
+      <span id="clock-time" class="font-mono text-lg tracking-widest text-linen"
+        >04:07</span
+      >
+    </div>
+  </div>
+
+  <!-- 0%: video only (empty milestone keeps indexing symmetric) -->
+  <div id="milestone-0" class="milestone scrub-only" aria-hidden="true"></div>
+
+  <!-- 25%: "You're the only one awake." -->
+  <div id="milestone-25" class="milestone scrub-only items-end">
+    <div class="scrim-bottom w-full p-6 pb-24 sm:p-10 sm:pb-28">
+      <p class="max-w-md text-3xl font-semibold text-linen sm:text-4xl">
+        <span data-lang="en">You're the only one awake.</span>
+        <span data-lang="vi">Chỉ mình bạn thức.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- 50%: NHI LOCAL wordmark resolves, then docks into the sticky header -->
+  <div id="milestone-50" class="milestone scrub-only items-center justify-center">
+    <div class="scrim-center px-10 py-16 text-center">
+      <p
+        id="hero-wordmark"
+        class="wordmark text-3xl text-linen sm:text-5xl"
+        style="will-change: transform;"
+      >
+        NHI&nbsp;LOCAL
+      </p>
+    </div>
+  </div>
+
+  <!-- 75%: headline + service tiles, SUP pre-selected -->
+  <div id="milestone-75" class="milestone scrub-only items-end">
+    <div class="scrim-bottom w-full p-6 pb-24 sm:p-10 sm:pb-28">
+      <h2 class="text-3xl font-bold text-linen sm:text-4xl">
+        <span data-lang="en">Sunrise SUP on My Khe.</span>
+        <span data-lang="vi">Chèo SUP đón bình minh trên Mỹ Khê.</span>
+      </h2>
+      <p class="mt-2 font-mono text-sm text-lilac">
+        <span data-lang="en">60 minutes · flat water · small groups</span>
+        <span data-lang="vi">60 phút · mặt nước phẳng · nhóm nhỏ</span>
+      </p>
+
+      <div class="mt-6 flex max-w-2xl items-end gap-3">
+        <!-- SUP: pre-selected, larger, tungsten border -->
+        <a
+          href="#booking"
+          class="flex-[1.3] rounded-xl border-2 border-tungsten bg-dawn/70 p-4 backdrop-blur-sm"
+        >
+          <p class="font-semibold text-linen">SUP</p>
+          <p class="mt-1 font-mono text-sm text-tungsten">300,000₫</p>
+        </a>
+        <a
+          href="#booking"
+          class="flex-1 rounded-xl border border-lilac/30 bg-dawn/60 p-4 backdrop-blur-sm"
+        >
+          <p class="font-semibold text-linen">
+            <span data-lang="en">Surf</span>
+            <span data-lang="vi">Lướt ván</span>
+          </p>
+          <p class="mt-1 font-mono text-sm text-lilac">1,600,000₫</p>
+        </a>
+        <a
+          href="#booking"
+          class="flex-1 rounded-xl border border-lilac/30 bg-dawn/60 p-4 backdrop-blur-sm"
+        >
+          <p class="font-semibold text-linen">
+            <span data-lang="en">Freedive</span>
+            <span data-lang="vi">Lặn tự do</span>
+          </p>
+          <p class="mt-1 font-mono text-sm text-lilac">1,500,000₫</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Play Tour control: auto-advances scroll, pausable, yields to manual scroll -->
+  <button
+    id="play-tour-btn"
+    class="play-tour scrub-only rounded-full border border-lilac/30 bg-dawn/80 px-5 py-2.5 font-mono text-sm tracking-wider text-linen backdrop-blur-sm transition-colors hover:border-tungsten/60"
+  >
+    <span class="label-play">
+      <span data-lang="en">▶ {en.hero.playTour}</span>
+      <span data-lang="vi">▶ {vi.hero.playTour}</span>
+    </span>
+    <span class="label-pause">
+      <span data-lang="en">❚❚ {en.hero.pauseTour}</span>
+      <span data-lang="vi">❚❚ {vi.hero.pauseTour}</span>
+    </span>
+  </button>
+</section>
+
+<!-- Sticky header the wordmark docks into (persists after 50%) -->
+<header id="dock-header" class="dock-header scrub-only">
+  <div class="scrim-top flex items-center justify-center px-4 py-3">
+    <span class="wordmark text-sm text-linen">NHI&nbsp;LOCAL</span>
+  </div>
+</header>
+
+<!-- Booking bar: docks to bottom permanently at 100%. Session picker shows
+     plain-text times only — no availability dots (no real cal.com data wired,
+     and we never fabricate availability). -->
+<div id="booking-bar" class="booking-bar scrub-only">
+  <div
+    class="flex flex-wrap items-center justify-between gap-3 border-t border-lilac/20 bg-dawn/95 px-4 py-3 backdrop-blur-md sm:px-8"
+  >
+    <div>
+      <p class="font-mono text-[11px] tracking-widest text-lilac/70 uppercase">
+        <span data-lang="en">Session times</span>
+        <span data-lang="vi">Khung giờ</span>
+      </p>
+      <!-- TODO: session times 04:45 / 05:30 / 06:15 are proposed, not confirmed -->
+      <p class="font-mono text-sm text-linen">04:45 · 05:30 · 06:15</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <!-- EN funnel: cal.com popup (embed auto-binds data-cal-link) -->
+      <button
+        data-lang="en"
+        data-cal-namespace="sup"
+        data-cal-link="rory-quarrier-nsavjf/sup"
+        data-cal-config='{"layout":"month_view"}'
+        class="rounded-full bg-tungsten px-6 py-2.5 font-semibold text-dawn"
+      >
+        {en.nav.book}
+      </button>
+      <!-- VI funnel: Zalo deep link -->
+      <a
+        data-lang="vi"
+        href={zaloDeepLink('vi')}
+        data-zalo={ZALO_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-full bg-tungsten px-6 py-2.5 font-semibold text-dawn"
+      >
+        {vi.nav.book} Zalo
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../lib/heroExperience';
+</script>

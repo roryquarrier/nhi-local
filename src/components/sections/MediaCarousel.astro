@@ -1,0 +1,46 @@
+---
+import { COPY } from '../../lib/translations';
+const en = COPY.en.sections.media;
+const vi = COPY.vi.sections.media;
+
+// Labelled grey placeholders at fixed, predictable filenames — no stock imagery.
+const slides = [
+  { file: 'placeholder-sup-1.jpg', ratio: 'aspect-[4/5]', label: 'SUP at dawn' },
+  { file: 'placeholder-sup-2.jpg', ratio: 'aspect-[4/5]', label: 'Flat water paddling' },
+  { file: 'placeholder-surf-1.jpg', ratio: 'aspect-[4/5]', label: 'Surf lesson' },
+  { file: 'placeholder-freedive-1.jpg', ratio: 'aspect-[4/5]', label: 'Freedive session' },
+  { file: 'placeholder-nhi-1.jpg', ratio: 'aspect-[4/5]', label: 'Nhi with guests' },
+  { file: 'placeholder-beach-1.jpg', ratio: 'aspect-[4/5]', label: 'Man Thai sunrise' },
+];
+---
+
+<section id="media" class="section">
+  <div class="section-wide">
+    <p class="font-mono text-sm tracking-widest text-sea uppercase">
+      <span data-lang="en">{en.eyebrow}</span>
+      <span data-lang="vi">{vi.eyebrow}</span>
+    </p>
+    <h2 class="mt-3 text-3xl font-semibold text-linen sm:text-4xl">
+      <span data-lang="en">{en.title}</span>
+      <span data-lang="vi">{vi.title}</span>
+    </h2>
+
+    <!-- Horizontal scroll-snap carousel -->
+    <div
+      class="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4"
+      aria-label="Photo carousel"
+    >
+      {
+        slides.map((s) => (
+          <div
+            class={`placeholder ${s.ratio} w-64 shrink-0 snap-start rounded-xl sm:w-72`}
+            role="img"
+            aria-label={`${s.label} — photo coming soon`}
+          >
+            {s.file} · 4:5 · {s.label}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+---
+import { COPY } from '../../lib/translations';
+const en = COPY.en.sections.faq;
+const vi = COPY.vi.sections.faq;
+
+// Items whose answer is a TODO marker are NOT shown — no fabricated answers.
+// The TODO surfaces as an HTML comment in the built page instead.
+const isTodo = (a: string) => a.startsWith('<!-- TODO');
+const enItems = en.items.filter((i) => !isTodo(i.a));
+const viItems = vi.items.filter((i) => !isTodo(i.a));
+const todos = [...en.items, ...vi.items].filter((i) => isTodo(i.a));
+---
+
+<section id="faq" class="section">
+  <div class="section-narrow">
+    <p class="font-mono text-sm tracking-widest text-sea uppercase">
+      <span data-lang="en">{en.eyebrow}</span>
+      <span data-lang="vi">{vi.eyebrow}</span>
+    </p>
+    <h2 class="mt-3 text-3xl font-semibold text-linen sm:text-4xl">
+      <span data-lang="en">{en.title}</span>
+      <span data-lang="vi">{vi.title}</span>
+    </h2>
+
+    <div class="mt-8" data-lang="en">
+      {
+        enItems.map((item) => (
+          <details class="group border-b border-lilac/15 py-4">
+            <summary class="cursor-pointer list-none font-semibold text-linen transition-colors group-open:text-tungsten hover:text-tungsten">
+              {item.q}
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-lilac">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+    <div class="mt-8" data-lang="vi">
+      {
+        viItems.map((item) => (
+          <details class="group border-b border-lilac/15 py-4">
+            <summary class="cursor-pointer list-none font-semibold text-linen transition-colors group-open:text-tungsten hover:text-tungsten">
+              {item.q}
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-lilac">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+
+    {/* Unanswered questions surface as HTML comments only — never fabricated. */}
+    {todos.map((item) => <Fragment set:html={`${item.a} (q: ${item.q})`} />)}
+  </div>
+</section>

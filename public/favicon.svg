@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#0E1420"/>
+  <text x="32" y="30" text-anchor="middle" font-family="ui-monospace, monospace" font-size="18" font-weight="700" letter-spacing="2" fill="#F2F0EA">NHI</text>
+  <path d="M8 44 Q16 38 24 44 T40 44 T56 44" stroke="#FFB25E" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M8 52 Q16 46 24 52 T40 52 T56 52" stroke="#5E8C8A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

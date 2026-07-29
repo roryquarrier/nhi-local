@@ -1,0 +1,36 @@
+---
+import { COPY } from '../../lib/translations';
+const en = COPY.en.sections.howItWorks;
+const vi = COPY.vi.sections.howItWorks;
+---
+
+<section id="how-it-works" class="section">
+  <div class="section-wide">
+    <p class="font-mono text-sm tracking-widest text-sea uppercase">
+      <span data-lang="en">{en.eyebrow}</span>
+      <span data-lang="vi">{vi.eyebrow}</span>
+    </p>
+    <h2 class="mt-3 text-3xl font-semibold text-linen sm:text-4xl">
+      <span data-lang="en">{en.title}</span>
+      <span data-lang="vi">{vi.title}</span>
+    </h2>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      {
+        en.steps.map((step, i) => (
+          <div class="rounded-2xl border border-lilac/15 bg-coffee/20 p-6">
+            <p class="font-mono text-sm text-sea">{step.n}</p>
+            <h3 class="mt-3 text-xl font-semibold text-linen">
+              <span data-lang="en">{step.title}</span>
+              <span data-lang="vi">{vi.steps[i]?.title}</span>
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-lilac">
+              <span data-lang="en">{step.body}</span>
+              <span data-lang="vi">{vi.steps[i]?.body}</span>
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import LanguageToggle from '../components/LanguageToggle';
+import BookingSection from '../components/BookingSection';
+import MeetNhi from '../components/sections/MeetNhi.astro';
+import MediaCarousel from '../components/sections/MediaCarousel.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import MeetingPoint from '../components/sections/MeetingPoint.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import Footer from '../components/sections/Footer.astro';
+---
+
+<Layout>
+  <!-- Persistent EN/VI toggle — top-right at all scroll positions -->
+  <LanguageToggle client:load />
+
+  <Hero />
+
+  <!-- Conventional sections after the scroll-scrub completes -->
+  <div class="below-video">
+    <MeetNhi />
+    <MediaCarousel />
+    <HowItWorks />
+    <MeetingPoint />
+    <BookingSection client:visible />
+    <FAQ />
+    <Footer />
+  </div>
+</Layout>
