@@ -131,7 +131,7 @@ const EN: Copy = {
   nav: { book: 'Book' },
   hero: {
     staticEyebrow: 'Man Thai Beach · Da Nang',
-    staticTitle: 'Paddle into the sunrise.',
+    staticTitle: 'Sunrise paddle.',
     staticSubtitle:
       'SUP, surf, and freedive sessions with Nhi Local. Small groups, equipment provided, 60 minutes on the water.',
     staticCta: 'Book a session',
@@ -253,7 +253,7 @@ const VI: Copy = {
   nav: { book: 'Đặt' },
   hero: {
     staticEyebrow: 'Bãi Man Thái · Đà Nẵng',
-    staticTitle: 'Chèo SUP đón bình minh.',
+    staticTitle: 'Chèo SUP bình minh.',
     staticSubtitle:
       'Buổi chèo SUP, lướt ván và lặn tự do cùng Nhi Local. Nhóm nhỏ, có sẵn thiết bị, 60 phút trên mặt nước.',
     staticCta: 'Đặt một buổi',

@@ -18,7 +18,7 @@ import { shouldUseFallback, waitForFullBuffer } from './detectFallback';
 const STATE_WINDOWS = [
   { id: 'intro-open', from: 0, to: 0.34 },
   { id: 'intro-mid', from: 0.42, to: 0.74 },
-  { id: 'intro-brand', from: 0.82, to: 1.01 },
+  { id: 'intro-brand', from: 0.72, to: 1.01 },
 ] as const;
 
 /** Ceiling on the buffer wait before scroll comes back regardless. */
