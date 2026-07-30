@@ -18,9 +18,12 @@ const heroPoster = base + 'media/hero_poster.jpg';
 ---
 
 <!-- Scroll runway: video playhead is bound to progress through this section.
-     150vh = ~1.5 screen heights to cover the full 8s video, so the video
-     advances at roughly the same pace as normal page scroll. -->
-<section id="hero-section" class="relative" style="height: 150vh;">
+     The scrub distance is height - 100vh (start: top top → end: bottom bottom),
+     so 300vh gives 200vh of runway for the 8s video — 4x the old 150vh (50vh).
+     At 150vh every milestone was crammed into half a screen of scrolling and
+     whipped past unreadably; 200vh gives milestone-25 (a 30%-wide progress
+     window) ~60vh of scroll to be read in. -->
+<section id="hero-section" class="relative" style="height: 300vh;">
   <!-- Fixed video layer -->
   <div class="hero-video-wrap">
     <video

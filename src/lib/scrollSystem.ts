@@ -18,7 +18,10 @@ export { gsap, ScrollTrigger };
 export function initScrollSystem(video: HTMLVideoElement): Lenis {
   // Lenis drives scroll; GSAP reads from it
   const lenis = new Lenis({
-    duration: 1.2,
+    // 1.2 made the playhead visibly lag the wheel — the scrub reads scroll
+    // position, so Lenis' settle time is added directly to the video's
+    // response time. 0.9 keeps the easing but tightens that lag.
+    duration: 0.9,
     smoothWheel: true,
   });
 
@@ -44,10 +47,8 @@ function bindScrub(video: HTMLVideoElement) {
   const duration = video.duration;
   if (!duration || !isFinite(duration)) return;
 
-  // One source frame at 24fps. Seeks smaller than this land on the same
-  // displayed frame, so they are skipped to avoid pointless decode work.
-  const FRAME = 1 / 24;
-  const MAX_TIME = duration - FRAME;
+  const FPS = 24;
+  const LAST_FRAME = Math.max(0, Math.round(duration * FPS) - 1);
 
   // Latest-value-wins: every scroll update overwrites this. The RAF loop
   // reads the newest value once per frame and issues a single seek. We do
@@ -58,12 +59,23 @@ function bindScrub(video: HTMLVideoElement) {
   // coalesces and retargets to the latest value automatically.
   let latestProgress = 0;
   let needsSeek = false;
+  let lastFrameSent = -1;
 
+  // De-duplicate on the requested FRAME INDEX, not on a time epsilon against
+  // video.currentTime. currentTime reports the *snapped* frame time after a
+  // seek, never the requested time, so the old `>= FRAME / 2` test compared
+  // two different quantities and had to be generous to compensate — it
+  // swallowed real scroll movement, then released it as a visible jump.
+  // Comparing frame indices is exact: one seek per displayed frame change,
+  // no wasted decodes and no dropped movement.
   const onFrame = () => {
     if (needsSeek) {
-      const targetTime = Math.min(latestProgress * duration, MAX_TIME);
-      if (Math.abs(targetTime - video.currentTime) >= FRAME / 2) {
-        video.currentTime = targetTime;
+      const frame = Math.min(Math.round(latestProgress * duration * FPS), LAST_FRAME);
+      if (frame !== lastFrameSent) {
+        lastFrameSent = frame;
+        // Aim at the frame's midpoint: seeking to exactly frame/FPS sits on a
+        // boundary where float rounding can resolve to the previous frame.
+        video.currentTime = (frame + 0.5) / FPS;
       }
       needsSeek = false;
     }
