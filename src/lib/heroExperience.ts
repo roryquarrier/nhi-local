@@ -1,26 +1,57 @@
 /**
  * Hero experience orchestration (client-side entry).
  *
- * Decides between the scroll-scrub experience and the static fallback, then
- * wires the milestone overlays, clock ticker, wordmark dock, and booking bar
- * to scroll progress. All GSAP/ScrollTrigger access goes through
- * scrollSystem.ts — ScrollTrigger is registered exactly once, there.
+ * The hero plays its 8s clip ONCE at real speed — no scrubbing, no seeking.
+ * Scroll is locked for the duration so the intro is not competing with the
+ * page, and text overlays are driven by the video's own currentTime rather
+ * than by scroll position. When the clip ends (or the user skips) scroll
+ * unlocks, the wordmark hands off to the sticky header, and the rest of the
+ * page behaves like a normal document.
+ *
+ * No GSAP, no Lenis, no ScrollTrigger: the whole thing is three crossfades
+ * and a class toggle, which CSS does better than a rAF loop.
  */
 
-import { gsap, ScrollTrigger, initScrollSystem, initPlayTour } from './scrollSystem';
-import { shouldUseFallback, waitForVideoReady } from './detectFallback';
+import { shouldUseFallback, waitForFullBuffer } from './detectFallback';
 
-const CLOCK_START_MIN = 4 * 60 + 7; // 04:07 at the 25% milestone
-const CLOCK_END_MIN = 5 * 60 + 30; // 05:30 at 100%
+/** Fractions of the clip at which each text state owns the screen. */
+const STATE_WINDOWS = [
+  { id: 'intro-open', from: 0, to: 0.34 },
+  { id: 'intro-mid', from: 0.42, to: 0.74 },
+  { id: 'intro-brand', from: 0.82, to: 1.01 },
+] as const;
 
-function formatClock(totalMinutes: number): string {
-  const h = Math.floor(totalMinutes / 60);
-  const m = Math.floor(totalMinutes % 60);
-  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+/** Ceiling on the buffer wait before scroll comes back regardless. */
+const BUFFER_TIMEOUT_MS = 4000;
+/** Slack on top of the clip's own duration before we force the handoff. */
+const PLAYBACK_SLACK_MS = 4000;
+
+const root = document.documentElement;
+
+function enterFallback(video?: HTMLVideoElement | null): void {
+  root.classList.remove('intro-active');
+  root.classList.add('fallback', 'intro-done');
+  unlockScroll();
+
+  // Stop the download outright. The element is display:none in fallback, but a
+  // hidden <video autoplay preload="auto"> still pulls the whole file — which
+  // is exactly what a saveData or 3G reader asked us not to do.
+  if (video) {
+    video.pause();
+    video.removeAttribute('autoplay');
+    video.removeAttribute('src');
+    video.querySelectorAll('source').forEach((s) => s.remove());
+    video.load();
+  }
 }
 
-function enterFallback(): void {
-  document.documentElement.classList.add('fallback');
+function lockScroll(): void {
+  window.scrollTo(0, 0);
+  root.classList.add('intro-locked');
+}
+
+function unlockScroll(): void {
+  root.classList.remove('intro-locked');
 }
 
 export async function startHero(): Promise<void> {
@@ -30,110 +61,95 @@ export async function startHero(): Promise<void> {
     return;
   }
 
-  // Static fallback is the PRIMARY experience: reduced-motion, iOS Safari,
-  // saveData/slow connections bail out immediately, before any video work.
+  // Reduced motion / saveData / slow connection never see the intro.
   if (shouldUseFallback()) {
-    enterFallback();
+    enterFallback(video);
     return;
   }
 
-  // Video must reach readyState >= 2 within 3s or we fall back.
-  const timedOut = await waitForVideoReady(video, 3000);
+  // The markup carries `autoplay` so a JS-less client still gets the clip.
+  // We're here, so take manual control of the playhead instead.
+  video.pause();
+
+  root.classList.add('intro-active');
+  lockScroll();
+
+  // Safety net: never leave the page unscrollable, whatever happens below.
+  // Re-armed against the real duration once the clip actually starts.
+  let watchdog = window.setTimeout(finish, BUFFER_TIMEOUT_MS + PLAYBACK_SLACK_MS);
+
+  let finished = false;
+  function finish(): void {
+    if (finished) return;
+    finished = true;
+    clearTimeout(watchdog);
+    unlockScroll();
+    // Whatever beat is lit now fades out as the header wordmark fades in —
+    // on a natural end that's the NHI LOCAL beat handing off. CSS owns it.
+    root.classList.add('intro-done');
+  }
+
+  // Skip is always live, including while we're still buffering.
+  document.getElementById('skip-intro')?.addEventListener('click', () => {
+    video.pause();
+    finish();
+  });
+
+  // Wait for the WHOLE clip, not just readyState 2. A first-frame gate lets
+  // playback start and then outrun the download on 4G, which stalls the intro
+  // mid-sentence — worse than never playing it.
+  const timedOut = await waitForFullBuffer(video, BUFFER_TIMEOUT_MS);
+  if (finished) return;
   if (timedOut) {
-    enterFallback();
+    clearTimeout(watchdog);
+    enterFallback(video);
     return;
   }
 
-  const lenis = initScrollSystem(video);
-  initPlayTour(lenis);
-  bindOverlays();
+  // Buffering is behind us; re-arm the watchdog against the clip itself so a
+  // slow start doesn't eat the budget a stalled playback would need.
+  clearTimeout(watchdog);
+  watchdog = window.setTimeout(finish, video.duration * 1000 + PLAYBACK_SLACK_MS);
 
-  // Smooth-scroll in-page anchors (hero tiles → booking section) through Lenis.
-  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
-    a.addEventListener('click', (e) => {
-      const target = document.querySelector(a.getAttribute('href') ?? '');
-      if (target) {
-        e.preventDefault();
-        lenis.scrollTo(target as HTMLElement, { offset: -20 });
-      }
-    });
+  video.addEventListener('timeupdate', () => {
+    const { currentTime, duration } = video;
+    if (!duration || !isFinite(duration)) return;
+    const p = currentTime / duration;
+    const active = STATE_WINDOWS.find((w) => p >= w.from && p < w.to);
+    setState(active?.id ?? null);
   });
+
+  video.addEventListener('ended', finish, { once: true });
+  video.addEventListener('error', () => enterFallback(video), { once: true });
+
+  try {
+    video.currentTime = 0;
+    await video.play();
+  } catch {
+    // Autoplay refused (muted playback normally is not, but policies vary).
+    enterFallback(video);
+  }
 }
 
-/**
- * One ScrollTrigger drives every overlay from hero progress. Milestones fade
- * in and out — nothing persists except the docked header (after 50%) and the
- * booking bar (after 100%).
- */
-function bindOverlays(): void {
-  const m0 = document.getElementById('milestone-0');
-  const m25 = document.getElementById('milestone-25');
-  const m50 = document.getElementById('milestone-50');
-  const m75 = document.getElementById('milestone-75');
-  const clock = document.getElementById('clock-ticker');
-  const clockTime = document.getElementById('clock-time');
-  const header = document.getElementById('dock-header');
-  const bookingBar = document.getElementById('booking-bar');
-  const wordmark = document.getElementById('hero-wordmark');
+/** Exactly one text state is lit at a time; CSS owns the crossfade. */
+function setState(id: string | null): void {
+  for (const w of STATE_WINDOWS) {
+    document.getElementById(w.id)?.classList.toggle('is-on', w.id === id);
+  }
+}
 
-  // Fade window: 0 outside [fadeIn, fadeOut], 1 in the middle, ramped edges.
-  const window01 = (p: number, start: number, full: number, hold: number, end: number) => {
-    if (p <= start || p >= end) return 0;
-    if (p < full) return (p - start) / (full - start);
-    if (p <= hold) return 1;
-    return 1 - (p - hold) / (end - hold);
-  };
-
-  // autoAlpha drives opacity AND visibility: overlays start visibility:hidden
-  // in CSS, so they stay unfocusable/unclickable until actually revealed.
-  const setBlock = (el: HTMLElement | null, opacity: number, interactive = false) => {
-    if (!el) return;
-    gsap.set(el, {
-      autoAlpha: opacity,
-      pointerEvents: interactive && opacity > 0.5 ? 'auto' : 'none',
-    });
-  };
-
-  ScrollTrigger.create({
-    trigger: '#hero-section',
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: true,
-    onUpdate: (self) => {
-      const p = self.progress;
-
-      // Milestone fades
-      setBlock(m0, window01(p, -0.001, 0.0, 0.08, 0.2));
-      setBlock(m25, window01(p, 0.16, 0.22, 0.36, 0.46));
-      setBlock(m50, window01(p, 0.42, 0.48, 0.56, 0.64));
-      setBlock(m75, window01(p, 0.62, 0.68, 0.86, 0.95), true);
-
-      // Clock ticker: appears at 25%, reads 04:07 there, 05:30 at 100%.
-      setBlock(clock, p < 0.18 ? 0 : Math.min(1, (p - 0.18) / 0.06));
-      if (clockTime) {
-        const t = Math.min(1, Math.max(0, (p - 0.25) / 0.75));
-        clockTime.textContent = formatClock(
-          CLOCK_START_MIN + t * (CLOCK_END_MIN - CLOCK_START_MIN)
-        );
-      }
-
-      // Shared-element wordmark: shrinks and rises toward the header slot
-      // through the back half of its milestone window.
-      if (wordmark) {
-        const d = Math.min(1, Math.max(0, (p - 0.52) / 0.1));
-        const rise = window.innerHeight * 0.5 - 44; // center → header line
-        gsap.set(wordmark, {
-          scale: 1 - d * 0.68,
-          y: -d * rise,
-          transformOrigin: 'center top',
-        });
-      }
-
-      // Header persists after 50%; booking bar docks permanently at 100%.
-      header?.classList.toggle('visible', p >= 0.56);
-      bookingBar?.classList.toggle('visible', p >= 0.99);
+/** Hide the scroll cue once the reader has clearly taken the hint. */
+function bindScrollCue(): void {
+  const cue = document.getElementById('scroll-cue');
+  if (!cue) return;
+  window.addEventListener(
+    'scroll',
+    () => {
+      cue.classList.toggle('is-hidden', window.scrollY > window.innerHeight * 0.25);
     },
-  });
+    { passive: true }
+  );
 }
 
+bindScrollCue();
 startHero();

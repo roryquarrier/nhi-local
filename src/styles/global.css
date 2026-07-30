@@ -30,9 +30,15 @@
   --sea: #5e8c8a;
 }
 
-/* Base */
+/* Base. Lenis is gone — native smooth scroll handles the in-page anchors
+   (hero CTA → #booking) and honours prefers-reduced-motion for free. */
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -62,12 +68,34 @@ html[lang="vi"] [data-cal-namespace="sup"].cal-floating-button {
   display: none !important;
 }
 
+/*
+ * Scroll lock for the duration of the intro clip. overflow:hidden alone does
+ * not hold iOS Safari, so the body is pinned as well. We only ever lock at
+ * scroll position 0, so there is no offset to restore on unlock.
+ */
+html.intro-locked,
+html.intro-locked body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+html.intro-locked body {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+}
+
+/* Hero: one viewport tall. svh, not vh — vh doesn't settle when the Android
+   URL bar collapses, which leaves the hero taller than the screen. */
+.hero-section {
+  height: 100svh;
+}
+
 /* Hero video (fixed full-bleed background) */
 .hero-video-wrap {
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   z-index: 0;
   overflow: hidden;
 }
@@ -118,107 +146,121 @@ html[lang="vi"] [data-cal-namespace="sup"].cal-floating-button {
   );
 }
 
-/* Milestone overlay blocks: fixed to the viewport while the tall hero
-   section scrolls behind. Hidden (autoAlpha) until GSAP reveals them.
-   z-index 10 < .below-video's 15, so conventional sections scroll over them. */
-.milestone {
+/* ---------------------------------------------------------------------------
+ * Intro text beats. Exactly one carries .is-on at a time (set from the video's
+ * currentTime); CSS does the crossfade. z-index 10 < .below-video's 15, so the
+ * conventional sections scroll cleanly over them.
+ * ------------------------------------------------------------------------- */
+.intro-text {
   position: fixed;
   inset: 0;
   z-index: 10;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
   display: flex;
-}
-/* Links/buttons inside a visible milestone are clickable; when the milestone
-   is hidden, visibility:hidden (autoAlpha) disables them and removes them
-   from the tab order. */
-.milestone a,
-.milestone button {
-  pointer-events: auto;
-}
-
-/* Clock ticker — top-left, monospace. Below .below-video (15) so sections
-   cover it after the hero, above milestones (10). */
-.clock-ticker {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 12;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition:
+    opacity 0.6s ease,
+    visibility 0s linear 0.6s;
+}
+.intro-text.is-on {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.6s ease,
+    visibility 0s linear 0s;
 }
 
-/* Sticky docked wordmark header (persists after 50%) */
+/* Intro-only chrome is hidden unless JS has actually started the intro, so a
+   client that never runs our JS still gets the complete static hero. */
+html:not(.intro-active) .intro-only {
+  display: none !important;
+}
+
+/* The last beat fades out as the header wordmark fades in — the handoff. */
+html.intro-done .intro-text {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Skip affordance — subtle, out of the way, above the beats.
+   Bottom-LEFT deliberately: the cal.com floating button owns the bottom-right
+   corner and intercepts pointer events there, which made skip unclickable. */
+.skip-intro {
+  position: fixed;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 20;
+}
+/* Nothing left to skip once the intro has handed the page over. */
+html.intro-done .skip-intro {
+  display: none;
+}
+
+/* Scroll cue — only once the intro has handed the page back */
+.scroll-cue {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  z-index: 12;
+  display: flex;
+  translate: -50% 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+html.intro-done .scroll-cue:not(.is-hidden) {
+  opacity: 1;
+}
+.scroll-cue-arrow {
+  color: var(--lilac-dawn);
+  animation: cue-bob 1.8s ease-in-out infinite;
+}
+@keyframes cue-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* Sticky wordmark + booking header. Visible by default (fallback and no-JS);
+   only the running intro hides it, so the booking funnels are always reachable. */
 .dock-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 40;
-  pointer-events: none;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+html.intro-active:not(.intro-done) .dock-header {
   opacity: 0;
   transform: translateY(-8px);
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
-}
-.dock-header.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Booking bar (docks to bottom permanently after 100%) */
-.booking-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 45;
-  opacity: 0;
-  transform: translateY(100%);
-  transition:
-    opacity 0.35s ease,
-    transform 0.35s ease;
   pointer-events: none;
-}
-.booking-bar.visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-/* Play Tour control — covered by .below-video sections once past the hero */
-.play-tour {
-  position: fixed;
-  bottom: 1.25rem;
-  left: 1.25rem;
-  z-index: 12;
-}
-.play-tour .label-pause {
-  display: none;
-}
-.play-tour[data-playing] .label-play {
-  display: none;
-}
-.play-tour[data-playing] .label-pause {
-  display: inline;
 }
 
 /* ---------------------------------------------------------------------------
- * Static fallback — the PRIMARY experience (reduced-motion, iOS Safari,
- * saveData/slow connections, video not ready within 3s).
- * The page becomes a normal stacked document with the poster as hero.
+ * Static hero copy — the default, and the fallback experience (reduced-motion,
+ * saveData/slow connections, video failed or didn't buffer in 4s).
+ * Hidden only while the intro clip is actually running; it comes back once the
+ * intro hands the page over.
  * ------------------------------------------------------------------------- */
-html.fallback .scrub-only {
-  display: none !important;
+html.intro-active:not(.intro-done) .static-only {
+  opacity: 0;
+  visibility: hidden;
 }
 .static-only {
-  display: none;
-}
-html.fallback .static-only {
-  display: block;
+  transition:
+    opacity 0.6s ease,
+    visibility 0s linear;
 }
 html.fallback .hero-video-wrap {
   position: relative;

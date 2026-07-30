@@ -56,20 +56,19 @@ export interface Copy {
     staticTitle: string;
     staticSubtitle: string;
     staticCta: string;
-    playTour: string;
-    pauseTour: string;
-  };
-
-  /**
-   * Scroll-scrub milestone copy.
-   * 0% is video-only; the 50% wordmark and the clock ticker are handled in
-   * Hero.astro (brand + numerals, not translated); 100% is the booking bar.
-   */
-  milestones: {
-    /** 25%: line under the clock ticker. */
-    m25: string;
-    /** 75%: headline + sub above the service tiles. */
-    m75: { title: string; sub: string };
+    /** Intro-video overlay copy — driven by the video's own currentTime. */
+    intro: {
+      /** 0%: over the poster, before and during the opening beat. */
+      open: string;
+      /** ~50%: single mid-beat line. */
+      mid: string;
+      /** 100%: shown next to the NHI LOCAL wordmark. */
+      brandSub: string;
+      /** Skip-intro affordance. */
+      skip: string;
+      /** Replay control, shown after the intro finishes. */
+      replay: string;
+    };
   };
 
   services: {
@@ -136,14 +135,12 @@ const EN: Copy = {
     staticSubtitle:
       'SUP, surf, and freedive sessions with Nhi Local. Small groups, equipment provided, 60 minutes on the water.',
     staticCta: 'Book a session',
-    playTour: 'Play Tour',
-    pauseTour: 'Pause Tour',
-  },
-  milestones: {
-    m25: "You're the only one awake.",
-    m75: {
-      title: 'Sunrise SUP on My Khe.',
-      sub: '60 minutes · flat water · small groups',
+    intro: {
+      open: 'SUP at sunrise',
+      mid: "You're the only one awake.",
+      brandSub: 'Man Thai Beach · Da Nang',
+      skip: 'Skip intro',
+      replay: 'Replay intro',
     },
   },
   services: {
@@ -260,14 +257,12 @@ const VI: Copy = {
     staticSubtitle:
       'Buổi chèo SUP, lướt ván và lặn tự do cùng Nhi Local. Nhóm nhỏ, có sẵn thiết bị, 60 phút trên mặt nước.',
     staticCta: 'Đặt một buổi',
-    playTour: 'Phát Tour',
-    pauseTour: 'Tạm dừng Tour',
-  },
-  milestones: {
-    m25: 'Chỉ mình bạn thức.',
-    m75: {
-      title: 'SUP đón bình minh trên biển Mỹ Khê.',
-      sub: '60 phút · nước lặng · nhóm nhỏ',
+    intro: {
+      open: 'SUP đón bình minh',
+      mid: 'Chỉ mình bạn thức.',
+      brandSub: 'Bãi Man Thái · Đà Nẵng',
+      skip: 'Bỏ qua',
+      replay: 'Xem lại',
     },
   },
   services: {

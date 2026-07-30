@@ -1,11 +1,15 @@
 ---
 /**
- * Hero — fixed full-bleed video scrubbed by scroll, five milestone overlays,
- * clock ticker, wordmark dock, and permanently docking booking bar.
+ * Hero — a 100svh full-bleed video that autoplays once at real speed, with
+ * three text beats driven by the video's own currentTime (see heroExperience).
+ * Scroll is locked until the clip ends or the reader skips.
  *
- * The static fallback (html.fallback) collapses this to a poster hero with
- * the static-only copy block; all scrub-only overlays are hidden.
- * Both languages are rendered; CSS on html[lang] shows one.
+ * Three display modes, all driven by classes on <html>:
+ *   .intro-active — the video intro is running (set by JS)
+ *   .fallback     — reduced-motion / saveData / slow / video failed
+ *   neither       — no JS at all; the <noscript> block below pins the static copy
+ * The static hero copy is the DEFAULT; the intro hides it, not the other way
+ * round, so a client that never runs our JS still lands on a complete hero.
  */
 import { COPY, ZALO_LINK, zaloDeepLink } from '../lib/translations';
 
@@ -17,33 +21,80 @@ const heroVideo = base + 'media/hero_danang_sup.mp4';
 const heroPoster = base + 'media/hero_poster.jpg';
 ---
 
-<!-- Scroll runway: video playhead is bound to progress through this section.
-     The scrub distance is height - 100vh (start: top top → end: bottom bottom),
-     so 300vh gives 200vh of runway for the 8s video — 4x the old 150vh (50vh).
-     At 150vh every milestone was crammed into half a screen of scrolling and
-     whipped past unreadably; 200vh gives milestone-25 (a 30%-wide progress
-     window) ~60vh of scroll to be read in. -->
-<section id="hero-section" class="relative" style="height: 300vh;">
-  <!-- Fixed video layer -->
+<noscript>
+  <style>
+    .intro-only {
+      display: none !important;
+    }
+  </style>
+</noscript>
+
+<!-- Claim the intro BEFORE the hero below is parsed, so the opening line is on
+     the poster at first paint instead of flashing the static copy first.
+     This is a pre-paint optimisation only — detectFallback.ts is authoritative
+     and revokes the class if it disagrees, so keep this check conservative:
+     when in doubt, leave it unset and let the static hero stand. -->
+<script is:inline>
+  (function () {
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var c = navigator.connection;
+      if (c && (c.saveData || /^(slow-)?[23]g$/.test(c.effectiveType || ''))) return;
+      document.documentElement.classList.add('intro-active');
+    } catch (e) {
+      /* static hero stands */
+    }
+  })();
+</script>
+
+<section id="hero-section" class="hero-section relative">
   <div class="hero-video-wrap">
     <video
       id="hero-video"
-      playsinline
+      autoplay
       muted
+      playsinline
       preload="auto"
       poster={heroPoster}
+      aria-hidden="true"
     >
-      <source
-        media="(min-aspect-ratio: 1/1)"
-        src={heroVideo}
-        type="video/mp4"
-      />
       <source src={heroVideo} type="video/mp4" />
     </video>
     <!-- Poster layer for the static fallback -->
     <div class="hero-poster" aria-hidden="true"></div>
 
-    <!-- Static fallback hero copy (PRIMARY experience) -->
+    <!-- ===================== Intro text beats ===================== -->
+    <!-- Beat 1 is lit in the markup so the opening line is already on the
+         poster at first paint, before the clip has buffered. -->
+    <div id="intro-open" class="intro-text intro-only is-on items-center justify-center">
+      <div class="scrim-center px-10 py-16 text-center">
+        <p class="text-3xl font-semibold text-linen sm:text-5xl">
+          <span data-lang="en">{en.hero.intro.open}</span>
+          <span data-lang="vi">{vi.hero.intro.open}</span>
+        </p>
+      </div>
+    </div>
+
+    <div id="intro-mid" class="intro-text intro-only items-end">
+      <div class="scrim-bottom w-full p-6 pb-24 sm:p-10 sm:pb-28">
+        <p class="max-w-md text-3xl font-semibold text-linen sm:text-4xl">
+          <span data-lang="en">{en.hero.intro.mid}</span>
+          <span data-lang="vi">{vi.hero.intro.mid}</span>
+        </p>
+      </div>
+    </div>
+
+    <div id="intro-brand" class="intro-text intro-only items-center justify-center">
+      <div class="scrim-center px-10 py-16 text-center">
+        <p class="wordmark text-3xl text-linen sm:text-5xl">NHI&nbsp;LOCAL</p>
+        <p class="mt-4 font-mono text-xs tracking-widest text-lilac uppercase">
+          <span data-lang="en">{en.hero.intro.brandSub}</span>
+          <span data-lang="vi">{vi.hero.intro.brandSub}</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Static hero copy — the default, and the fallback experience -->
     <div class="static-only absolute inset-0 z-10">
       <div class="scrim-bottom absolute inset-x-0 bottom-0 h-2/3"></div>
       <div class="absolute inset-x-0 bottom-0 p-6 pb-12 sm:p-10 sm:pb-16">
@@ -70,151 +121,54 @@ const heroPoster = base + 'media/hero_poster.jpg';
     </div>
   </div>
 
-  <!-- ======================= Scrub-only overlays ======================= -->
-
-  <!-- Clock ticker — top-left, mono. Appears at 25%, counts 04:07 → 05:30. -->
-  <div id="clock-ticker" class="clock-ticker scrub-only" aria-hidden="true">
-    <div class="scrim-top rounded-lg px-3 py-2">
-      <span id="clock-time" class="font-mono text-lg tracking-widest text-linen"
-        >04:07</span
-      >
-    </div>
-  </div>
-
-  <!-- 0%: video only (empty milestone keeps indexing symmetric) -->
-  <div id="milestone-0" class="milestone scrub-only" aria-hidden="true"></div>
-
-  <!-- 25%: "You're the only one awake." -->
-  <div id="milestone-25" class="milestone scrub-only items-end">
-    <div class="scrim-bottom w-full p-6 pb-24 sm:p-10 sm:pb-28">
-      <p class="max-w-md text-3xl font-semibold text-linen sm:text-4xl">
-        <span data-lang="en">You're the only one awake.</span>
-        <span data-lang="vi">Chỉ mình bạn thức.</span>
-      </p>
-    </div>
-  </div>
-
-  <!-- 50%: NHI LOCAL wordmark resolves, then docks into the sticky header -->
-  <div id="milestone-50" class="milestone scrub-only items-center justify-center">
-    <div class="scrim-center px-10 py-16 text-center">
-      <p
-        id="hero-wordmark"
-        class="wordmark text-3xl text-linen sm:text-5xl"
-        style="will-change: transform;"
-      >
-        NHI&nbsp;LOCAL
-      </p>
-    </div>
-  </div>
-
-  <!-- 75%: headline + service tiles, SUP pre-selected -->
-  <div id="milestone-75" class="milestone scrub-only items-end">
-    <div class="scrim-bottom w-full p-6 pb-24 sm:p-10 sm:pb-28">
-      <h2 class="text-3xl font-bold text-linen sm:text-4xl">
-        <span data-lang="en">Sunrise SUP on My Khe.</span>
-        <span data-lang="vi">Chèo SUP đón bình minh trên Mỹ Khê.</span>
-      </h2>
-      <p class="mt-2 font-mono text-sm text-lilac">
-        <span data-lang="en">60 minutes · flat water · small groups</span>
-        <span data-lang="vi">60 phút · mặt nước phẳng · nhóm nhỏ</span>
-      </p>
-
-      <div class="mt-6 flex max-w-2xl items-end gap-3">
-        <!-- SUP: pre-selected, larger, tungsten border -->
-        <a
-          href="#booking"
-          class="flex-[1.3] rounded-xl border-2 border-tungsten bg-dawn/70 p-4 backdrop-blur-sm"
-        >
-          <p class="font-semibold text-linen">SUP</p>
-          <p class="mt-1 font-mono text-sm text-tungsten">300,000₫</p>
-        </a>
-        <a
-          href="#booking"
-          class="flex-1 rounded-xl border border-lilac/30 bg-dawn/60 p-4 backdrop-blur-sm"
-        >
-          <p class="font-semibold text-linen">
-            <span data-lang="en">Surf</span>
-            <span data-lang="vi">Lướt ván</span>
-          </p>
-          <p class="mt-1 font-mono text-sm text-lilac">1,600,000₫</p>
-        </a>
-        <a
-          href="#booking"
-          class="flex-1 rounded-xl border border-lilac/30 bg-dawn/60 p-4 backdrop-blur-sm"
-        >
-          <p class="font-semibold text-linen">
-            <span data-lang="en">Freedive</span>
-            <span data-lang="vi">Lặn tự do</span>
-          </p>
-          <p class="mt-1 font-mono text-sm text-lilac">1,500,000₫</p>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Play Tour control: auto-advances scroll, pausable, yields to manual scroll -->
+  <!-- Skip affordance — subtle, bottom-right, live from the first frame so the
+       reader is never held by a clip they didn't ask for. -->
   <button
-    id="play-tour-btn"
-    class="play-tour scrub-only rounded-full border border-lilac/30 bg-dawn/80 px-5 py-2.5 font-mono text-sm tracking-wider text-linen backdrop-blur-sm transition-colors hover:border-tungsten/60"
+    id="skip-intro"
+    class="skip-intro intro-only rounded-full border border-lilac/30 bg-dawn/70 px-4 py-2 font-mono text-xs tracking-wider text-lilac backdrop-blur-sm transition-colors hover:border-tungsten/60 hover:text-linen"
   >
-    <span class="label-play">
-      <span data-lang="en">▶ {en.hero.playTour}</span>
-      <span data-lang="vi">▶ {vi.hero.playTour}</span>
-    </span>
-    <span class="label-pause">
-      <span data-lang="en">❚❚ {en.hero.pauseTour}</span>
-      <span data-lang="vi">❚❚ {vi.hero.pauseTour}</span>
-    </span>
+    <span data-lang="en">{en.hero.intro.skip}</span>
+    <span data-lang="vi">{vi.hero.intro.skip}</span>
   </button>
+
+  <!-- Scroll cue — appears once the intro has handed the page back -->
+  <div id="scroll-cue" class="scroll-cue intro-only" aria-hidden="true">
+    <span class="font-mono text-[11px] tracking-widest text-lilac/80 uppercase">
+      <span data-lang="en">Scroll</span>
+      <span data-lang="vi">Cuộn xuống</span>
+    </span>
+    <span class="scroll-cue-arrow">↓</span>
+  </div>
 </section>
 
-<!-- Sticky header the wordmark docks into (persists after 50%) -->
-<header id="dock-header" class="dock-header scrub-only">
-  <div class="scrim-top flex items-center justify-center px-4 py-3">
+<!-- Sticky header the wordmark hands off to. Carries the booking CTA so both
+     funnels are reachable at every scroll position, fallback included. -->
+<header id="dock-header" class="dock-header">
+  <div class="scrim-top flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
     <span class="wordmark text-sm text-linen">NHI&nbsp;LOCAL</span>
+    <!-- EN funnel: cal.com popup (embed auto-binds data-cal-link) -->
+    <button
+      data-lang="en"
+      data-cal-namespace="sup"
+      data-cal-link="rory-quarrier-nsavjf/sup"
+      data-cal-config='{"layout":"month_view"}'
+      class="rounded-full bg-tungsten px-5 py-2 text-sm font-semibold text-dawn"
+    >
+      {en.nav.book}
+    </button>
+    <!-- VI funnel: Zalo deep link -->
+    <a
+      data-lang="vi"
+      href={zaloDeepLink('vi')}
+      data-zalo={ZALO_LINK}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="rounded-full bg-tungsten px-5 py-2 text-sm font-semibold text-dawn"
+    >
+      {vi.nav.book} Zalo
+    </a>
   </div>
 </header>
-
-<!-- Booking bar: docks to bottom permanently at 100%. Session picker shows
-     plain-text times only — no availability dots (no real cal.com data wired,
-     and we never fabricate availability). -->
-<div id="booking-bar" class="booking-bar scrub-only">
-  <div
-    class="flex flex-wrap items-center justify-between gap-3 border-t border-lilac/20 bg-dawn/95 px-4 py-3 backdrop-blur-md sm:px-8"
-  >
-    <div>
-      <p class="font-mono text-[11px] tracking-widest text-lilac/70 uppercase">
-        <span data-lang="en">Session times</span>
-        <span data-lang="vi">Khung giờ</span>
-      </p>
-      <!-- TODO: session times 04:45 / 05:30 / 06:15 are proposed, not confirmed -->
-      <p class="font-mono text-sm text-linen">04:45 · 05:30 · 06:15</p>
-    </div>
-    <div class="flex items-center gap-3">
-      <!-- EN funnel: cal.com popup (embed auto-binds data-cal-link) -->
-      <button
-        data-lang="en"
-        data-cal-namespace="sup"
-        data-cal-link="rory-quarrier-nsavjf/sup"
-        data-cal-config='{"layout":"month_view"}'
-        class="rounded-full bg-tungsten px-6 py-2.5 font-semibold text-dawn"
-      >
-        {en.nav.book}
-      </button>
-      <!-- VI funnel: Zalo deep link -->
-      <a
-        data-lang="vi"
-        href={zaloDeepLink('vi')}
-        data-zalo={ZALO_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="rounded-full bg-tungsten px-6 py-2.5 font-semibold text-dawn"
-      >
-        {vi.nav.book} Zalo
-      </a>
-    </div>
-  </div>
-</div>
 
 <script>
   import '../lib/heroExperience';

@@ -1,24 +1,20 @@
 /**
  * Static-fallback detection.
  *
- * The scroll-scrub video experience is the premium path; the static fallback
- * (poster + stacked sections) is the PRIMARY experience for the target audience
- * (Vietnamese mobile data users, iOS Safari, reduced-motion, slow connections).
+ * The autoplay intro video is the premium path; the static fallback
+ * (poster + stacked sections, scroll unlocked immediately) is the PRIMARY
+ * experience for reduced-motion users and for anyone on metered or slow data.
  *
- * Build the fallback FIRST and make sure it is complete before wiring the scrub.
+ * NOTE: iOS Safari is NOT excluded. The old scroll-scrub needed frame-accurate
+ * seeking, which iOS does badly. Normal playback of a muted + playsinline video
+ * autoplays fine on iOS, so there is no reason to ban it here.
  */
 
 export function shouldUseFallback(): boolean {
-  // 1. prefers-reduced-motion
+  // 1. prefers-reduced-motion — no autoplaying motion at all.
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
 
-  // 2. iOS Safari — frame-accurate scrubbing is unreliable
-  const isIOS =
-    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if (isIOS) return true;
-
-  // 3. saveData or slow connection
+  // 2. saveData or slow connection — don't pull megabytes of video down 3G.
   const conn = (navigator as unknown as { connection?: NetworkInfo }).connection;
   if (conn) {
     if (conn.saveData) return true;
@@ -35,29 +31,53 @@ interface NetworkInfo {
   effectiveType?: 'slow-2g' | '2g' | '3g' | '4g';
 }
 
-export function waitForVideoReady(
+/**
+ * Wait until the video is buffered end-to-end, not merely playable.
+ *
+ * readyState >= 2 only means "first frame decoded", which on 4G lets playback
+ * start and then outrun the download — the video stalls mid-intro. Since the
+ * clip is ~8s and a couple of MB, we wait for the whole thing and only then
+ * commit to playing it.
+ *
+ * Resolves `true` on timeout (caller should fall back), `false` when buffered.
+ */
+export function waitForFullBuffer(
   video: HTMLVideoElement,
-  timeoutMs = 3000
+  timeoutMs = 4000
 ): Promise<boolean> {
   return new Promise((resolve) => {
-    if (video.readyState >= 2) {
-      resolve(false);
-      return;
-    }
-
     let done = false;
-    const finish = (result: boolean) => {
+
+    const isFullyBuffered = () => {
+      const { buffered, duration } = video;
+      if (!duration || !isFinite(duration) || buffered.length === 0) return false;
+      return buffered.end(buffered.length - 1) >= duration - 0.1;
+    };
+
+    const finish = (timedOut: boolean) => {
       if (done) return;
       done = true;
       clearTimeout(timer);
-      video.removeEventListener('loadeddata', onLoad);
-      resolve(result);
+      video.removeEventListener('progress', check);
+      video.removeEventListener('canplaythrough', check);
+      video.removeEventListener('loadedmetadata', check);
+      resolve(timedOut);
     };
 
-    const onLoad = () => finish(false);
+    const check = () => {
+      if (isFullyBuffered()) finish(false);
+    };
+
     const timer = setTimeout(() => finish(true), timeoutMs);
 
-    video.addEventListener('loadeddata', onLoad);
+    if (isFullyBuffered()) {
+      finish(false);
+      return;
+    }
+
+    video.addEventListener('progress', check);
+    video.addEventListener('canplaythrough', check);
+    video.addEventListener('loadedmetadata', check);
     video.load();
   });
 }
