@@ -20,6 +20,9 @@ import {
  * Availability dots are intentionally omitted — real cal.com data is not wired
  * and we never display fabricated availability. Session times are shown as
  * plain text.
+ *
+ * REDESIGNED: Asymmetric typographic pricing list replaces the 3-column card
+ * grid. SUP is the hero offering (larger); surf/freedive are secondary rows.
  */
 export default function BookingSection() {
   const [lang, setLang] = useState<Lang>('en');
@@ -62,39 +65,92 @@ export default function BookingSection() {
     }
   };
 
+  // Service data mapped by id
+  const serviceInfo = {
+    sup: services.sup,
+    surf: services.surf,
+    freedive: services.freedive,
+  };
+
   return (
     <section id="booking" className="section section-wide">
-      <div className="mx-auto max-w-3xl text-center">
-        <h2 className="text-3xl font-semibold text-linen sm:text-4xl">
+      <div className="mx-auto max-w-2xl">
+        <h2 className="font-display text-3xl font-normal text-linen sm:text-4xl">
           {t.booking.heading}
         </h2>
-        <p className="mt-4 text-lilac">{t.booking.body}</p>
+        <p className="mt-4 text-lilac max-w-lg">{t.booking.body}</p>
       </div>
 
-      {/* Service tiles */}
-      <div className="mt-10 grid gap-4 sm:grid-cols-3">
-        {PRICING.map((s) => {
-          const info =
-            s.id === 'sup'
-              ? services.sup
-              : s.id === 'surf'
-                ? services.surf
-                : services.freedive;
-          const isSelected = selected === s.id;
+      {/* Asymmetric pricing list — SUP hero, surf/freedive secondary */}
+      <div className="mx-auto mt-12 max-w-2xl">
+        {/* SUP — hero offering, larger treatment */}
+        <button
+          onClick={() => setSelected('sup')}
+          className={`group w-full text-left pb-6 border-b transition-colors ${
+            selected === 'sup'
+              ? 'border-tungsten'
+              : 'border-lilac/20 hover:border-lilac/40'
+          }`}
+        >
+          <div className="flex items-baseline justify-between gap-4 flex-wrap">
+            <div className="flex items-baseline gap-3">
+              <h3 className={`text-2xl sm:text-3xl font-semibold transition-colors ${
+                selected === 'sup' ? 'text-tungsten' : 'text-linen group-hover:text-tungsten'
+              }`}>
+                {serviceInfo.sup.name}
+              </h3>
+              {selected === 'sup' && (
+                <span className="text-xs text-sea font-medium">
+                  {lang === 'vi' ? 'Đã chọn' : 'Selected'}
+                </span>
+              )}
+            </div>
+            <span className={`text-2xl sm:text-3xl font-light tabular-nums transition-colors ${
+              selected === 'sup' ? 'text-tungsten' : 'text-linen'
+            }`}>
+              {serviceInfo.sup.price}
+            </span>
+          </div>
+          <p className="mt-2 text-lilac text-sm sm:text-base max-w-md">
+            {serviceInfo.sup.tagline}
+          </p>
+        </button>
+
+        {/* Surf & Freedive — secondary rows, tighter */}
+        {(['surf', 'freedive'] as const).map((id) => {
+          const info = serviceInfo[id];
+          const isSelected = selected === id;
           return (
             <button
-              key={s.id}
-              onClick={() => setSelected(s.id)}
-              className={`rounded-2xl border p-5 text-left transition-colors ${
+              key={id}
+              onClick={() => setSelected(id)}
+              className={`group w-full text-left py-5 border-b transition-colors ${
                 isSelected
-                  ? 'border-tungsten bg-coffee/40'
-                  : 'border-lilac/20 bg-coffee/10 hover:border-lilac/40'
+                  ? 'border-tungsten'
+                  : 'border-lilac/20 hover:border-lilac/40'
               }`}
             >
-              <h3 className="text-lg font-semibold text-linen">{info.name}</h3>
-              <p className="mt-1 text-sm text-lilac">{info.tagline}</p>
-              <p className="mt-4 font-mono text-2xl text-tungsten">
-                {info.price}
+              <div className="flex items-baseline justify-between gap-4 flex-wrap">
+                <div className="flex items-baseline gap-3">
+                  <h3 className={`text-lg sm:text-xl font-medium transition-colors ${
+                    isSelected ? 'text-tungsten' : 'text-linen group-hover:text-tungsten'
+                  }`}>
+                    {info.name}
+                  </h3>
+                  {isSelected && (
+                    <span className="text-xs text-sea font-medium">
+                      {lang === 'vi' ? 'Đã chọn' : 'Selected'}
+                    </span>
+                  )}
+                </div>
+                <span className={`text-lg sm:text-xl tabular-nums transition-colors ${
+                  isSelected ? 'text-tungsten' : 'text-lilac'
+                }`}>
+                  {info.price}
+                </span>
+              </div>
+              <p className="mt-1 text-lilac/80 text-sm max-w-sm">
+                {info.tagline}
               </p>
             </button>
           );
@@ -103,33 +159,34 @@ export default function BookingSection() {
 
       {/* VI-only Zalo invitation */}
       {lang === 'vi' && services.zaloInvite && (
-        <p className="mt-4 text-center text-sm text-sea">
+        <p className="mx-auto mt-6 max-w-2xl text-sm text-sea">
           {services.zaloInvite}
         </p>
       )}
 
-      {/* Session times — plain text, NO availability dots (no fabricated data). */}
-      <div className="mx-auto mt-8 max-w-2xl text-center">
-        <p className="font-mono text-xs tracking-widest text-lilac/70 uppercase">
-          {lang === 'vi' ? 'Khung giờ' : 'Session times'}
+      {/* Session times — inline, no label */}
+      <div className="mx-auto mt-10 max-w-2xl">
+        <p className="text-lilac">
+          <span className="text-linen/70 text-sm">
+            {lang === 'vi' ? 'Khung giờ:' : 'Sessions at'}
+          </span>{' '}
+          <span className="tabular-nums">04:45</span> ·{' '}
+          <span className="tabular-nums">05:30</span> ·{' '}
+          <span className="tabular-nums">06:15</span>
         </p>
-        <p className="mt-2 text-lilac">
-          04:45 · 05:30 · 06:15
-          {/* TODO: session times 04:45 / 05:30 / 06:15 are proposed, not confirmed */}
-        </p>
-        <p className="mt-3 text-xs text-lilac/60">{t.booking.availabilityNote}</p>
+        <p className="mt-2 text-xs text-lilac/60">{t.booking.availabilityNote}</p>
       </div>
 
       {/* CTA */}
-      <div className="mt-10 flex justify-center">
+      <div className="mx-auto mt-10 max-w-2xl">
         <button
           onClick={handleBook}
           className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-[transform] duration-150 ease-out hover:scale-[1.02] active:scale-95"
         >
-{t.booking.bookCta}
+          {t.booking.bookCta}
         </button>
+        <p className="mt-3 text-xs text-lilac/60">{t.booking.bookVia}</p>
       </div>
-      <p className="mt-3 text-center text-xs text-lilac/60">{t.booking.bookVia}</p>
     </section>
   );
 }
