@@ -16,9 +16,9 @@ import { shouldUseFallback, waitForFullBuffer } from './detectFallback';
 
 /** Fractions of the clip at which each text state owns the screen. */
 const STATE_WINDOWS = [
-  { id: 'intro-open', from: 0, to: 0.18 },
-  { id: 'intro-mid', from: 0.20, to: 0.48 },
-  { id: 'intro-brand', from: 0.46, to: 1.01 },
+  { id: 'intro-open', from: 0, to: 0.08 },
+  { id: 'intro-mid', from: 0.10, to: 0.28 },
+  { id: 'intro-brand', from: 0.26, to: 1.01 },
 ] as const;
 
 /** Ceiling on the buffer wait before scroll comes back regardless. */
