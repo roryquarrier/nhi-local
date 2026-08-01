@@ -2,18 +2,25 @@
 import { COPY } from '../../lib/translations';
 const en = COPY.en.sections.meetNhi;
 const vi = COPY.vi.sections.meetNhi;
+
+const base = import.meta.env.BASE_URL;
+const meetVideo = base + 'media/meet_nhi_paddle.mp4';
 ---
 
 <section id="meet-nhi" class="section">
   <div class="section-wide grid items-center gap-10 md:grid-cols-2">
-    <!-- Nhi is the face of the business: named, photographed, prominent.
-         Labelled grey placeholder until the real photo is supplied. -->
-    <div
-      class="placeholder aspect-[3/4] w-full rounded-2xl"
-      role="img"
-      aria-label="Portrait of Nhi — photo coming soon"
-    >
-      placeholder-nhi-portrait.jpg · 3:4 · Nhi on Man Thai Beach
+    <!-- Video of Nhi paddleboarding with guests on Man Thai Beach -->
+    <div class="overflow-hidden rounded-2xl aspect-[9/16] max-h-[70vh]">
+      <video
+        src={meetVideo}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        class="h-full w-full object-cover"
+        aria-label="Nhi paddleboarding with guests at Man Thai Beach"
+      ></video>
     </div>
 
     <div>

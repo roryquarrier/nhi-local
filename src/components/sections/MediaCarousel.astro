@@ -3,14 +3,13 @@ import { COPY } from '../../lib/translations';
 const en = COPY.en.sections.media;
 const vi = COPY.vi.sections.media;
 
-// Labelled grey placeholders at fixed, predictable filenames — no stock imagery.
+const base = import.meta.env.BASE_URL;
+
 const slides = [
-  { file: 'placeholder-sup-1.jpg', ratio: 'aspect-[4/5]', label: 'SUP at dawn' },
-  { file: 'placeholder-sup-2.jpg', ratio: 'aspect-[4/5]', label: 'Flat water paddling' },
-  { file: 'placeholder-surf-1.jpg', ratio: 'aspect-[4/5]', label: 'Surf lesson' },
-  { file: 'placeholder-freedive-1.jpg', ratio: 'aspect-[4/5]', label: 'Freedive session' },
-  { file: 'placeholder-nhi-1.jpg', ratio: 'aspect-[4/5]', label: 'Nhi with guests' },
-  { file: 'placeholder-beach-1.jpg', ratio: 'aspect-[4/5]', label: 'Man Thai sunrise' },
+  { file: 'sup-group-sunset.jpg',   ratio: 'aspect-[4/5]', label: 'SUP group at sunset' },
+  { file: 'surfer-wave.jpg',        ratio: 'aspect-[4/5]', label: 'Surfing at Man Thai' },
+  { file: 'sup-group-beach.jpg',    ratio: 'aspect-[4/5]', label: 'Group lesson on the beach' },
+  { file: 'sup-lesson-posed.jpg',   ratio: 'aspect-[4/5]', label: 'Paddlers with their boards' },
 ];
 ---
 
@@ -32,12 +31,13 @@ const slides = [
     >
       {
         slides.map((s) => (
-          <div
-            class={`placeholder ${s.ratio} w-64 shrink-0 snap-start rounded-xl sm:w-72`}
-            role="img"
-            aria-label={`${s.label} — photo coming soon`}
-          >
-            {s.file} · 4:5 · {s.label}
+          <div class={`shrink-0 snap-start overflow-hidden rounded-xl ${s.ratio} w-64 sm:w-72`}>
+            <img
+              src={base + 'media/' + s.file}
+              alt={s.label}
+              loading="lazy"
+              class="h-full w-full object-cover"
+            />
           </div>
         ))
       }
