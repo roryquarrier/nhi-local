@@ -65,15 +65,11 @@ const heroPoster = base + 'media/hero_poster.jpg';
     <div class="hero-poster" aria-hidden="true"></div>
 
     <!-- ===================== Intro text beats ===================== -->
-    <!-- Beat 1 is lit in the markup so the opening line is already on the
-         poster at first paint, before the clip has buffered. -->
+    <!-- Beat 1 is lit at first paint but intentionally has no visible text
+         (SUP SURF DIVE removed). The intro-open element is kept so the
+         timing windows in heroExperience.ts don't shift. -->
     <div id="intro-open" class="intro-text intro-only is-on items-center justify-center">
-      <div class="scrim-center max-w-sm px-10 py-16 text-center">
-        <p class="text-3xl font-semibold text-linen sm:text-5xl">
-          <span data-lang="en">{en.hero.intro.open}</span>
-          <span data-lang="vi">{vi.hero.intro.open}</span>
-        </p>
-      </div>
+      <!-- intentionally empty -->
     </div>
 
     <div id="intro-mid" class="intro-text intro-only items-end">
@@ -138,7 +134,7 @@ const heroPoster = base + 'media/hero_poster.jpg';
 <!-- Sticky header the wordmark hands off to. Carries the booking CTA so both
      funnels are reachable at every scroll position, fallback included. -->
 <header id="dock-header" class="dock-header">
-  <div class="scrim-top flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
+  <div class="scrim-top flex items-center justify-evenly gap-4 px-4 py-3 sm:px-6">
     <span class="wordmark text-sm text-linen">NHI&nbsp;LOCAL</span>
     <div class="flex items-center gap-3">
       <!-- EN funnel: cal.com popup (embed auto-binds data-cal-link) -->
