@@ -65,10 +65,7 @@ export default function BookingSection() {
   return (
     <section id="booking" className="section section-wide">
       <div className="mx-auto max-w-3xl text-center">
-        <p className="font-mono text-sm tracking-widest text-sea uppercase">
-          {lang === 'vi' ? 'Đặt buổi' : 'Booking'}
-        </p>
-        <h2 className="mt-3 text-3xl font-semibold text-linen sm:text-4xl">
+        <h2 className="text-3xl font-semibold text-linen sm:text-4xl">
           {t.booking.heading}
         </h2>
         <p className="mt-4 text-lilac">{t.booking.body}</p>
@@ -127,7 +124,7 @@ export default function BookingSection() {
       <div className="mt-10 flex justify-center">
         <button
           onClick={handleBook}
-          className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-transform hover:scale-[1.02] active:scale-95"
+          className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-[transform] duration-150 ease-out hover:scale-[1.02] active:scale-95"
         >
 {t.booking.bookCta}
         </button>

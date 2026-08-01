@@ -4,33 +4,36 @@ const en = COPY.en.sections.howItWorks;
 const vi = COPY.vi.sections.howItWorks;
 ---
 
-<section id="how-it-works" class="section">
+<section id="how-it-works" class="section" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
   <div class="section-wide">
-    <p class="font-mono text-sm tracking-widest text-sea uppercase">
-      <span data-lang="en">{en.eyebrow}</span>
-      <span data-lang="vi">{vi.eyebrow}</span>
-    </p>
-    <h2 class="mt-3 text-3xl font-semibold text-linen sm:text-4xl">
+    <h2 class="text-3xl font-semibold text-linen sm:text-4xl">
       <span data-lang="en">{en.title}</span>
       <span data-lang="vi">{vi.title}</span>
     </h2>
 
-    <div class="mt-10 grid gap-6 md:grid-cols-3">
+    <!-- Vertical narrative instead of 3-col grid: each step is a numbered
+         line with the step body flowing inline beside it. No cards, no
+         icons, no equal-height columns. -->
+    <ol class="mt-10 space-y-8 md:space-y-10">
       {
         en.steps.map((step, i) => (
-          <div class="rounded-2xl border border-lilac/15 bg-coffee/20 p-6">
-            <p class="font-mono text-sm text-sea">{step.n}</p>
-            <h3 class="mt-3 text-xl font-semibold text-linen">
-              <span data-lang="en">{step.title}</span>
-              <span data-lang="vi">{vi.steps[i]?.title}</span>
-            </h3>
-            <p class="mt-2 text-sm leading-relaxed text-lilac">
-              <span data-lang="en">{step.body}</span>
-              <span data-lang="vi">{vi.steps[i]?.body}</span>
-            </p>
-          </div>
+          <li class="flex gap-5 md:gap-8">
+            <span class="font-mono text-sm text-sea shrink-0 pt-1 tabular-nums">
+              {step.n}
+            </span>
+            <div class="min-w-0">
+              <h3 class="text-lg font-semibold text-linen">
+                <span data-lang="en">{step.title}</span>
+                <span data-lang="vi">{vi.steps[i]?.title}</span>
+              </h3>
+              <p class="mt-1.5 leading-relaxed text-lilac max-w-md">
+                <span data-lang="en">{step.body}</span>
+                <span data-lang="vi">{vi.steps[i]?.body}</span>
+              </p>
+            </div>
+          </li>
         ))
       }
-    </div>
+    </ol>
   </div>
 </section>
