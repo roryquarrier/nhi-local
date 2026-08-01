@@ -3,8 +3,9 @@ import { COPY } from '../../lib/translations';
 const en = COPY.en.sections.meetingPoint;
 const vi = COPY.vi.sections.meetingPoint;
 
-// TODO: exact Google Maps pin for the Man Thai meeting point is not confirmed.
-// Until it is, we link a Maps search for the beach rather than a fabricated pin.
+// Embedded map centred on Man Thai Beach, Da Nang
+const mapsEmbedUrl =
+  'https://www.google.com/maps?q=Man+Thai+Beach,+Thọ+Quang,+Sơn+Trà,+Da+Nang&output=embed';
 const mapsSearchUrl =
   'https://www.google.com/maps/search/?api=1&query=Man+Thai+Beach+Da+Nang';
 ---
@@ -35,13 +36,16 @@ const mapsSearchUrl =
       </a>
     </div>
 
-    <!-- TODO: replace with an embedded map once the exact pin is confirmed -->
-    <div
-      class="placeholder aspect-[4/3] w-full rounded-2xl"
-      role="img"
-      aria-label="Map of Man Thai Beach meeting point — exact pin to be confirmed"
-    >
-      placeholder-map-man-thai.jpg · 4:3 · exact pin TBC
+    <div class="overflow-hidden rounded-2xl aspect-[4/3] w-full">
+      <iframe
+        src={mapsEmbedUrl}
+        width="100%"
+        height="100%"
+        style="border:0"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Map of Man Thai Beach, Da Nang"
+      ></iframe>
     </div>
   </div>
 </section>
