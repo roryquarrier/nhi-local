@@ -4,11 +4,9 @@ const en = COPY.en.sections.faq;
 const vi = COPY.vi.sections.faq;
 
 // Items whose answer is a TODO marker are NOT shown — no fabricated answers.
-// The TODO surfaces as an HTML comment in the built page instead.
 const isTodo = (a: string) => a.startsWith('<!-- TODO');
 const enItems = en.items.filter((i) => !isTodo(i.a));
 const viItems = vi.items.filter((i) => !isTodo(i.a));
-const todos = [...en.items, ...vi.items].filter((i) => isTodo(i.a));
 ---
 
 <section id="faq" class="section">
@@ -46,8 +44,5 @@ const todos = [...en.items, ...vi.items].filter((i) => isTodo(i.a));
         ))
       }
     </div>
-
-    {/* Unanswered questions surface as HTML comments only — never fabricated. */}
-    {todos.map((item) => <Fragment set:html={`${item.a} (q: ${item.q})`} />)}
   </div>
 </section>
