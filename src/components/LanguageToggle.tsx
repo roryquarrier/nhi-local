@@ -54,7 +54,7 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={toggle}
-      className="fixed top-4 right-4 z-50 flex items-center gap-2 rounded-full border border-[#B9C4D0]/30 bg-[#0E1420]/80 px-4 py-2 font-mono text-sm tracking-wider backdrop-blur-sm transition-colors hover:border-[#FFB25E]/50"
+      className="fixed top-16 right-3 z-50 flex items-center gap-1.5 rounded-full border border-[#B9C4D0]/30 bg-[#0E1420]/80 px-3 py-1.5 font-mono text-xs tracking-wider backdrop-blur-sm transition-colors hover:border-[#FFB25E]/50"
       aria-label="Toggle language"
     >
       <span className={lang === 'en' ? 'text-[#FFB25E]' : 'text-[#B9C4D0]'}>

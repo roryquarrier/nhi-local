@@ -3,7 +3,7 @@
 /*
  * Design tokens.
  *
- * @theme makes these real Tailwind v4 utilities (text-linen, bg-coffee/40,
+ * @theme makes these real Tailwind v4 utilities (text-linen, bg-sea/40,
  * border-tungsten, font-mono, ...) including opacity modifiers.
  * --tungsten is reserved for interactive elements: if it isn't clickable,
  * it isn't tungsten.
@@ -12,12 +12,10 @@
   --color-dawn: #0e1420;
   --color-linen: #f2f0ea;
   --color-tungsten: #ffb25e;
-  --color-coffee: #3b2417;
   --color-lilac: #b9c4d0;
   --color-sea: #5e8c8a;
 
   --font-sans: "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
-  --font-display: "Instrument Serif", Georgia, ui-serif, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -26,7 +24,6 @@
   --dawn-black: #0e1420;
   --linen: #f2f0ea;
   --tungsten: #ffb25e;
-  --coffee: #3b2417;
   --lilac-dawn: #b9c4d0;
   --sea: #5e8c8a;
 }
@@ -288,11 +285,11 @@ html.fallback #hero-section {
 
 .section {
   position: relative;
-  padding: 5rem 1.5rem;
+  padding: 3rem 1.5rem;
 }
 @media (min-width: 768px) {
   .section {
-    padding: 7rem 2rem;
+    padding: 4.5rem 2rem;
   }
 }
 .section-narrow {
@@ -340,4 +337,16 @@ html.fallback #hero-section {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Push cal.com floating button up so it doesn't overlap footer links.
+   The embed injects its own position:fixed element bottom-right. */
+#cal-namespace-sup-floating-button,
+.cal-embed-floating-button {
+  bottom: 5rem !important;
+}
+
+/* Footer needs breathing room above the cal.com button */
+footer {
+  padding-bottom: 6rem;
 }

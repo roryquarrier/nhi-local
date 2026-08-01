@@ -21,8 +21,7 @@ import {
  * and we never display fabricated availability. Session times are shown as
  * plain text.
  *
- * REDESIGNED: Asymmetric typographic pricing list replaces the 3-column card
- * grid. SUP is the hero offering (larger); surf/freedive are secondary rows.
+ * REDESIGNED: Uniform pricing list — all services equal weight, no hero card.
  */
 export default function BookingSection() {
   const [lang, setLang] = useState<Lang>('en');
@@ -75,55 +74,21 @@ export default function BookingSection() {
   return (
     <section id="booking" className="section section-wide">
       <div className="mx-auto max-w-2xl">
-        <h2 className="font-display text-3xl font-normal text-linen sm:text-4xl">
+        <h2 className="text-3xl font-semibold text-linen sm:text-4xl">
           {t.booking.heading}
         </h2>
         <p className="mt-4 text-lilac max-w-lg">{t.booking.body}</p>
       </div>
 
-      {/* Asymmetric pricing list — SUP hero, surf/freedive secondary */}
-      <div className="mx-auto mt-12 max-w-2xl">
-        {/* SUP — hero offering, larger treatment */}
-        <button
-          onClick={() => setSelected('sup')}
-          className={`group w-full text-left pb-6 border-b transition-colors ${
-            selected === 'sup'
-              ? 'border-tungsten'
-              : 'border-lilac/20 hover:border-lilac/40'
-          }`}
-        >
-          <div className="flex items-baseline justify-between gap-4 flex-wrap">
-            <div className="flex items-baseline gap-3">
-              <h3 className={`text-2xl sm:text-3xl font-semibold transition-colors ${
-                selected === 'sup' ? 'text-tungsten' : 'text-linen group-hover:text-tungsten'
-              }`}>
-                {serviceInfo.sup.name}
-              </h3>
-              {selected === 'sup' && (
-                <span className="text-xs text-sea font-medium">
-                  {lang === 'vi' ? 'Đã chọn' : 'Selected'}
-                </span>
-              )}
-            </div>
-            <span className={`text-2xl sm:text-3xl font-light tabular-nums transition-colors ${
-              selected === 'sup' ? 'text-tungsten' : 'text-linen'
-            }`}>
-              {serviceInfo.sup.price}
-            </span>
-          </div>
-          <p className="mt-2 text-lilac text-sm sm:text-base max-w-md">
-            {serviceInfo.sup.tagline}
-          </p>
-        </button>
-
-        {/* Surf & Freedive — secondary rows, tighter */}
-        {(['surf', 'freedive'] as const).map((id) => {
-          const info = serviceInfo[id];
-          const isSelected = selected === id;
+      {/* Uniform pricing list — all services equal weight */}
+      <div className="mx-auto mt-10 max-w-2xl">
+        {PRICING.map((s) => {
+          const info = serviceInfo[s.id];
+          const isSelected = selected === s.id;
           return (
             <button
-              key={id}
-              onClick={() => setSelected(id)}
+              key={s.id}
+              onClick={() => setSelected(s.id)}
               className={`group w-full text-left py-5 border-b transition-colors ${
                 isSelected
                   ? 'border-tungsten'
@@ -132,7 +97,7 @@ export default function BookingSection() {
             >
               <div className="flex items-baseline justify-between gap-4 flex-wrap">
                 <div className="flex items-baseline gap-3">
-                  <h3 className={`text-lg sm:text-xl font-medium transition-colors ${
+                  <h3 className={`text-lg sm:text-xl font-semibold transition-colors ${
                     isSelected ? 'text-tungsten' : 'text-linen group-hover:text-tungsten'
                   }`}>
                     {info.name}
