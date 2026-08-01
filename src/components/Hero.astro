@@ -83,7 +83,20 @@ const heroPoster = base + 'media/hero_poster.jpg';
 
     <div id="intro-brand" class="intro-text intro-only items-center justify-center">
       <div class="scrim-center max-w-sm px-10 py-16 text-center">
-        <p class="wordmark text-3xl text-linen sm:text-5xl">NHI&nbsp;LOCAL</p>
+        <svg
+          id="brand-svg"
+          class="brand-handwritten"
+          viewBox="0 0 320 60"
+          aria-label="NHI LOCAL"
+          role="img"
+        >
+          <text
+            x="160"
+            y="45"
+            text-anchor="middle"
+            class="brand-text"
+          >NHI LOCAL</text>
+        </svg>
         <p class="mt-4 font-mono text-xs tracking-widest text-lilac uppercase">
           <span data-lang="en">{en.hero.intro.brandSub}</span>
           <span data-lang="vi">{vi.hero.intro.brandSub}</span>

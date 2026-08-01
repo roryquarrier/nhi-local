@@ -334,6 +334,89 @@ html.fallback #hero-section {
   text-indent: 0.42em; /* visually recenters letterspaced text */
 }
 
+/* ---------------------------------------------------------------------------
+ * Handwritten brand SVG — stroke draw-in animation
+ * Uses stroke-dasharray/dashoffset technique for the "signature draw-on" effect
+ * ------------------------------------------------------------------------- */
+.brand-handwritten {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.brand-text {
+  font-family: "Caveat", cursive;
+  font-size: 42px;
+  font-weight: 700;
+  fill: none;
+  stroke: var(--linen);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Total stroke length — set high enough for the text path */
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+}
+
+/* Draw-in animation triggers when #intro-brand gets .is-on */
+#intro-brand.is-on .brand-text {
+  animation: draw-in 2.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* After draw completes, fill fades in for solid appearance */
+@keyframes draw-in {
+  0% {
+    stroke-dashoffset: 600;
+    fill: transparent;
+  }
+  70% {
+    stroke-dashoffset: 0;
+    fill: transparent;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: var(--linen);
+  }
+}
+
+/* Longer transition for the brand beat container */
+#intro-brand {
+  transition:
+    opacity 1s ease,
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 1.2s;
+}
+#intro-brand.is-on {
+  transition:
+    opacity 1s ease,
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0s;
+}
+
+/* Responsive scaling for mobile */
+@media (max-width: 640px) {
+  .brand-handwritten {
+    max-width: 260px;
+  }
+  .brand-text {
+    font-size: 36px;
+  }
+}
+
+/* Reduced motion: show text instantly without draw animation */
+@media (prefers-reduced-motion: reduce) {
+  .brand-text {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    fill: var(--linen);
+  }
+  #intro-brand.is-on .brand-text {
+    animation: none;
+  }
+}
+
 /* Respect reduced motion globally */
 @media (prefers-reduced-motion: reduce) {
   *,
