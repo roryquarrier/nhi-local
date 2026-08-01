@@ -179,8 +179,9 @@ html:not(.intro-active) .intro-only {
   display: none !important;
 }
 
-/* The last beat fades out as the header wordmark fades in — the handoff. */
-html.intro-done .intro-text {
+/* All intro beats fade out when the intro hands off — EXCEPT the brand beat,
+   which stays visible as the page scrolls up over it. */
+html.intro-done .intro-text:not(#intro-brand) {
   opacity: 0;
   visibility: hidden;
 }
