@@ -129,19 +129,6 @@ export default function BookingSection() {
         </p>
       )}
 
-      {/* Session times — inline, no label */}
-      <div className="mx-auto mt-10 max-w-2xl">
-        <p className="text-lilac">
-          <span className="text-linen/70 text-sm">
-            {lang === 'vi' ? 'Khung giờ:' : 'Sessions at'}
-          </span>{' '}
-          <span className="tabular-nums">04:45</span> ·{' '}
-          <span className="tabular-nums">05:30</span> ·{' '}
-          <span className="tabular-nums">06:15</span>
-        </p>
-        <p className="mt-2 text-xs text-lilac/60">{t.booking.availabilityNote}</p>
-      </div>
-
       {/* CTA */}
       <div className="mx-auto mt-10 max-w-2xl">
         <button
@@ -150,7 +137,6 @@ export default function BookingSection() {
         >
           {t.booking.bookCta}
         </button>
-        <p className="mt-3 text-xs text-lilac/60">{t.booking.bookVia}</p>
       </div>
     </section>
   );
