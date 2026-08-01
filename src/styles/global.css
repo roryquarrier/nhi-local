@@ -157,15 +157,19 @@ html.intro-locked body {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transform: translateY(30px);
   transition:
     opacity 0.6s ease,
-    visibility 0s linear 0.6s;
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.8s;
 }
 .intro-text.is-on {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
   transition:
     opacity 0.6s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
     visibility 0s linear 0s;
 }
 
