@@ -12,6 +12,7 @@
  * round, so a client that never runs our JS still lands on a complete hero.
  */
 import { COPY, ZALO_LINK, zaloDeepLink } from '../lib/translations';
+import LanguageToggleInline from './LanguageToggleInline.astro';
 
 const en = COPY.en;
 const vi = COPY.vi;
@@ -139,27 +140,31 @@ const heroPoster = base + 'media/hero_poster.jpg';
 <header id="dock-header" class="dock-header">
   <div class="scrim-top flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
     <span class="wordmark text-sm text-linen">NHI&nbsp;LOCAL</span>
-    <!-- EN funnel: cal.com popup (embed auto-binds data-cal-link) -->
-    <button
-      data-lang="en"
-      data-cal-namespace="sup"
-      data-cal-link="rory-quarrier-nsavjf/sup"
-      data-cal-config='{"layout":"month_view"}'
-      class="rounded-full bg-tungsten px-5 py-2 text-sm font-semibold text-dawn"
-    >
-      {en.nav.book}
-    </button>
-    <!-- VI funnel: Zalo deep link -->
-    <a
-      data-lang="vi"
-      href={zaloDeepLink('vi')}
-      data-zalo={ZALO_LINK}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="rounded-full bg-tungsten px-5 py-2 text-sm font-semibold text-dawn"
-    >
-      {vi.nav.book} Zalo
-    </a>
+    <div class="flex items-center gap-3">
+      <!-- EN funnel: cal.com popup (embed auto-binds data-cal-link) -->
+      <button
+        data-lang="en"
+        data-cal-namespace="sup"
+        data-cal-link="rory-quarrier-nsavjf/sup"
+        data-cal-config='{"layout":"month_view"}'
+        class="rounded-full bg-tungsten px-5 py-2 text-sm font-semibold text-dawn"
+      >
+        {en.nav.book}
+      </button>
+      <!-- VI funnel: Zalo deep link -->
+      <a
+        data-lang="vi"
+        href={zaloDeepLink('vi')}
+        data-zalo={ZALO_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-full bg-tungsten px-5 py-2 text-sm font-semibold text-dawn"
+      >
+        {vi.nav.book} Zalo
+      </a>
+      <!-- Language toggle -->
+      <LanguageToggleInline />
+    </div>
   </div>
 </header>
 

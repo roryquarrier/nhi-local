@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import LanguageToggle from '../components/LanguageToggle';
 import BookingSection from '../components/BookingSection';
 import MeetNhi from '../components/sections/MeetNhi.astro';
 import MediaCarousel from '../components/sections/MediaCarousel.astro';
@@ -12,9 +11,6 @@ import Footer from '../components/sections/Footer.astro';
 ---
 
 <Layout>
-  <!-- Persistent EN/VI toggle — top-right at all scroll positions -->
-  <LanguageToggle client:load />
-
   <Hero />
 
   <!-- Conventional sections after the scroll-scrub completes -->

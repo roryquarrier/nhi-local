@@ -1,0 +1,55 @@
+---
+import type { Lang } from '../lib/translations';
+---
+
+<button
+  id="lang-toggle-inline"
+  class="flex items-center gap-1.5 rounded-full border border-lilac/30 bg-dawn/60 px-3 py-1.5 font-mono text-xs tracking-wider backdrop-blur-sm transition-colors hover:border-tungsten/50"
+  aria-label="Toggle language"
+>
+  <span class="lang-en text-tungsten">EN</span>
+  <span class="text-lilac/40">/</span>
+  <span class="lang-vi text-lilac">VI</span>
+</button>
+
+<script>
+  function getLang(): Lang {
+    try {
+      const p = new URLSearchParams(location.search).get('lang');
+      if (p === 'vi' || p === 'en') return p;
+      const s = localStorage.getItem('nhi-lang');
+      if (s === 'vi' || s === 'en') return s as Lang;
+    } catch {}
+    return 'en';
+  }
+
+  function updateToggle(lang: Lang) {
+    document.querySelectorAll('#lang-toggle-inline').forEach((btn) => {
+      const en = btn.querySelector('.lang-en');
+      const vi = btn.querySelector('.lang-vi');
+      if (en) en.className = `lang-en ${lang === 'en' ? 'text-tungsten' : 'text-lilac'}`;
+      if (vi) vi.className = `lang-vi ${lang === 'vi' ? 'text-tungsten' : 'text-lilac'}`;
+    });
+  }
+
+  function toggle() {
+    const current = document.documentElement.lang === 'vi' ? 'en' : 'vi';
+    const newLang: Lang = current;
+    document.documentElement.lang = newLang;
+    try { localStorage.setItem('nhi-lang', newLang); } catch {}
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', newLang);
+    window.history.replaceState({}, '', url);
+    updateToggle(newLang);
+    window.dispatchEvent(new CustomEvent('langchange', { detail: { lang: newLang } }));
+  }
+
+  // Init
+  const lang = getLang();
+  document.documentElement.lang = lang;
+  updateToggle(lang);
+
+  document.querySelectorAll('#lang-toggle-inline').forEach((btn) => {
+    btn.addEventListener('click', toggle);
+  });
+</script>

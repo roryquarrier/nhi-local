@@ -339,14 +339,7 @@ html.fallback #hero-section {
   }
 }
 
-/* Push cal.com floating button up so it doesn't overlap footer links.
-   The embed injects its own position:fixed element bottom-right. */
-#cal-namespace-sup-floating-button,
-.cal-embed-floating-button {
-  bottom: 5rem !important;
-}
-
-/* Footer needs breathing room above the cal.com button */
+/* Footer bottom padding */
 footer {
-  padding-bottom: 6rem;
+  padding-bottom: 4rem;
 }
