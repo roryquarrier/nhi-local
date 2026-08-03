@@ -151,7 +151,7 @@ const EN: Copy = {
     },
     surf: {
       name: 'Surfing',
-      tagline: 'Beginner-friendly waves on Man Thai Beach.',
+      tagline: 'Beginner-friendly waves on My An Beach.',
       price: '1,600,000₫',
     },
     freedive: {
@@ -190,7 +190,7 @@ const EN: Copy = {
         {
           n: '02',
           title: 'Meet on the beach',
-          body: 'We meet on Man Thai Beach before dawn. Boards and equipment are ready on the sand.',
+          body: 'We meet on the beach before dawn — Man Thai for SUP, My An for surf. Boards and equipment are ready on the sand.',
         },
         {
           n: '03',
@@ -202,7 +202,7 @@ const EN: Copy = {
     meetingPoint: {
       eyebrow: 'Meeting point',
       title: 'Man Thai Beach, Da Nang',
-      body: 'We meet on the sand at Man Thai Beach, on the Son Tra side of Da Nang. The exact pin is confirmed in your booking message.',
+      body: 'SUP sessions are on Man Thai Beach, on the Son Tra side of Da Nang. Surf sessions are on My An Beach, just to the south. Exact meeting points for all activities are confirmed in your booking message.',
     },
     faq: {
       eyebrow: 'Questions',
@@ -283,7 +283,7 @@ const VI: Copy = {
     },
     surf: {
       name: 'Lướt ván',
-      tagline: 'Sóng nhỏ thân thiện với người mới bắt đầu tại bãi Man Thái.',
+      tagline: 'Sóng nhỏ thân thiện với người mới bắt đầu tại bãi Mỹ An.',
       price: '1.600.000₫',
     },
     freedive: {
@@ -323,7 +323,7 @@ const VI: Copy = {
         {
           n: '02',
           title: 'Gặp nhau trên bãi',
-          body: 'Chúng mình gặp nhau trên bãi Man Thái trước bình minh. Ván và thiết bị đã sẵn sàng trên cát.',
+          body: 'Chúng mình gặp nhau trên bãi trước bình minh — Man Thái cho SUP, Mỹ An cho lướt ván. Ván và thiết bị đã sẵn sàng trên cát.',
         },
         {
           n: '03',
@@ -335,7 +335,7 @@ const VI: Copy = {
     meetingPoint: {
       eyebrow: 'Điểm hẹn',
       title: 'Bãi Man Thái, Đà Nẵng',
-      body: 'Chúng mình gặp nhau trên cát tại bãi Man Thái, phía Sơn Trà của Đà Nẵng. Tọa độ chính xác sẽ được xác nhận trong tin nhắn đặt của bạn.',
+      body: 'Buổi SUP trên bãi Man Thái, phía Sơn Trà của Đà Nẵng. Buổi lướt ván trên bãi Mỹ An, ngay phía nam. Tọa độ chính xác cho mọi hoạt động được xác nhận trong tin nhắn đặt của bạn.',
     },
     faq: {
       eyebrow: 'Câu hỏi',
