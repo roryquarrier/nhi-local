@@ -140,7 +140,7 @@ export default function BookingSection() {
                 onClick={openCal}
                 className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-[transform] duration-150 ease-out hover:scale-[1.02] active:scale-95"
               >
-                Đặt qua cal.com
+                Đặt trực tuyến
               </button>
               <button
                 onClick={openZalo}

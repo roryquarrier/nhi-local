@@ -163,7 +163,7 @@ const EN: Copy = {
   booking: {
     heading: 'Book your session',
     body: 'Choose a time and date. Sessions run about 60 minutes; all equipment is provided on the beach.',
-    bookCta: 'Book with cal.com',
+    bookCta: 'Book online',
     bookVia: 'via cal.com',
     availabilityNote:
       'Session times are listed below. Live availability is shown in the booking calendar.',
