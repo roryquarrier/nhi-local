@@ -20,7 +20,7 @@ export interface ServicePricing {
 export const PRICING: ServicePricing[] = [
   { id: 'sup', price: '300,000₫' },
   { id: 'surf', price: '1,600,000₫' },
-  { id: 'freedive', price: '1,500,000₫' },
+  { id: 'freedive', price: '1,600,000₫' },
 ];
 
 /** Zalo deep link for VI booking funnel. */
@@ -157,7 +157,7 @@ const EN: Copy = {
     freedive: {
       name: 'Freediving',
       tagline: 'Breath-hold sessions for calm water.',
-      price: '1,500,000₫',
+      price: '1,600,000₫',
     },
   },
   booking: {
@@ -289,7 +289,7 @@ const VI: Copy = {
     freedive: {
       name: 'Lặn tự do',
       tagline: 'Buổi lặn nín thở dành cho mặt nước yên.',
-      price: '1.500.000₫',
+      price: '1.600.000₫',
     },
     zaloInvite: 'Liên hệ Zalo để có giá tốt hơn.',
   },

@@ -141,16 +141,16 @@ const heroPoster = base + 'media/hero_poster.jpg';
   <div class="scrim-top flex items-center justify-evenly gap-4 px-4 py-3 sm:px-6">
     <span class="wordmark text-sm text-linen">NHI&nbsp;LOCAL</span>
     <div class="flex items-center gap-3">
-      <!-- EN funnel: cal.com popup (embed auto-binds data-cal-link) -->
-      <button
-        data-lang="en"
-        data-cal-namespace="sup"
-        data-cal-link="rory-quarrier-nsavjf/sup"
-        data-cal-config='{"layout":"month_view"}'
+      <!-- Both hero buttons scroll to the booking section where the user picks
+           a service; the booking section's CTA then opens the right cal.com
+           link based on whether SUP / Surf / Freedive is selected. -->
+      <a
+        href="#booking"
         class="rounded-full bg-tungsten px-5 py-2 text-sm font-semibold text-dawn"
       >
-        {en.nav.book}
-      </button>
+        <span data-lang="en">{en.nav.book}</span>
+        <span data-lang="vi">{vi.nav.book}</span>
+      </a>
       <!-- VI funnel: Zalo deep link -->
       <a
         data-lang="vi"

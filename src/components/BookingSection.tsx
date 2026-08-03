@@ -7,7 +7,11 @@ import {
   type ServicePricing,
 } from '../lib/translations';
 
-const CAL_LINK = 'rory-quarrier-nsavjf/sup';
+const CAL_LINKS: Record<ServicePricing['id'], string> = {
+  sup: 'rory-quarrier-nsavjf/sup',
+  surf: 'rory-quarrier-nsavjf/surf',
+  freedive: 'rory-quarrier-nsavjf/dive',
+};
 
 /** cal.com embed queue API — see the "sup" namespace initialised in Layout.astro. */
 type CalApi = (action: string, config?: unknown) => void;
@@ -20,17 +24,17 @@ type CalApi = (action: string, config?: unknown) => void;
  * `Cal.ns.sup` exists synchronously (it is a queue stub) even before
  * embed.js finishes loading, so the call is safe at any time.
  */
-function openCal() {
+function openCal(calLink: string) {
   const cal = (window as unknown as { Cal?: { ns?: Record<string, CalApi> } }).Cal;
   try {
     if (cal?.ns?.sup) {
-      cal.ns.sup('modal', { calLink: CAL_LINK, config: { layout: 'month_view' } });
+      cal.ns.sup('modal', { calLink, config: { layout: 'month_view' } });
       return;
     }
   } catch {
     /* fall through to the direct link */
   }
-  window.open(`https://cal.com/${CAL_LINK}`, '_blank', 'noopener,noreferrer');
+  window.open(`https://cal.com/${calLink}`, '_blank', 'noopener,noreferrer');
 }
 
 /**
@@ -137,7 +141,7 @@ export default function BookingSection() {
           <>
             <div className="flex flex-wrap gap-3">
               <button
-                onClick={openCal}
+                onClick={() => openCal(CAL_LINKS[selected])}
                 className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-[transform] duration-150 ease-out hover:scale-[1.02] active:scale-95"
               >
                 Đặt trực tuyến
@@ -153,7 +157,7 @@ export default function BookingSection() {
           </>
         ) : (
           <button
-            onClick={openCal}
+            onClick={() => openCal(CAL_LINKS[selected])}
             className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-[transform] duration-150 ease-out hover:scale-[1.02] active:scale-95"
           >
             {t.booking.bookCta}
