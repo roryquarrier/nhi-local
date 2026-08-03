@@ -7,12 +7,38 @@ import {
   type ServicePricing,
 } from '../lib/translations';
 
+const CAL_LINK = 'rory-quarrier-nsavjf/sup';
+
+/** cal.com embed queue API — see the "sup" namespace initialised in Layout.astro. */
+type CalApi = (action: string, config?: unknown) => void;
+
+/**
+ * Open the cal.com booking popup for the "sup" namespace.
+ *
+ * The embed exposes `modal({ calLink, config })` — there is no `open` action,
+ * which is why the previous `Cal.ns.sup('open', {})` call silently did nothing.
+ * `Cal.ns.sup` exists synchronously (it is a queue stub) even before
+ * embed.js finishes loading, so the call is safe at any time.
+ */
+function openCal() {
+  const cal = (window as unknown as { Cal?: { ns?: Record<string, CalApi> } }).Cal;
+  try {
+    if (cal?.ns?.sup) {
+      cal.ns.sup('modal', { calLink: CAL_LINK, config: { layout: 'month_view' } });
+      return;
+    }
+  } catch {
+    /* fall through to the direct link */
+  }
+  window.open(`https://cal.com/${CAL_LINK}`, '_blank', 'noopener,noreferrer');
+}
+
 /**
  * Booking section — language-aware.
  *
- * EN: cal.com floating popup is already loaded globally in Layout.astro.
- *     An inline "Book with cal.com" button triggers the floating popup namespace.
- * VI: Zalo deep link to https://zalo.me/84905002813 with a pre-filled message.
+ * EN: a single "Book with cal.com" button opens the cal.com popup.
+ * VI: cal.com popup *and* a Zalo deep link, because discounts are negotiated
+ *     over Zalo — both funnels have to stay reachable.
  *
  * One public price for everyone. VI shows the same prices plus a Zalo
  * invitation ("Liên hệ Zalo để có giá tốt hơn.").
@@ -43,25 +69,8 @@ export default function BookingSection() {
   const t = COPY[lang];
   const services = t.services;
 
-  const handleBook = () => {
-    if (lang === 'vi') {
-      // VI funnel — Zalo deep link
-      window.open(zaloDeepLink('vi'), '_blank', 'noopener,noreferrer');
-    } else {
-      // EN funnel — trigger the cal.com floating popup for the "sup" namespace.
-      // The embed is loaded in Layout.astro; calling Cal.ns.sup('ui', ...)
-      // opens the popup. We fall back to the cal.com page if the API is missing.
-      const cal = (window as unknown as { Cal?: { ns?: Record<string, { (k: string, v: unknown): void }> } }).Cal;
-      if (cal?.ns?.sup) {
-        try {
-          cal.ns.sup('open', {});
-          return;
-        } catch {
-          /* fall through to direct link */
-        }
-      }
-      window.open('https://cal.com/rory-quarrier-nsavjf/sup', '_blank', 'noopener,noreferrer');
-    }
+  const openZalo = () => {
+    window.open(zaloDeepLink('vi'), '_blank', 'noopener,noreferrer');
   };
 
   // Service data mapped by id
@@ -122,21 +131,34 @@ export default function BookingSection() {
         })}
       </div>
 
-      {/* VI-only Zalo invitation */}
-      {lang === 'vi' && services.zaloInvite && (
-        <p className="mx-auto mt-6 max-w-2xl text-sm text-sea">
-          {services.zaloInvite}
-        </p>
-      )}
-
-      {/* CTA */}
+      {/* CTA — EN has one funnel (cal.com); VI has both, Zalo carrying the discount. */}
       <div className="mx-auto mt-10 max-w-2xl">
-        <button
-          onClick={handleBook}
-          className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-[transform] duration-150 ease-out hover:scale-[1.02] active:scale-95"
-        >
-          {t.booking.bookCta}
-        </button>
+        {lang === 'vi' ? (
+          <>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={openCal}
+                className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-[transform] duration-150 ease-out hover:scale-[1.02] active:scale-95"
+              >
+                Đặt qua cal.com
+              </button>
+              <button
+                onClick={openZalo}
+                className="inline-flex items-center gap-2 rounded-full border border-tungsten px-8 py-4 font-semibold text-tungsten transition-colors duration-150 ease-out hover:bg-tungsten hover:text-dawn"
+              >
+                Đặt qua Zalo
+              </button>
+            </div>
+            <p className="mt-4 text-sm text-sea">Giảm giá khi đặt qua Zalo</p>
+          </>
+        ) : (
+          <button
+            onClick={openCal}
+            className="inline-flex items-center gap-2 rounded-full bg-tungsten px-8 py-4 font-semibold text-dawn transition-[transform] duration-150 ease-out hover:scale-[1.02] active:scale-95"
+          >
+            {t.booking.bookCta}
+          </button>
+        )}
       </div>
     </section>
   );

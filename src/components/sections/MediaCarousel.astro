@@ -26,23 +26,234 @@ const slides = [
       <span data-lang="vi">{vi.title}</span>
     </h2>
 
-    <!-- Horizontal scroll-snap carousel -->
-    <div
-      class="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4"
-      aria-label="Photo carousel"
-    >
+    <!-- Horizontal scroll-snap carousel.
+         Mobile: native swipe, no chrome. Desktop: arrows + dots, no scrollbar. -->
+    <div class="carousel relative mt-8">
+      <!-- Edge fades — desktop only, signal that the row continues -->
+      <div class="carousel-fade carousel-fade-left" aria-hidden="true"></div>
+      <div class="carousel-fade carousel-fade-right" aria-hidden="true"></div>
+
+      <div
+        class="carousel-track flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1"
+        role="group"
+        aria-label="Photo carousel"
+      >
+        {
+          slides.map((s) => (
+            <div class={`shrink-0 snap-start overflow-hidden rounded-xl ${s.ratio} w-64 sm:w-72 md:w-80`}>
+              <img
+                src={base + 'media/' + s.file}
+                alt={s.label}
+                loading="lazy"
+                class="h-full w-full object-cover"
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <button class="carousel-arrow carousel-arrow-prev" type="button" aria-label="Previous photos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+      </button>
+      <button class="carousel-arrow carousel-arrow-next" type="button" aria-label="Next photos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
+
+    <div class="carousel-dots" role="tablist" aria-label="Carousel position">
       {
-        slides.map((s) => (
-          <div class={`shrink-0 snap-start overflow-hidden rounded-xl ${s.ratio} w-64 sm:w-72`}>
-            <img
-              src={base + 'media/' + s.file}
-              alt={s.label}
-              loading="lazy"
-              class="h-full w-full object-cover"
-            />
-          </div>
+        slides.map((s, i) => (
+          <button
+            class="carousel-dot"
+            type="button"
+            data-index={i}
+            aria-label={`Go to photo ${i + 1}: ${s.label}`}
+          />
         ))
       }
     </div>
   </div>
 </section>
+
+<style>
+  /* Hide the native scrollbar on every breakpoint — the row is driven by
+     swipe on mobile and by the arrows/dots on desktop. */
+  .carousel-track {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+  }
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* ---- Desktop-only chrome ---- */
+  .carousel-arrow,
+  .carousel-fade,
+  .carousel-dots {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      margin-top: -1.375rem;
+      border-radius: 9999px;
+      border: 1px solid color-mix(in srgb, var(--color-lilac) 30%, transparent);
+      background: color-mix(in srgb, var(--color-dawn) 70%, transparent);
+      color: var(--color-linen);
+      backdrop-filter: blur(6px);
+      transition:
+        opacity 150ms ease-out,
+        border-color 150ms ease-out,
+        color 150ms ease-out,
+        transform 150ms ease-out;
+    }
+    .carousel-arrow:hover {
+      border-color: var(--color-tungsten);
+      color: var(--color-tungsten);
+      transform: scale(1.06);
+    }
+    .carousel-arrow:disabled {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .carousel-arrow svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .carousel-arrow-prev {
+      left: 0.5rem;
+    }
+    .carousel-arrow-next {
+      right: 0.5rem;
+    }
+
+    .carousel-fade {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 1;
+      display: block;
+      width: 4rem;
+      pointer-events: none;
+      transition: opacity 150ms ease-out;
+    }
+    .carousel-fade-left {
+      left: 0;
+      background: linear-gradient(to right, var(--color-dawn), transparent);
+    }
+    .carousel-fade-right {
+      right: 0;
+      background: linear-gradient(to left, var(--color-dawn), transparent);
+    }
+    .carousel-fade[data-hidden='true'] {
+      opacity: 0;
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .carousel-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 9999px;
+      background: color-mix(in srgb, var(--color-lilac) 35%, transparent);
+      transition:
+        background-color 150ms ease-out,
+        width 150ms ease-out;
+    }
+    .carousel-dot:hover {
+      background: color-mix(in srgb, var(--color-tungsten) 60%, transparent);
+    }
+    .carousel-dot[aria-current='true'] {
+      width: 1.5rem;
+      background: var(--color-tungsten);
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('#media .carousel');
+  const track = root?.querySelector<HTMLElement>('.carousel-track');
+  const dotsWrap = document.querySelector<HTMLElement>('#media .carousel-dots');
+
+  if (root && track && dotsWrap) {
+    const prev = root.querySelector<HTMLButtonElement>('.carousel-arrow-prev')!;
+    const next = root.querySelector<HTMLButtonElement>('.carousel-arrow-next')!;
+    const fadeLeft = root.querySelector<HTMLElement>('.carousel-fade-left')!;
+    const fadeRight = root.querySelector<HTMLElement>('.carousel-fade-right')!;
+    const dots = Array.from(dotsWrap.querySelectorAll<HTMLButtonElement>('.carousel-dot'));
+    const slides = Array.from(track.children) as HTMLElement[];
+
+    /** Index of the slide whose left edge is closest to the current scroll offset. */
+    const currentIndex = () => {
+      const x = track.scrollLeft;
+      let best = 0;
+      let bestDist = Infinity;
+      slides.forEach((el, i) => {
+        const d = Math.abs(el.offsetLeft - track.offsetLeft - x);
+        if (d < bestDist) {
+          bestDist = d;
+          best = i;
+        }
+      });
+      return best;
+    };
+
+    const sync = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      const atStart = track.scrollLeft <= 1;
+      const atEnd = track.scrollLeft >= maxScroll - 1;
+
+      prev.disabled = atStart;
+      next.disabled = atEnd;
+      fadeLeft.dataset.hidden = String(atStart);
+      fadeRight.dataset.hidden = String(atEnd);
+
+      const active = currentIndex();
+      dots.forEach((d, i) => d.setAttribute('aria-current', String(i === active)));
+    };
+
+    /** Scroll roughly one viewport of the track, letting scroll-snap align it. */
+    const page = (dir: 1 | -1) => {
+      track.scrollBy({ left: dir * track.clientWidth * 0.85 });
+    };
+
+    prev.addEventListener('click', () => page(-1));
+    next.addEventListener('click', () => page(1));
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft });
+      });
+    });
+
+    let raf = 0;
+    track.addEventListener('scroll', () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(sync);
+    });
+    window.addEventListener('resize', sync);
+    sync();
+  }
+</script>

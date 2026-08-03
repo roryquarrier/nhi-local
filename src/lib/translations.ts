@@ -225,6 +225,10 @@ const EN: Copy = {
           a: 'Sessions run around sunrise. Proposed times are 04:45, 05:30, and 06:15 — confirm the exact slot in the booking calendar.',
         },
         {
+          q: 'Is there somewhere to keep valuables?',
+          a: 'A lockbox is provided on the beach for phones, wallets, and small valuables. Nhi Local cannot take responsibility for missing items, though no problems have ever occurred.',
+        },
+        {
           q: 'How big are the groups?',
           a: '<!-- TODO: maximum group size not confirmed -->',
         },
@@ -346,6 +350,10 @@ const VI: Copy = {
         {
           q: 'Các khung giờ là gì?',
           a: 'Các buổi diễn ra quanh lúc bình minh. Khung giờ đề xuất là 04:45, 05:30 và 06:15 — xác nhận lại giờ chính xác trong lịch đặt.',
+        },
+        {
+          q: 'Có chỗ để đồ giá trị không?',
+          a: 'Có một hộp khóa trên bãi để điện thoại, ví và đồ giá trị nhỏ. Nhi Local không chịu trách nhiệm về đồ mất, tuy nhiên chưa từng có vấn đề gì xảy ra.',
         },
         {
           q: 'Nhóm bao nhiêu người?',
