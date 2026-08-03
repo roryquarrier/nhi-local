@@ -179,9 +179,11 @@ html:not(.intro-active) .intro-only {
   display: none !important;
 }
 
-/* All intro beats fade out when the intro hands off — EXCEPT the brand beat,
-   which stays visible as the page scrolls up over it. */
-html.intro-done .intro-text:not(#intro-brand) {
+/* All intro beats fade out when the intro hands off — including the brand
+   beat. The sticky #dock-header carries the NHI LOCAL wordmark from here,
+   so the lingering overlay would only collide with the static hero copy
+   beneath it. */
+html.intro-done .intro-text {
   opacity: 0;
   visibility: hidden;
 }
