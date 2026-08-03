@@ -261,9 +261,11 @@ const VI: Copy = {
   nav: { book: 'Đặt' },
   hero: {
     staticEyebrow: 'Bãi Man Thái · Đà Nẵng',
-    staticTitle: 'Chèo SUP Bình Minh.',
+    // The \u00A0 keeps "Bình Minh." together, so the headline breaks after
+    // "SUP" — a deliberate two-line stack, not an orphaned "Minh.".
+    staticTitle: 'Chèo SUP Bình\u00A0Minh.',
     staticSubtitle:
-      'Buổi chèo SUP, lướt ván và lặn tự do cùng Nhi Local. Nhóm nhỏ, có sẵn thiết bị, 60 phút trên mặt nước.',
+      'Chèo SUP, lướt ván, lặn tự do cùng Nhi Local. Nhóm nhỏ, có sẵn thiết bị, 60 phút trên mặt nước.',
     staticCta: 'Đặt một buổi',
     intro: {
       open: 'SUP SURF DIVE',

@@ -281,6 +281,31 @@ html.fallback #hero-section {
   min-height: 0 !important;
 }
 
+/*
+ * Vietnamese-only hero breathing room. VI sets denser than EN at the same
+ * size — stacked diacritics and longer words make the same block feel heavier
+ * — so the VI hero gets looser leading, wider gaps between the beats, and more
+ * bottom padding so the CTA clears the scroll cue. EN is untouched.
+ */
+html[lang="vi"] .hero-copy {
+  padding-bottom: 4.5rem;
+}
+html[lang="vi"] .hero-copy h1 {
+  line-height: 1.2;
+}
+html[lang="vi"] .hero-copy p {
+  margin-top: 1.5rem;
+  line-height: 1.75;
+}
+html[lang="vi"] .hero-copy a {
+  margin-top: 2rem;
+}
+@media (min-width: 640px) {
+  html[lang="vi"] .hero-copy {
+    padding-bottom: 6rem;
+  }
+}
+
 /* Below-the-fold sections sit above the fixed video layers on a solid base */
 .below-video {
   position: relative;
