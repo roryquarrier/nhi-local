@@ -229,6 +229,10 @@ const EN: Copy = {
           a: 'A lockbox is provided on the beach for phones, wallets, and small valuables. Nhi Local cannot take responsibility for missing items, though no problems have ever occurred.',
         },
         {
+          q: 'Do you offer photo and video services?',
+          a: 'Yes — photo and video services are available, including recording and edited videos or photos. Contact us via messaging for further details.',
+        },
+        {
           q: 'How big are the groups?',
           a: '<!-- TODO: maximum group size not confirmed -->',
         },
@@ -354,6 +358,10 @@ const VI: Copy = {
         {
           q: 'Có chỗ để đồ giá trị không?',
           a: 'Có một hộp khóa trên bãi để điện thoại, ví và đồ giá trị nhỏ. Nhi Local không chịu trách nhiệm về đồ mất, tuy nhiên chưa từng có vấn đề gì xảy ra.',
+        },
+        {
+          q: 'Có dịch vụ chụp ảnh và quay video không?',
+          a: 'Có — dịch vụ chụp ảnh và quay video có sẵn, bao gồm thu hình và video/ảnh đã chỉnh sửa. Vui lòng nhắn tin để biết thêm chi tiết.',
         },
         {
           q: 'Nhóm bao nhiêu người?',
