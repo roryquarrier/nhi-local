@@ -18,9 +18,9 @@ export interface ServicePricing {
 }
 
 export const PRICING: ServicePricing[] = [
-  { id: 'sup', price: '300,000₫' },
-  { id: 'surf', price: '1,600,000₫' },
-  { id: 'freedive', price: '1,600,000₫' },
+  { id: 'sup', price: '$15' },
+  { id: 'surf', price: '$65' },
+  { id: 'freedive', price: '$65' },
 ];
 
 /** Zalo deep link for VI booking funnel. */
@@ -147,17 +147,17 @@ const EN: Copy = {
     sup: {
       name: 'Stand-Up Paddleboard',
       tagline: 'Gentle dawn sessions on flat water.',
-      price: '300,000₫',
+      price: '$15',
     },
     surf: {
       name: 'Surfing',
       tagline: 'Beginner-friendly waves on My An Beach.',
-      price: '1,600,000₫',
+      price: '$65',
     },
     freedive: {
       name: 'Freediving',
       tagline: 'Breath-hold sessions for calm water.',
-      price: '1,600,000₫',
+      price: '$65',
     },
   },
   booking: {
@@ -279,17 +279,17 @@ const VI: Copy = {
     sup: {
       name: 'Chèo SUP',
       tagline: 'Buổi chèo nhẹ nhàng đón bình minh trên mặt nước phẳng.',
-      price: '300.000₫',
+      price: '$15',
     },
     surf: {
       name: 'Lướt ván',
       tagline: 'Sóng nhỏ thân thiện với người mới bắt đầu tại bãi Mỹ An.',
-      price: '1.600.000₫',
+      price: '$65',
     },
     freedive: {
       name: 'Lặn tự do',
       tagline: 'Buổi lặn nín thở dành cho mặt nước yên.',
-      price: '1.600.000₫',
+      price: '$65',
     },
     zaloInvite: 'Liên hệ Zalo để có giá tốt hơn.',
   },
