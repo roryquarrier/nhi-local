@@ -230,7 +230,7 @@ const EN: Copy = {
         },
         {
           q: 'Do you offer photo and video services?',
-          a: 'Yes — photo and video services are available, including recording and edited videos or photos. Contact us via messaging for further details.',
+          a: 'Photos and videos are included with surf and freedive sessions, but not with SUP. Editing services are available for an additional fee — message us for details.',
         },
         {
           q: 'How big are the groups?',
@@ -363,7 +363,7 @@ const VI: Copy = {
         },
         {
           q: 'Có dịch vụ chụp ảnh và quay video không?',
-          a: 'Có — dịch vụ chụp ảnh và quay video có sẵn, bao gồm thu hình và video/ảnh đã chỉnh sửa. Vui lòng nhắn tin để biết thêm chi tiết.',
+          a: 'Ảnh và video được bao gồm trong buổi surf và freedive, nhưng không bao gồm trong buổi SUP. Dịch vụ chỉnh sửa có sẵn với phí thêm — nhắn tin để biết chi tiết.',
         },
         {
           q: 'Nhóm bao nhiêu người?',
