@@ -8,9 +8,9 @@ import {
 } from '../lib/translations';
 
 const CAL_LINKS: Record<ServicePricing['id'], string> = {
-  sup: 'rory-quarrier-nsavjf/sup',
-  surf: 'rory-quarrier-nsavjf/surf',
-  freedive: 'rory-quarrier-nsavjf/dive',
+  sup: 'nhi-local/sup',
+  surf: 'nhi-local/surf',
+  freedive: 'nhi-local/dive',
 };
 
 /** cal.com embed queue API — see the "sup" namespace initialised in Layout.astro. */
