@@ -375,3 +375,48 @@ html[lang="vi"] .hero-copy a {
 footer {
   padding-bottom: 4rem;
 }
+
+/* ---------------------------------------------------------------------------
+ * Blog. 38rem measure, hand-written prose styles (no typography plugin).
+ * Colours are the five tokens only; tungsten only on links.
+ * ------------------------------------------------------------------------- */
+.post { max-width: 38rem; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+@media (min-width: 768px) { .post { padding: 4rem 2rem 5rem; } }
+
+.post-body {
+  margin-top: 2.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--lilac-dawn);
+  overflow-wrap: break-word;
+}
+html[lang="vi"] .post-body { line-height: 1.8; }           /* same VI-density rule as the hero */
+.post-body > * + * { margin-top: 1.25rem; }
+.post-body h2 { margin-top: 3rem; font-size: 1.5rem; line-height: 1.25; font-weight: 600; color: var(--linen); }
+.post-body h3 { margin-top: 2rem; font-size: 1.2rem; line-height: 1.3; font-weight: 600; color: var(--linen); }
+.post-body h4 { margin-top: 1.5rem; font-weight: 600; color: var(--linen); }
+.post-body strong { color: var(--linen); font-weight: 600; }
+.post-body a { color: var(--tungsten); text-decoration: underline; text-underline-offset: 0.2em; }
+.post-body a:hover { color: var(--linen); }
+.post-body ul, .post-body ol { padding-left: 1.5rem; }
+.post-body ul { list-style: disc; }
+.post-body ol { list-style: decimal; }
+.post-body li + li { margin-top: 0.5rem; }
+.post-body blockquote {
+  border-left: 2px solid color-mix(in srgb, var(--lilac-dawn) 30%, transparent);
+  padding-left: 1rem;
+  color: color-mix(in srgb, var(--lilac-dawn) 80%, transparent);
+}
+.post-body hr { border: 0; border-top: 1px solid color-mix(in srgb, var(--lilac-dawn) 15%, transparent); margin: 3rem 0; }
+.post-body code { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
+.post-body :not(pre) > code { background: color-mix(in srgb, var(--linen) 8%, transparent); padding: 0.1em 0.35em; border-radius: 0.25rem; }
+.post-body pre { overflow-x: auto; padding: 1rem 1.25rem; border-radius: 1rem; font-size: 0.875rem; line-height: 1.6; }
+.post-body img { max-width: 100%; height: auto; border-radius: 1rem; }
+.post-body table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 0.9375rem; }
+.post-body th {
+  text-align: left; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.75rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--lilac-dawn) 60%, transparent);
+  padding: 0.5rem 0.75rem 0.5rem 0; border-bottom: 1px solid color-mix(in srgb, var(--lilac-dawn) 15%, transparent);
+}
+.post-body td { padding: 0.6rem 0.75rem 0.6rem 0; vertical-align: top; border-bottom: 1px solid color-mix(in srgb, var(--lilac-dawn) 15%, transparent); }

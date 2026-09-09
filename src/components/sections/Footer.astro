@@ -2,6 +2,9 @@
 import { COPY, ZALO_LINK } from '../../lib/translations';
 const en = COPY.en.sections.footer;
 const vi = COPY.vi.sections.footer;
+const nav = { en: COPY.en.nav, vi: COPY.vi.nav };
+
+const base = import.meta.env.BASE_URL;
 
 const year = new Date().getFullYear();
 const whatsappLink = 'https://wa.me/84905002813';
@@ -16,6 +19,10 @@ const whatsappLink = 'https://wa.me/84905002813';
         <span data-lang="vi">{vi.tagline}</span>
       </p>
       <p class="mt-3 text-sm text-lilac/70">Man Thai Beach · Da Nang · Vietnam</p>
+      <p class="mt-4 text-sm">
+        <a data-lang="en" href={base + 'blog/'} class="text-lilac transition-colors hover:text-tungsten">{nav.en.blog}</a>
+        <a data-lang="vi" href={base + 'blog/vi/'} class="text-lilac transition-colors hover:text-tungsten">{nav.vi.blog}</a>
+      </p>
     </div>
 
     <div>

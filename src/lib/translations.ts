@@ -48,6 +48,18 @@ export interface Copy {
 
   nav: {
     book: string;
+    blog: string;
+  };
+
+  /** Blog chrome only; post copy lives in src/content/blog. */
+  blog: {
+    title: string;
+    back: string;
+    minRead: string;
+    updated: string;
+    newer: string;
+    older: string;
+    switchLang: string;
   };
 
   hero: {
@@ -128,7 +140,16 @@ const EN: Copy = {
   title: 'Nhi Local — Sunrise SUP on Man Thai Beach',
   description:
     'Stand-up paddleboard, surf, and freedive sessions on Man Thai Beach, Da Nang. Small groups, equipment provided, 60-minute sessions.',
-  nav: { book: 'Book' },
+  nav: { book: 'Book', blog: 'Blog' },
+  blog: {
+    title: 'Blog',
+    back: 'All posts',
+    minRead: 'min read',
+    updated: 'Updated',
+    newer: 'Newer',
+    older: 'Older',
+    switchLang: 'Switch language',
+  },
   hero: {
     staticEyebrow: 'Man Thai Beach · Da Nang',
     staticTitle: 'Sunrise Paddle.',
@@ -258,7 +279,16 @@ const VI: Copy = {
   title: 'Nhi Local — Chèo SUP đón bình minh trên Man Thai',
   description:
     'Buổi chèo SUP, lướt ván và lặn tự do trên bãi Man Thái, Đà Nẵng. Nhóm nhỏ, có sẵn thiết bị, mỗi buổi 60 phút.',
-  nav: { book: 'Đặt' },
+  nav: { book: 'Đặt', blog: 'Blog' },
+  blog: {
+    title: 'Blog',
+    back: 'Tất cả bài viết',
+    minRead: 'phút đọc',
+    updated: 'Cập nhật',
+    newer: 'Mới hơn',
+    older: 'Cũ hơn',
+    switchLang: 'Đổi ngôn ngữ',
+  },
   hero: {
     staticEyebrow: 'Bãi Man Thái · Đà Nẵng',
     // The \u00A0 keeps "Bình Minh." together, so the headline breaks after

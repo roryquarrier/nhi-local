@@ -1,0 +1,62 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BlogHeader from './BlogHeader.astro';
+import Footer from '../sections/Footer.astro';
+import { COPY } from '../../lib/translations';
+import { type Post, langOf, slugOf, otherLang, pairOf, postsIn, postPath, indexPath, absUrl,
+         readingMinutes, formatDate, isoDate } from '../../lib/blog';
+interface Props { post: Post }
+const { post } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const lang = langOf(post), slug = slugOf(post), t = COPY[lang].blog;
+const { Content } = await render(post);
+const pair = await pairOf(post);
+const self = absUrl(postPath(lang, slug));
+const pairUrl = pair ? absUrl(postPath(langOf(pair), slugOf(pair))) : undefined;
+const enUrl = lang === 'en' ? self : pairUrl;
+const viUrl = lang === 'vi' ? self : pairUrl;
+const alternates = { en: enUrl, vi: viUrl, xDefault: enUrl ?? viUrl };
+const toggleHref = pair ? postPath(langOf(pair), slugOf(pair)) : indexPath(otherLang(lang));
+const siblings = await postsIn(lang);                    // newest first
+const i = siblings.findIndex((p) => p.id === post.id);
+const newer = siblings[i - 1], older = siblings[i + 1];
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: post.data.title, description: post.data.description,
+  inLanguage: lang === 'vi' ? 'vi-VN' : 'en',
+  url: self, mainEntityOfPage: self,
+  datePublished: isoDate(post.data.pubDate),
+  dateModified: isoDate(post.data.updatedDate ?? post.data.pubDate),
+  image: absUrl(`${base}og-image.jpg`),
+  author: { '@type': 'Organization', name: 'Nhi Local', url: absUrl(base) },
+  publisher: { '@type': 'Organization', name: 'Nhi Local', url: absUrl(base) },
+};
+const jsonLdText = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
+---
+<Layout lang={lang} title={`${post.data.title} · Nhi Local`} description={post.data.description}
+        canonical={self} alternates={alternates} ogType="article" ogUrl={self} lockLang>
+  <Fragment slot="head">
+    <link rel="alternate" type="application/rss+xml" title="Nhi Local Blog" href={`${base}rss.xml`} />
+    <script type="application/ld+json" is:inline set:html={jsonLdText} />
+  </Fragment>
+  <BlogHeader lang={lang} toggleHref={toggleHref} backHref={indexPath(lang)} />
+  <main class="post">
+    <article>
+      <p class="font-mono text-xs tracking-widest text-lilac uppercase">
+        <time datetime={isoDate(post.data.pubDate)}>{formatDate(post.data.pubDate, lang)}</time>
+        <span aria-hidden="true"> · </span>{readingMinutes(post)} {t.minRead}
+        {post.data.updatedDate && (<> · {t.updated} <time datetime={isoDate(post.data.updatedDate)}>{formatDate(post.data.updatedDate, lang)}</time></>)}
+      </p>
+      <h1 class="mt-4 text-3xl font-semibold leading-tight text-linen sm:text-4xl">{post.data.title}</h1>
+      <div class="post-body"><Content /></div>
+    </article>
+    {(newer || older) && (
+      <nav class="post-pager mt-14 flex justify-between gap-4 border-t border-lilac/15 pt-6 font-mono text-xs tracking-wider" aria-label={t.title}>
+        <span>{older && <a href={postPath(lang, slugOf(older))} class="text-lilac transition-colors hover:text-tungsten">← {t.older}</a>}</span>
+        <span>{newer && <a href={postPath(lang, slugOf(newer))} class="text-lilac transition-colors hover:text-tungsten">{t.newer} →</a>}</span>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Layout>

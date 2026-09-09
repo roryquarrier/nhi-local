@@ -1,0 +1,28 @@
+---
+import { COPY, type Lang } from '../../lib/translations';
+interface Props { lang: Lang; toggleHref: string; backHref?: string }
+const { lang, toggleHref, backHref } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const home = lang === 'vi' ? `${base}?lang=vi` : base;   // BookingSection island reads ?lang only
+const t = COPY[lang].blog;
+---
+<header class="border-b border-lilac/15">
+  <div class="section-wide flex items-center justify-between gap-2 px-4 py-3 sm:px-6">
+    <a href={home} class="wordmark text-sm text-linen transition-colors hover:text-tungsten">NHI&nbsp;LOCAL</a>
+    <div class="flex items-center gap-2 sm:gap-3">
+      {backHref && (
+        <a href={backHref} class="font-mono text-xs tracking-wider whitespace-nowrap text-lilac transition-colors hover:text-tungsten">← {t.title}</a>
+      )}
+      <a
+        href={toggleHref}
+        hreflang={lang === 'en' ? 'vi' : 'en'}
+        aria-label={t.switchLang}
+        class="flex items-center gap-1.5 rounded-full border border-lilac/30 bg-dawn/60 px-3 py-1.5 font-mono text-xs tracking-wider transition-colors hover:border-tungsten/50"
+      >
+        <span class={lang === 'en' ? 'text-tungsten' : 'text-lilac'}>EN</span>
+        <span class="text-lilac/40">/</span>
+        <span class={lang === 'vi' ? 'text-tungsten' : 'text-lilac'}>VI</span>
+      </a>
+    </div>
+  </div>
+</header>

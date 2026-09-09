@@ -3,6 +3,14 @@ interface Props {
   lang?: 'en' | 'vi';
   title?: string;
   description?: string;
+  /** Absolute URL. <link rel="canonical"> is emitted only when set. */
+  canonical?: string;
+  /** hreflang set. Undefined = today's homepage pair (relative "/" and "/?lang=vi"). */
+  alternates?: { en?: string; vi?: string; xDefault?: string };
+  ogType?: 'website' | 'article';
+  ogUrl?: string;
+  /** Blog pages: html[lang] is authoritative; resolver only persists it to localStorage. */
+  lockLang?: boolean;
 }
 
 const lang = Astro.props.lang ?? 'en';
@@ -14,10 +22,16 @@ const description =
 import '../styles/global.css';
 
 const base = import.meta.env.BASE_URL;
+
+const alternates = Astro.props.alternates ?? { en: '/', vi: '/?lang=vi' };
+const ogType = Astro.props.ogType ?? 'website';
+const ogUrl = Astro.props.ogUrl ?? 'https://nhilocal.com';
+const lockLang = Astro.props.lockLang ?? false;
+const canonical = Astro.props.canonical;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-lang-lock={lockLang ? lang : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,15 +39,17 @@ const base = import.meta.env.BASE_URL;
     <meta name="description" content={description} />
 
     <!-- hreflang alternates -->
-    <link rel="alternate" hreflang="en" href="/" />
-    <link rel="alternate" hreflang="vi" href="/?lang=vi" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {alternates.en && <link rel="alternate" hreflang="en" href={alternates.en} />}
+    {alternates.vi && <link rel="alternate" hreflang="vi" href={alternates.vi} />}
+    {alternates.xDefault && <link rel="alternate" hreflang="x-default" href={alternates.xDefault} />}
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={base + 'og-image.jpg'} />
-    <meta property="og:url" content="https://nhilocal.com" />
+    <meta property="og:url" content={ogUrl} />
 
     <!-- Twitter card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -59,6 +75,8 @@ const base = import.meta.env.BASE_URL;
     <script is:inline>
       (function () {
         try {
+          var lock = document.documentElement.getAttribute("data-lang-lock");
+          if (lock) { localStorage.setItem("nhi-lang", lock); return; }
           var p = new URLSearchParams(location.search).get("lang");
           var s = localStorage.getItem("nhi-lang");
           var l = p === "vi" || p === "en" ? p : s === "vi" || s === "en" ? s : "en";
@@ -114,6 +132,8 @@ const base = import.meta.env.BASE_URL;
         display: none !important;
       }
     </style>
+
+    <slot name="head" />
   </head>
   <body class="bg-dawn text-linen font-sans antialiased">
     <slot />

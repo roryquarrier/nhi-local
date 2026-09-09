@@ -1,15 +1,17 @@
 import { chromium } from 'playwright';
 
 const EXEC = '/home/hal/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome';
-const URL = 'http://localhost:4321/nhi-local/';
+const URL = process.env.SMOKE_URL || 'http://localhost:4321/';
+const SLUG = 'my-khe-beach-surf-guide';
+let failures = 0;
 
 const log = (...a) => console.log(...a);
 
 async function newCtx(browser, opts = {}) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, ...opts });
   const page = await ctx.newPage();
-  page.on('pageerror', (e) => log('  !! PAGE ERROR:', e.message));
-  page.on('console', (m) => m.type() === 'error' && log('  !! CONSOLE ERROR:', m.text()));
+  page.on('pageerror', (e) => { failures++; log('  !! PAGE ERROR:', e.message); });
+  page.on('console', (m) => { if (m.type() === 'error') { failures++; log('  !! CONSOLE ERROR:', m.text()); } });
   return { ctx, page };
 }
 
@@ -62,7 +64,7 @@ log('\n=== 1. NORMAL PATH ===');
   await page.mouse.wheel(0, 1200);
   await page.waitForTimeout(500);
   log('after scroll: y=', await page.evaluate(() => window.scrollY));
-  log('booking reachable:', await page.evaluate(() => !!document.querySelector('#dock-header [data-cal-link]') && !!document.querySelector('#dock-header a[data-zalo]')));
+  log('booking reachable:', await page.evaluate(() => !!document.querySelector('#dock-header a[href="#booking"]') && !!document.querySelector('#dock-header a[data-zalo]')));
   await ctx.close();
 }
 
@@ -127,10 +129,68 @@ log('\n=== 5. VIETNAMESE ===');
     const el = document.querySelector('#intro-open span[data-lang="vi"]');
     return el ? el.textContent : null;
   })));
-  log('EN hidden:', await page.evaluate(() => getComputedStyle(document.querySelector('#intro-open span[data-lang="en"]')).display));
-  log('zalo btn visible:', await page.evaluate(() => getComputedStyle(document.querySelector('#dock-header a[data-zalo]')).display));
-  log('cal btn hidden:', await page.evaluate(() => getComputedStyle(document.querySelector('#dock-header button[data-cal-link]')).display));
+  const q = (sel) => { const e = document.querySelector(sel); return e ? getComputedStyle(e).display : 'absent'; };
+  log('EN hidden:', await page.evaluate((sel) => { const e = document.querySelector(sel); return e ? getComputedStyle(e).display : 'absent'; }, '#intro-open span[data-lang="en"]'));
+  log('zalo btn visible:', await page.evaluate((sel) => { const e = document.querySelector(sel); return e ? getComputedStyle(e).display : 'absent'; }, '#dock-header a[data-zalo]'));
+  log('cal btn hidden:', await page.evaluate((sel) => { const e = document.querySelector(sel); return e ? getComputedStyle(e).display : 'absent'; }, '#dock-header a[href="#booking"] [data-lang="en"]'));
+  await ctx.close();
+}
+
+// ---------- 6. BLOG ----------
+log('\n=== 6. BLOG ===');
+const BLOG = [
+  { path: 'blog/', lang: 'en', post: false },
+  { path: `blog/${SLUG}/`, lang: 'en', post: true },
+  { path: 'blog/vi/', lang: 'vi', post: false },
+  { path: `blog/vi/${SLUG}/`, lang: 'vi', post: true },
+];
+const check = (name, ok) => { log(`  ${ok ? 'ok ' : 'FAIL'} ${name}`); if (!ok) failures++; };
+for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
+  for (const b of BLOG) {
+    const { ctx, page } = await newCtx(browser, { viewport: vp });
+    // pre-set the OPPOSITE language so the lock is actually exercised
+    await ctx.addInitScript((l) => localStorage.setItem('nhi-lang', l), b.lang === 'vi' ? 'en' : 'vi');
+    const res = await page.goto(URL + b.path, { waitUntil: 'load' });
+    await page.waitForTimeout(300);
+    const s = await page.evaluate(() => ({
+      lang: document.documentElement.lang,
+      stored: localStorage.getItem('nhi-lang'),
+      overflow: document.documentElement.scrollWidth - window.innerWidth,
+      canonical: document.querySelector('link[rel="canonical"]')?.href ?? null,
+      hreflang: [...document.querySelectorAll('link[rel="alternate"][hreflang]')].map((l) => `${l.hreflang}=${l.href}`),
+      jsonld: document.querySelectorAll('script[type="application/ld+json"]').length,
+      toggle: document.querySelector('header a[hreflang]')?.getAttribute('href') ?? null,
+      footerVi: getComputedStyle(document.querySelector('footer [data-lang="vi"]')).display,
+      h1: document.querySelector('h1')?.textContent?.trim().slice(0, 40),
+    }));
+    log(`  ${vp.width}px ${b.path}`, JSON.stringify(s));
+    check(`${b.path} status 200`, res?.status() === 200);
+    check(`${b.path} html lang=${b.lang}`, s.lang === b.lang);
+    check(`${b.path} persisted nhi-lang`, s.stored === b.lang);
+    check(`${b.path} no horizontal overflow @${vp.width}`, s.overflow <= 0);
+    check(`${b.path} canonical`, s.canonical === `https://nhilocal.com/${b.path}`);
+    check(`${b.path} hreflang en+vi+x-default absolute`, s.hreflang.length === 3 && s.hreflang.every((h) => h.includes('https://nhilocal.com/')));
+    check(`${b.path} footer follows page lang`, s.footerVi === (b.lang === 'vi' ? 'inline' : 'none'));
+    if (b.post) check(`${b.path} BlogPosting JSON-LD`, s.jsonld >= 1);
+    check(`${b.path} toggle href`, s.toggle === (b.post ? (b.lang === 'en' ? `/blog/vi/${SLUG}/` : `/blog/${SLUG}/`) : (b.lang === 'en' ? '/blog/vi/' : '/blog/')));
+    if (vp.width === 390) await page.screenshot({ path: `.claude/artifacts/shots/${b.lang}-${b.post ? 'post' : 'index'}-390.png`, fullPage: false });
+    // homepage must follow the reader's last blog language
+    await page.goto(URL, { waitUntil: 'load' });
+    await page.waitForTimeout(300);
+    check(`${b.path} → homepage lang`, (await page.evaluate(() => document.documentElement.lang)) === b.lang);
+    await ctx.close();
+  }
+}
+// sitemap + rss served
+for (const f of ['sitemap.xml', 'rss.xml']) {
+  const { ctx, page } = await newCtx(browser);
+  const r = await page.goto(URL + f);
+  const body = await r.text();
+  check(`${f} 200`, r.status() === 200);
+  check(`${f} lists the post`, body.includes(`/blog/${SLUG}/`));
+  if (f === 'sitemap.xml') check('sitemap has VI post', body.includes(`/blog/vi/${SLUG}/`));
   await ctx.close();
 }
 
 await browser.close();
+process.exit(failures ? 1 : 0);

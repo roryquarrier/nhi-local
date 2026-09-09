@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogHeader from './BlogHeader.astro';
+import Footer from '../sections/Footer.astro';
+import { COPY, type Lang } from '../../lib/translations';
+import { postsIn, slugOf, otherLang, postPath, indexPath, absUrl, readingMinutes, formatDate, isoDate } from '../../lib/blog';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const t = COPY[lang].blog;
+const posts = await postsIn(lang);
+const self = absUrl(indexPath(lang));
+const alternates = { en: absUrl(indexPath('en')), vi: absUrl(indexPath('vi')), xDefault: absUrl(indexPath('en')) };
+---
+<Layout lang={lang} title={`${t.title} · Nhi Local`} description={COPY[lang].description}
+        canonical={self} alternates={alternates} ogUrl={self} lockLang>
+  <Fragment slot="head">
+    <link rel="alternate" type="application/rss+xml" title="Nhi Local Blog" href={`${base}rss.xml`} />
+  </Fragment>
+  <BlogHeader lang={lang} toggleHref={indexPath(otherLang(lang))} />
+  <main class="post">
+    <h1 class="text-3xl font-semibold text-linen sm:text-4xl">{t.title}</h1>
+    <ul class="mt-8 divide-y divide-lilac/15">
+      {posts.map((p) => (
+        <li class="py-8">
+          <a href={postPath(lang, slugOf(p))} class="group block">
+            <p class="font-mono text-xs tracking-widest text-lilac uppercase">
+              <time datetime={isoDate(p.data.pubDate)}>{formatDate(p.data.pubDate, lang)}</time> · {readingMinutes(p)} {t.minRead}
+            </p>
+            <h2 class="mt-3 text-2xl font-semibold leading-snug text-linen transition-colors group-hover:text-tungsten">{p.data.title}</h2>
+            <p class="mt-3 leading-relaxed text-lilac">{p.data.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+  <Footer />
+</Layout>
