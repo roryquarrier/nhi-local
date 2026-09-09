@@ -8,6 +8,8 @@ draft: false
 ---
 Đà Nẵng thuộc số ít thành phố ở Việt Nam mà lướt sóng là hoạt động thật, không phải trò trình diễn cho khách: có mùa rõ ràng, có cộng đồng đứng ván quanh năm, có trường dạy ngay trên bờ. Bãi biển chính là biển Mỹ Khê — dải cát chạy từ chân bán đảo Sơn Trà (bãi Mạn Thái) xuống khu Mỹ An, dọc theo đường Võ Nguyên Giáp – Trường Sa – Hồ Xuân Hương. Bài này gom hết những gì bạn cần: mùa nào có sóng, đọc forecast ra sao, thuê ván ở đâu, học ở đâu, và mỗi thứ tốn bao nhiêu.
 
+![Lướt sóng ở biển Mỹ Khê, Đà Nẵng](/images/blog/my-khe-beach-surf-guide/surf1.jpg "Người lướt sóng trên biển Mỹ Khê, Đà Nẵng")
+
 Một ghi chú về tên gọi: bài dùng cách gọi quen của người Đà Nẵng — biển Mỹ Khê (bãi tắm Mỹ Khê), bãi Mạn Thái, khu Phú Mỹ An.
 
 ## Vì sao lướt sóng ở biển Mỹ Khê

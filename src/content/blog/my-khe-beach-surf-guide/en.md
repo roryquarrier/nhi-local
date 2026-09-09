@@ -8,6 +8,8 @@ draft: false
 ---
 My Khe is the beach in Da Nang where surfing actually happens — a sand-bottomed beach break that works from October through February and mostly sleeps through summer. This guide covers the season month by month, how to read a forecast for this stretch specifically, where to get a board if you don't own one, and what it all costs, in real numbers. If you're weighing bringing a board against booking a lesson, that answer is here too.
 
+![Surfing at My Khe Beach, Da Nang](/images/blog/my-khe-beach-surf-guide/surf1.jpg "Surfers catching waves at My Khe Beach, Da Nang")
+
 ## Why My Khe is Da Nang's surf beach
 
 My Khe is the city beach — an arc of sand that starts at the foot of the Son Tra peninsula at Man Thai and runs south past My An, where the hotel strip sits. Ten minutes from central Da Nang, which matters more than it sounds: a dawn surf here doesn't eat your whole morning.
