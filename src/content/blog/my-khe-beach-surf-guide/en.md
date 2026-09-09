@@ -8,7 +8,7 @@ draft: false
 ---
 My Khe is the beach in Da Nang where surfing actually happens — a sand-bottomed beach break that works from October through February and mostly sleeps through summer. This guide covers the season month by month, how to read a forecast for this stretch specifically, where to get a board if you don't own one, and what it all costs, in real numbers. If you're weighing bringing a board against booking a lesson, that answer is here too.
 
-![Surfing at My Khe Beach, Da Nang](/images/blog/my-khe-beach-surf-guide/surf1.jpg "Surfers catching waves at My Khe Beach, Da Nang")
+![My Khe Beach, Da Nang — the crescent of sand where Da Nang surfs](/images/blog/my-khe-beach-surf-guide/my-khe-coastline.jpg "Aerial view of My Khe Beach, Da Nang")
 
 ## Why My Khe is Da Nang's surf beach
 
@@ -107,15 +107,17 @@ Five questions separate a good school from a cheap quote. They're the same conve
 
 Now the directory. These schools all operate at the My An / My Khe stretch. It's a directory, not a ranking — each runs its own schedules, group formats, and prices, so confirm details with each one:
 
-- [Epic](https://epicsurfvietnam.com/) — epicvietnam.com
+- [Epic](https://www.surfdanang.com/) — surfdanang.com
 - [Surf Feeling](https://surffeeling.com/) — surffeeling.com
-- [Coco](https://cocosurfvietnam.com/) — cocosurfvietnam.com
-- [Go Surfing](https://gosurfingvietnam.com/) — gosurfingvietnam.com
-- [Sano](https://sanosurf.com/) — sanosurf.com
-- [Surf Club](https://surfclubdanang.com/) — surfclubdanang.com
+- [Coco](https://cocosurfdanang.com/) — cocosurfdanang.com
+- [Go Surfing](https://www.gosurfing.vn/) — gosurfing.vn
+- [Sano](https://sanosuphouse.com/) — sanosuphouse.com
+- [Surf Club](https://danangsurfclub.com/) — danangsurfclub.com
 - [Danang Surf School](https://danangsurfschool.com/) — danangsurfschool.com
-- [Wave Riders](https://waveridersvietnam.com/) — waveridersvietnam.com
+- [Wave Riders](https://www.waveriderssurfschool.com/) — waveriderssurfschool.com
 - **Nhi Local (us)** — $65 for a 60-minute lesson at My An. Board, leash, coaching, and photo/video are inside that single price. One instructor, small groups, so question 2 above answers itself. Book in English at cal.com/nhi-local, in Vietnamese via Zalo.
+
+![A surfer riding a wave — what a clean My Khe day looks like](/images/blog/my-khe-beach-surf-guide/surfer-wave.jpg "Surfer riding a wave")
 
 ## FAQ
 

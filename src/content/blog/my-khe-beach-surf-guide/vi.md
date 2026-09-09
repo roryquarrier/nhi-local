@@ -8,7 +8,7 @@ draft: false
 ---
 Đà Nẵng thuộc số ít thành phố ở Việt Nam mà lướt sóng là hoạt động thật, không phải trò trình diễn cho khách: có mùa rõ ràng, có cộng đồng đứng ván quanh năm, có trường dạy ngay trên bờ. Bãi biển chính là biển Mỹ Khê — dải cát chạy từ chân bán đảo Sơn Trà (bãi Mạn Thái) xuống khu Mỹ An, dọc theo đường Võ Nguyên Giáp – Trường Sa – Hồ Xuân Hương. Bài này gom hết những gì bạn cần: mùa nào có sóng, đọc forecast ra sao, thuê ván ở đâu, học ở đâu, và mỗi thứ tốn bao nhiêu.
 
-![Lướt sóng ở biển Mỹ Khê, Đà Nẵng](/images/blog/my-khe-beach-surf-guide/surf1.jpg "Người lướt sóng trên biển Mỹ Khê, Đà Nẵng")
+![Biển Mỹ Khê, Đà Nẵng — dải cát nơi Đà Nẵng lướt sóng](/images/blog/my-khe-beach-surf-guide/my-khe-coastline.jpg "Toàn cảnh biển Mỹ Khê, Đà Nẵng nhìn từ trên cao")
 
 Một ghi chú về tên gọi: bài dùng cách gọi quen của người Đà Nẵng — biển Mỹ Khê (bãi tắm Mỹ Khê), bãi Mạn Thái, khu Phú Mỹ An.
 
@@ -79,16 +79,18 @@ Trước khi vào danh mục, bốn tiêu chí để so các trường với nha
 3. **Có chụp ảnh/video buổi học không.** Xem lại footage là cách tiến bộ nhanh nhất sau buổi đầu.
 4. **Dạy ở đoạn biển nào, hẹn ở đâu.** Mỹ Khê dài, mỗi trường có điểm hẹn riêng — hỏi trước để khỏi lạc.
 
+![Buổi học lướt sóng cho nhóm người mới](/images/blog/my-khe-beach-surf-guide/surf-lesson-group.jpg "Huấn luyện viên hướng dẫn nhóm học lướt sóng trên bãi cát")
+
 Các trường hoạt động quanh dải biển Mỹ Khê – Mỹ An:
 
-- [Epic](https://epicsurfvietnam.com/) — epicvietnam.com
+- [Epic](https://www.surfdanang.com/) — surfdanang.com
 - [Surf Feeling](https://surffeeling.com/) — surffeeling.com
-- [Coco](https://cocosurfvietnam.com/) — cocosurfvietnam.com
-- [Go Surfing](https://gosurfingvietnam.com/) — gosurfingvietnam.com
-- [Sano](https://sanosurf.com/) — sanosurf.com
-- [Surf Club](https://surfclubdanang.com/) — surfclubdanang.com
+- [Coco](https://cocosurfdanang.com/) — cocosurfdanang.com
+- [Go Surfing](https://www.gosurfing.vn/) — gosurfing.vn
+- [Sano](https://sanosuphouse.com/) — sanosuphouse.com
+- [Surf Club](https://danangsurfclub.com/) — danangsurfclub.com
 - [Danang Surf School](https://danangsurfschool.com/) — danangsurfschool.com
-- [Wave Riders](https://waveridersvietnam.com/) — waveridersvietnam.com
+- [Wave Riders](https://www.waveriderssurfschool.com/) — waveriderssurfschool.com
 
 Mình cố tình không ghi giá hộ trường nào: giá đổi theo mùa và theo gói, con số cũ trên web còn tệ hơn là không có con số. Mở trang hoặc nhắn trực tiếp từng chỗ để lấy giá hiện tại.
 
@@ -102,6 +104,8 @@ Và một mục Nhi Local trong danh mục đó, với đủ thông tin:
 - Đặt buổi: nhắn Zalo, chọn khung sáng sớm cho mặt biển lặng nhất
 
 Nói công bằng: các trường ở đây đều dạy tốt bài đầu tiên — chèo, bắt sóng, đứng lên. Khác nhau nằm ở cỡ nhóm, đồ kèm theo và điểm hẹn. So theo bốn tiêu chí ở trên thì khó chọn sai.
+
+![Người lướt sóng trên sóng — một ngày biển đẹp ở Mỹ Khê](/images/blog/my-khe-beach-surf-guide/surfer-wave.jpg "Người lướt sóng đang cưỡi sóng")
 
 ## Hỏi nhanh — đáp gọn
 
