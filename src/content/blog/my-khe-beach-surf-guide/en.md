@@ -105,14 +105,14 @@ Five questions separate a good school from a cheap quote. They're the same conve
 
 Now the directory. These schools all operate at the My An / My Khe stretch. It's a directory, not a ranking — each runs its own schedules, group formats, and prices, so confirm details with each one:
 
-- Epic
-- Surf Feeling
-- Coco
-- Go Surfing
-- Sano
-- Surf Club
-- Danang Surf School
-- Wave Riders
+- [Epic](https://epicsurfvietnam.com/) — epicvietnam.com
+- [Surf Feeling](https://surffeeling.com/) — surffeeling.com
+- [Coco](https://cocosurfvietnam.com/) — cocosurfvietnam.com
+- [Go Surfing](https://gosurfingvietnam.com/) — gosurfingvietnam.com
+- [Sano](https://sanosurf.com/) — sanosurf.com
+- [Surf Club](https://surfclubdanang.com/) — surfclubdanang.com
+- [Danang Surf School](https://danangsurfschool.com/) — danangsurfschool.com
+- [Wave Riders](https://waveridersvietnam.com/) — waveridersvietnam.com
 - **Nhi Local (us)** — $65 for a 60-minute lesson at My An. Board, leash, coaching, and photo/video are inside that single price. One instructor, small groups, so question 2 above answers itself. Book in English at cal.com/nhi-local, in Vietnamese via Zalo.
 
 ## FAQ

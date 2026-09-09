@@ -79,14 +79,14 @@ Trước khi vào danh mục, bốn tiêu chí để so các trường với nha
 
 Các trường hoạt động quanh dải biển Mỹ Khê – Mỹ An:
 
-- Epic
-- Surf Feeling
-- Coco
-- Go Surfing
-- Sano
-- Surf Club
-- Danang Surf School
-- Wave Riders
+- [Epic](https://epicsurfvietnam.com/) — epicvietnam.com
+- [Surf Feeling](https://surffeeling.com/) — surffeeling.com
+- [Coco](https://cocosurfvietnam.com/) — cocosurfvietnam.com
+- [Go Surfing](https://gosurfingvietnam.com/) — gosurfingvietnam.com
+- [Sano](https://sanosurf.com/) — sanosurf.com
+- [Surf Club](https://surfclubdanang.com/) — surfclubdanang.com
+- [Danang Surf School](https://danangsurfschool.com/) — danangsurfschool.com
+- [Wave Riders](https://waveridersvietnam.com/) — waveridersvietnam.com
 
 Mình cố tình không ghi giá hộ trường nào: giá đổi theo mùa và theo gói, con số cũ trên web còn tệ hơn là không có con số. Mở trang hoặc nhắn trực tiếp từng chỗ để lấy giá hiện tại.
 
