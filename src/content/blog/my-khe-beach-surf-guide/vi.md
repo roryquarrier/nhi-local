@@ -4,6 +4,7 @@ description: "Đà Nẵng thuộc số ít thành phố ở Việt Nam mà lư�
 pubDate: 2026-09-09
 lang: vi
 pair: my-khe-beach-surf-guide
+updatedDate: 2026-09-14
 image: /images/blog/my-khe-beach-surf-guide/my-khe-beach-hero.jpg
 draft: false
 ---
@@ -121,6 +122,22 @@ Và một mục Nhi Local trong danh mục đó, với đủ thông tin:
 - Một huấn luyện viên kèm nhóm nhỏ
 - Đặt buổi: nhắn Zalo, chọn khung sáng sớm cho mặt biển lặng nhất
 
+Còn đây là những gì mỗi chỗ có ngoài buổi học — mấy chi tiết ai cũng hỏi trong các nhóm mà trang đặt lịch chẳng bao giờ liệt kê. Ô nào ghi "hỏi" nghĩa là chưa có thông tin được công bố đâu đó, cứ nhắn trực tiếp shop mà hỏi:
+
+| Trường | Ván đã gồm trong giá học | Thuê ván lẻ | Thêm ngoài surf | Giờ mở cửa |
+|---|---|---|---|---|
+| Epic | hỏi | hỏi | — | hỏi |
+| Surf Feeling | hỏi | hỏi | — | hỏi |
+| Coco | hỏi | hỏi | — | hỏi |
+| Go Surfing | hỏi | hỏi | — | hỏi |
+| Sano | hỏi | hỏi | — | hỏi |
+| Surf Club | hỏi | hỏi | — | hỏi |
+| Danang Surf School | hỏi | hỏi | — | hỏi |
+| Wave Riders | hỏi | hỏi | — | hỏi |
+| **Nhi Local** | **có — ván, leash, huấn luyện, ảnh/video đều trong $65** | không — xem phần thuê ván ở trên | thuê SUP $15/giờ ở bãi Mạn Thái | đặt online qua cal.com/Zalo — không công bố giờ cố định, cứ nhắn trước |
+
+Một chỗ đáng nhắc riêng: **LST Surf** trên chính dải biển này có bowl trượt ván bằng bê tông ngay tại shop và là điểm hẹn quen của dân local — kiểu chỗ mà buổi lướt xong còn kéo nhau ở lại trên bờ. Tên họ hay được nhắc trong các thread (cùng với Coco). Nhớ hỏi giờ mở cửa trước khi ghé — giờ bán hàng ở đây ăn theo mùa lướt sóng.
+
 Nói công bằng: các trường ở đây đều dạy tốt bài đầu tiên — chèo, bắt sóng, đứng lên. Khác nhau nằm ở cỡ nhóm, đồ kèm theo và điểm hẹn. So theo bốn tiêu chí ở trên thì khó chọn sai.
 
 ![Người lướt sóng trên sóng — một ngày biển đẹp ở Mỹ Khê](/images/blog/my-khe-beach-surf-guide/surfer-wave.jpg "Người lướt sóng đang cưỡi sóng")
@@ -161,3 +178,6 @@ Có, nhưng không phải ở mọi nơi. Nhi Local không cho thuê ván lẻ �
 Mang đồ bơi, khăn và kem chống nắng; ván và leash trường lo. Buổi 60 phút thường chia làm ba: vài phút lý thuyết trên cát (tư thế nằm, cách chèo, cách đứng), phần lớn thời gian xuống nước tập bắt sóng có huấn luyện viên kèm sát, cuối buổi xem lại ảnh/video. Chọn khung sáng sớm — biển lặng, ít người, nắng chưa gắt.
 
 Sóng không hẹn trước được, nhưng forecast gần đúng đến từng giờ. Xem bảng tối hôm trước, đặt slot sáng sớm, và nghe theo huấn luyện viên khi đã xuống nước.
+**9. Mùa mưa có lướt được không? Nước biển lúc đó thế nào?**
+
+Được — mùa mưa và mùa lướt sóng ở Đà Nẵng là cùng một lúc (tháng 10 đến tháng 2), nên càng vào mưa biển càng có sóng. Chỉ cần biết một đặc thù của lúc đầu mùa: nước mưa cuộn theo rác và nước thải từ trong thành phố tràn ra biển, đoạn dọc đường Võ Nguyên Giáp năm nào cũng vậy sau những trận mưa lớn đầu mùa. Sau mưa to, nước thường đục và có thể lẫn rác dạt vào bờ. Cách của dân local giản dị: chờ một hai ngày, rồi ra bờ nhìn nước — trong thì xuống, đục thì chờ thêm. Còn mưa thì không phải lý do bỏ biển: đỉnh mùa (tháng 11 đến tháng 1) cũng chính là lúc mưa nhiều nhất, và ai lướt cũng lướt xuyên suốt.

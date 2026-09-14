@@ -4,6 +4,7 @@ description: "My Khe is the beach in Da Nang where surfing actually happens — 
 pubDate: 2026-09-09
 lang: en
 pair: my-khe-beach-surf-guide
+updatedDate: 2026-09-14
 image: /images/blog/my-khe-beach-surf-guide/my-khe-beach-hero.jpg
 draft: false
 ---
@@ -134,6 +135,22 @@ Now the directory. These schools all operate at the My An / My Khe stretch. It's
 - [Wave Riders](https://www.waveriderssurfschool.com/) — waveriderssurfschool.com
 - **Nhi Local (us)** — $65 for a 60-minute lesson at My An. Board, leash, coaching, and photo/video are inside that single price. One instructor, small groups, so question 2 above answers itself. Book in English at cal.com/nhi-local, in Vietnamese via Zalo.
 
+What each shop carries beyond lessons — the details that never make it into the booking listings. Where a cell says ask, the fact isn't published anywhere verifiable, so ask the shop directly rather than take this table's word for it:
+
+| School | Lesson board in price | Board-only rental | Extras beyond surf | Hours |
+|---|---|---|---|---|
+| Epic | ask | ask | — | ask |
+| Surf Feeling | ask | ask | — | ask |
+| Coco | ask | ask | — | ask |
+| Go Surfing | ask | ask | — | ask |
+| Sano | ask | ask | — | ask |
+| Surf Club | ask | ask | — | ask |
+| Danang Surf School | ask | ask | — | ask |
+| Wave Riders | ask | ask | — | ask |
+| **Nhi Local (us)** | **yes — board, leash, coaching, photo/video in the $65** | no — see the rental section above | SUP rental $15/hr at Man Thai | online booking (cal.com / Zalo); hours not published — message first |
+
+One entry worth its own line: **LST Surf**, on this stretch, keeps a concrete skate bowl at the shop and functions as a local hub — the kind of place where the session continues on land. It comes up by name in local threads (as does Coco). Confirm opening hours with them before you go; shops here keep surf-season hours that shift with the swell.
+
 ![A surfer riding a wave — what a clean My Khe day looks like](/images/blog/my-khe-beach-surf-guide/surfer-wave.jpg "Surfer riding a wave")
 <sub>Photo: A surfer at the wave — CC BY-SA 3.0 · Wikimedia Commons</sub>
 
@@ -170,3 +187,6 @@ Real numbers, since most guides hide them. A surf lesson at Nhi Local is $65 for
 ### Do you need your own board to surf in Da Nang?
 
 No. Your experience picks the route. If you've never stood up, book a lesson; the board comes with it. If you already surf and need a board, that's board-only rental: danasurfrental.vn exists for exactly that, and the schools listed above can point you somewhere if you ask them. What nobody needs to do is fly a board across the world for a week of beach-break peaks. Rent or book on the ground.
+### Can you surf at My Khe in the rainy season?
+
+Yes — the rainy season and the surf season are the same months, and surfers are in the water through all of them. One thing to know about the start of it: runoff. When the first heavy rains of the season arrive, usually sometime in October, rainwater washes off the city and out across the beach, and along the Võ Nguyên Giáp stretch of My Khe this happens every year. The days right after a big rain bring murky water and the occasional piece of debris along the shore, and the local routine is unsentimental: wait a day or two, then look at the water. Clear means surf. Murky means give it another day. The rain itself is no reason to stop — the heart of the season, November to January, is also its wettest stretch, and everyone surfs through it.
