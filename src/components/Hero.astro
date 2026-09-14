@@ -141,6 +141,22 @@ const heroPoster = base + 'media/hero_poster.jpg';
   <div class="scrim-top flex items-center justify-between gap-1 px-2 py-3 sm:gap-4 sm:px-6">
     <span class="wordmark text-sm text-linen">NHI&nbsp;LOCAL</span>
     <div class="flex items-center gap-1.5 sm:gap-3">
+      <!-- Blog link: language-paired like the footer (EN -> /blog/, VI -> /blog/vi/).
+           data-lang show/hide is CSS-only, same pattern as the Zalo link below. -->
+      <a
+        data-lang="en"
+        href={base + 'blog/'}
+        class="font-mono text-xs tracking-wider text-lilac transition-colors hover:text-tungsten px-1"
+      >
+        {en.nav.blog}
+      </a>
+      <a
+        data-lang="vi"
+        href={base + 'blog/vi/'}
+        class="font-mono text-xs tracking-wider text-lilac transition-colors hover:text-tungsten px-1"
+      >
+        {vi.nav.blog}
+      </a>
       <!-- Both hero buttons scroll to the booking section where the user picks
            a service; the booking section's CTA then opens the right cal.com
            link based on whether SUP / Surf / Freedive is selected. -->
