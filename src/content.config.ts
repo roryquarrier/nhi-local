@@ -11,6 +11,8 @@ const blog = defineCollection({
     lang: z.enum(['en', 'vi']),
     /** slug of this post's translation (the folder name of the other-language file). */
     pair: z.string().optional(),
+    /** hero/cover image path for cards and og use. */
+    image: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

@@ -412,6 +412,13 @@ html[lang="vi"] .post-body { line-height: 1.8; }           /* same VI-density ru
 .post-body :not(pre) > code { background: color-mix(in srgb, var(--linen) 8%, transparent); padding: 0.1em 0.35em; border-radius: 0.25rem; }
 .post-body pre { overflow-x: auto; padding: 1rem 1.25rem; border-radius: 1rem; font-size: 0.875rem; line-height: 1.6; }
 .post-body img { max-width: 100%; height: auto; border-radius: 1rem; }
+.post-body sub {                      /* photo credit lines under images */
+  display: block; vertical-align: baseline;
+  margin-top: 0.5rem; text-align: center;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.6875rem; letter-spacing: 0.02em; color: var(--lilac);
+  opacity: 0.75;
+}
 .post-body table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 0.9375rem; }
 .post-body th {
   text-align: left; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.75rem;

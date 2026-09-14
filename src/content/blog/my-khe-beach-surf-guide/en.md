@@ -4,13 +4,18 @@ description: "My Khe is the beach in Da Nang where surfing actually happens — 
 pubDate: 2026-09-09
 lang: en
 pair: my-khe-beach-surf-guide
+image: /images/blog/my-khe-beach-surf-guide/my-khe-beach-hero.jpg
 draft: false
 ---
 My Khe is the beach in Da Nang where surfing actually happens — a sand-bottomed beach break that works from October through February and mostly sleeps through summer. This guide covers the season month by month, how to read a forecast for this stretch specifically, where to get a board if you don't own one, and what it all costs, in real numbers. If you're weighing bringing a board against booking a lesson, that answer is here too.
 
 ![My Khe Beach, Da Nang — the crescent of sand where Da Nang surfs](/images/blog/my-khe-beach-surf-guide/my-khe-coastline.jpg "Aerial view of My Khe Beach, Da Nang")
+<sub>Photo: My Khe Beach Danang Coastline — CC BY-SA 4.0 · Wikimedia Commons</sub>
 
 ## Why My Khe is Da Nang's surf beach
+
+![My Khe Beach, Da Nang — the long sandy stretch with the city behind it](/images/blog/my-khe-beach-surf-guide/my-khe-beach-hero.jpg)
+<sub>Photo: My Khe Beach, Da Nang, Vietnam by Ray in Manila — CC BY 2.0</sub>
 
 My Khe is the city beach — an arc of sand that starts at the foot of the Son Tra peninsula at Man Thai and runs south past My An, where the hotel strip sits. Ten minutes from central Da Nang, which matters more than it sounds: a dawn surf here doesn't eat your whole morning.
 
@@ -21,6 +26,9 @@ Most of the year the waves are soft and forgiving — the kind of beach break yo
 The part other guides gloss over: My Khe is a seasonal surf beach. From October to February it's a proper surf town beach — warm water, sand bottom, waves on most days. In summer the same beach can go weeks without a rideable wave, and pretending otherwise is how people waste a holiday. The rest of this page is about hitting the right half of the year.
 
 ## Surf season in Da Nang: when to come
+
+![A standup paddle surfer riding a wave](/images/blog/my-khe-beach-surf-guide/paddle-surf-wave.jpg)
+<sub>Photo: Stand up paddle surfing on the huge waves off Sunset Beach by Peggy2012CREATIVELENZ — CC BY 2.0</sub>
 
 Short answer: October through February. The north-northwest monsoon pushes swell onto the central coast in those months, and that's the only stretch where My Khe works with any consistency. It's also the answer to the question people type before booking anything — can you surf in Vietnam? Yes, if you aim your trip at the monsoon.
 
@@ -56,6 +64,9 @@ All of the above is pattern, not promise. The monsoon sets the schedule and it m
 
 ## Reading the forecast
 
+![Open sea and waves — what you read the forecast for](/images/blog/my-khe-beach-surf-guide/sea-wave.jpg)
+<sub>Photo: Sea by Catricorn — CC BY 2.0</sub>
+
 Two free tools cover Da Nang well: Surfline (surfline.com) and surf-forecast.com. Search either for "Da Nang" or "My Khe". For a live look at the beach, search "surfcam da nang" — there's usually at least one camera pointed at the water. When the model and the camera disagree, believe the camera.
 
 We don't run a forecast or a cam and aren't going to; these services do it well and they're free.
@@ -71,6 +82,9 @@ What the numbers mean at this beach specifically:
 **Tide and sandbars.** There's no universal rule here. Which tide works depends on which sandbar, and the bars shift with each new swell. Two or three sessions at the same peak will tell you more than any guide can.
 
 ## Where to rent a board (and what it costs)
+
+![The shore at My Khe where rental huts line the beach](/images/blog/my-khe-beach-surf-guide/my-khe-beach-shore.jpg)
+<sub>Photo: My Khe Beach, Da Nang, Vietnam by Ray in Manila — CC BY 2.0</sub>
 
 If you own no gear and want to surf today, the short version: book a lesson. At Nhi Local the board comes with it. Board-only rental exists too, and this section names who does it.
 
@@ -95,6 +109,9 @@ And the decision, spelled out:
 
 ## Learning to surf at My Khe: lessons & schools
 
+![Calm flat water — the beginner-friendly side of Da Nang](/images/blog/my-khe-beach-surf-guide/sup-calm-water.jpg)
+<sub>Photo: Wrightsville Beach, NC by James Willamor — CC BY-SA 2.0</sub>
+
 Lessons run out of the My An end, where the bottom stays sandy all the way out and ordinary days serve soft waves — exactly what a first attempt needs. In a monsoon pulse the beach firms up everywhere, and the schools know when to run and when to wait.
 
 Five questions separate a good school from a cheap quote. They're the same conversation with any of them:
@@ -118,6 +135,7 @@ Now the directory. These schools all operate at the My An / My Khe stretch. It's
 - **Nhi Local (us)** — $65 for a 60-minute lesson at My An. Board, leash, coaching, and photo/video are inside that single price. One instructor, small groups, so question 2 above answers itself. Book in English at cal.com/nhi-local, in Vietnamese via Zalo.
 
 ![A surfer riding a wave — what a clean My Khe day looks like](/images/blog/my-khe-beach-surf-guide/surfer-wave.jpg "Surfer riding a wave")
+<sub>Photo: A surfer at the wave — CC BY-SA 3.0 · Wikimedia Commons</sub>
 
 ## FAQ
 

@@ -4,15 +4,20 @@ description: "Đà Nẵng thuộc số ít thành phố ở Việt Nam mà lư�
 pubDate: 2026-09-09
 lang: vi
 pair: my-khe-beach-surf-guide
+image: /images/blog/my-khe-beach-surf-guide/my-khe-beach-hero.jpg
 draft: false
 ---
 Đà Nẵng thuộc số ít thành phố ở Việt Nam mà lướt sóng là hoạt động thật, không phải trò trình diễn cho khách: có mùa rõ ràng, có cộng đồng đứng ván quanh năm, có trường dạy ngay trên bờ. Bãi biển chính là biển Mỹ Khê — dải cát chạy từ chân bán đảo Sơn Trà (bãi Mạn Thái) xuống khu Mỹ An, dọc theo đường Võ Nguyên Giáp – Trường Sa – Hồ Xuân Hương. Bài này gom hết những gì bạn cần: mùa nào có sóng, đọc forecast ra sao, thuê ván ở đâu, học ở đâu, và mỗi thứ tốn bao nhiêu.
 
 ![Biển Mỹ Khê, Đà Nẵng — dải cát nơi Đà Nẵng lướt sóng](/images/blog/my-khe-beach-surf-guide/my-khe-coastline.jpg "Toàn cảnh biển Mỹ Khê, Đà Nẵng nhìn từ trên cao")
+<sub>Ảnh: My Khe Beach Danang Coastline — CC BY-SA 4.0 · Wikimedia Commons</sub>
 
 Một ghi chú về tên gọi: bài dùng cách gọi quen của người Đà Nẵng — biển Mỹ Khê (bãi tắm Mỹ Khê), bãi Mạn Thái, khu Phú Mỹ An.
 
 ## Vì sao lướt sóng ở biển Mỹ Khê
+
+![Biển Mỹ Khê, Đà Nẵng — dải cát dài với thành phố phía sau](/images/blog/my-khe-beach-surf-guide/my-khe-beach-hero.jpg)
+<sub>Ảnh: My Khe Beach, Da Nang, Vietnam — Ray in Manila · CC BY 2.0</sub>
 
 Mỹ Khe là beach break: đáy cát, sóng dâng ngoài khơi rồi vỡ thẳng vào bờ, không có đá ngầm để va vào. Ngã xuống thì dưới chân là nước — chưa biết gì cũng chỉ tắm một cái rồi bò dậy.
 
@@ -24,6 +29,9 @@ Hai điều nên biết cho thật:
 - Sóng không có quanh năm. Từ khoảng tháng 5 đến tháng 8, biển Mỹ Khê êm như hồ. Muốn lướt thì phải chọn đúng mùa — chi tiết ngay phần dưới.
 
 ## Mùa lướt sóng ở Đà Nẵng: từng tháng một
+
+![Người lướt ván SUP trên sóng](/images/blog/my-khe-beach-surf-guide/paddle-surf-wave.jpg)
+<sub>Ảnh: Stand up paddle surfing on the huge waves off Sunset Beach — Peggy2012CREATIVELENZ · CC BY 2.0</sub>
 
 Câu trả lời ngắn: tháng 10 đến tháng 2 là mùa lướt sóng, đỉnh rơi vào tháng 10–12.
 
@@ -47,6 +55,9 @@ Nếu cả chuyến đi xoay quanh việc lướt: đặt lịch vùng cuối th
 
 ## Đọc forecast cho Mỹ Khê
 
+![Biển rộng và sóng ngoài khơi](/images/blog/my-khe-beach-surf-guide/sea-wave.jpg)
+<sub>Ảnh: Sea — Catricorn · CC BY 2.0</sub>
+
 Hai trang nên mở là Surfline (surfline.com) và surf-forecast.com. Surfline có mục riêng cho Đà Nẵng kèm dự báo và camera ở một số điểm (camera thuộc gói trả phí). surf-forecast.com miễn phí, cho bảng chi tiết chiều cao sóng, chu kỳ và gió theo từng khối 6 giờ. Cả hai đều tra Đà Nẵng trực tiếp trên bản đồ, không cần cài thêm gì.
 
 Khi đọc bảng, chú ý ba con số:
@@ -58,6 +69,9 @@ Khi đọc bảng, chú ý ba con số:
 Về hướng: Mỹ Khê ăn điểm với swell hướng Bắc đến Đông Bắc. Swell hướng Đông Nam thường nhỏ và vô tổ chức hơn. Mẹo đơn giản: xem bảng tối hôm trước, nếu sáng mai có sóng 0,8–1,2 m, chu kỳ 8–10 giây, gió dưới 10 km/h thì nhắn trường đặt slot sáng sớm.
 
 ## Thuê ván lướt sóng ở Đà Nẵng: sự thật cần biết
+
+![Bờ biển Mỹ Khê, nơi các quán thuê ván mọc dọc bãi](/images/blog/my-khe-beach-surf-guide/my-khe-beach-shore.jpg)
+<sub>Ảnh: My Khe Beach, Da Nang, Vietnam — Ray in Manila · CC BY 2.0</sub>
 
 Nói thẳng từ đầu, vì đây là câu được hỏi nhiều nhất: **Nhi Local không cho thuê ván lẻ.** Ván chỉ đi kèm buổi học. Muốn mướn ván tự bơi ở Nhi thì không có dịch vụ đó — đừng nhờ.
 
@@ -72,6 +86,9 @@ Liên quan gần đó: nhóm đi cùng có người không lướt thì Nhi Loca
 
 ## Học lướt sóng ở Mỹ Khê: các trường và cách chọn
 
+![Mặt nước phẳng lặng — điều kiện dễ dành cho người mới](/images/blog/my-khe-beach-surf-guide/sup-calm-water.jpg)
+<sub>Ảnh: Wrightsville Beach, NC — James Willamor · CC BY-SA 2.0</sub>
+
 Trước khi vào danh mục, bốn tiêu chí để so các trường với nhau:
 
 1. **Ván đã gồm trong giá chưa**, hay tính riêng.
@@ -80,6 +97,7 @@ Trước khi vào danh mục, bốn tiêu chí để so các trường với nha
 4. **Dạy ở đoạn biển nào, hẹn ở đâu.** Mỹ Khê dài, mỗi trường có điểm hẹn riêng — hỏi trước để khỏi lạc.
 
 ![Buổi học lướt sóng cho nhóm người mới](/images/blog/my-khe-beach-surf-guide/surf-lesson-group.jpg "Huấn luyện viên hướng dẫn nhóm học lướt sóng trên bãi cát")
+<sub>Ảnh: Group surfing lesson with the Margaret River Surfing Academy — Mrsurfingacademy · CC BY 4.0</sub>
 
 Các trường hoạt động quanh dải biển Mỹ Khê – Mỹ An:
 
@@ -106,6 +124,7 @@ Và một mục Nhi Local trong danh mục đó, với đủ thông tin:
 Nói công bằng: các trường ở đây đều dạy tốt bài đầu tiên — chèo, bắt sóng, đứng lên. Khác nhau nằm ở cỡ nhóm, đồ kèm theo và điểm hẹn. So theo bốn tiêu chí ở trên thì khó chọn sai.
 
 ![Người lướt sóng trên sóng — một ngày biển đẹp ở Mỹ Khê](/images/blog/my-khe-beach-surf-guide/surfer-wave.jpg "Người lướt sóng đang cưỡi sóng")
+<sub>Ảnh: A surfer at the wave — CC BY-SA 3.0 · Wikimedia Commons</sub>
 
 ## Hỏi nhanh — đáp gọn
 
