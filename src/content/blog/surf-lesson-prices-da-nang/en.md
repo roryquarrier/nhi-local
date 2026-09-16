@@ -4,7 +4,7 @@ description: "Da Nang surf lesson prices run from $8 platform packages to $65 pr
 pubDate: 2026-09-16
 lang: en
 pair: surf-lesson-prices-da-nang
-image: /images/blog/surf-lesson-prices-da-nang/my-khe-beach-hero.jpg
+image: /images/blog/surf-lesson-prices-da-nang/surf-lesson-cover.jpg
 draft: false
 ---
 ![My Khe Beach, Da Nang — the stretch of sand where the city's surf lessons happen](/images/blog/surf-lesson-prices-da-nang/my-khe-beach-hero.jpg)

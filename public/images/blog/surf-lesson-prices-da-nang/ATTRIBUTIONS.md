@@ -37,3 +37,9 @@ CC BY/BY-SA require attribution — kept in page credit lines too.
 - Title: Surf School
 - Creator: glennharper
 - License: CC BY
+
+## surf-lesson-cover.jpg
+- Title: Chris and Henning Come Ashore
+- Creator: Chris Hunkeler
+- License: CC BY-SA 2.0
+- Source: https://www.flickr.com/photos/14913305@N00/7452218910

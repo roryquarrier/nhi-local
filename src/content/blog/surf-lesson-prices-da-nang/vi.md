@@ -4,7 +4,7 @@ description: "Giá học lướt sóng ở Đà Nẵng dao động từ gói 8 �
 pubDate: 2026-09-16
 lang: vi
 pair: surf-lesson-prices-da-nang
-image: /images/blog/surf-lesson-prices-da-nang/my-khe-beach-hero.jpg
+image: /images/blog/surf-lesson-prices-da-nang/surf-lesson-cover.jpg
 draft: false
 ---
 ![Bãi biển Mỹ Khê, Đà Nẵng — dải cát nơi các buổi học lướt sóng của thành phố diễn ra](/images/blog/surf-lesson-prices-da-nang/my-khe-beach-hero.jpg)
