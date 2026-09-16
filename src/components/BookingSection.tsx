@@ -51,11 +51,14 @@ function openCal(calLink: string) {
  * and we never display fabricated availability. Session times are shown as
  * plain text.
  *
- * REDESIGNED: Uniform pricing list — all services equal weight, no hero card.
+ * SEASON PIVOT (2026-09): surf is the in-season service — listed first,
+ * selected by default, full weight. SUP and freedive stay visible (SEO + the
+ * flip back next season) but are demoted: muted rows, off-season note from
+ * translations, not selectable, not bookable through cal.com while off season.
  */
 export default function BookingSection() {
   const [lang, setLang] = useState<Lang>('en');
-  const [selected, setSelected] = useState<ServicePricing['id']>('sup');
+  const [selected, setSelected] = useState<ServicePricing['id']>('surf');
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -64,7 +67,7 @@ export default function BookingSection() {
 
     const onLang = (e: Event) => {
       const detail = (e as CustomEvent).detail as { lang: Lang };
-      if (detail?.lang) setLang(detail.lang);
+      if (detail?.lang) setLang(detail?.lang);
     };
     window.addEventListener('langchange', onLang);
     return () => window.removeEventListener('langchange', onLang);
@@ -93,26 +96,37 @@ export default function BookingSection() {
         <p className="mt-4 text-lilac max-w-lg">{t.booking.body}</p>
       </div>
 
-      {/* Uniform pricing list — all services equal weight */}
+      {/* Pricing list — in-season service first at full weight; off-season
+          services demoted: muted, note shown, not selectable. */}
       <div className="mx-auto mt-10 max-w-2xl">
         {PRICING.map((s) => {
           const info = serviceInfo[s.id];
           const isSelected = selected === s.id;
+          const offSeason = s.season === 'off';
           return (
             <button
               key={s.id}
-              onClick={() => setSelected(s.id)}
+              onClick={() => !offSeason && setSelected(s.id)}
+              aria-disabled={offSeason || undefined}
               className={`group w-full text-left py-5 border-b transition-colors ${
-                isSelected
-                  ? 'border-tungsten'
-                  : 'border-lilac/20 hover:border-lilac/40'
+                offSeason
+                  ? 'border-lilac/10 cursor-default'
+                  : isSelected
+                    ? 'border-tungsten'
+                    : 'border-lilac/20 hover:border-lilac/40'
               }`}
             >
               <div className="flex items-baseline justify-between gap-4 flex-wrap">
                 <div className="flex items-baseline gap-3">
-                  <h3 className={`text-lg sm:text-xl font-semibold transition-colors ${
-                    isSelected ? 'text-tungsten' : 'text-linen group-hover:text-tungsten'
-                  }`}>
+                  <h3
+                    className={`text-lg sm:text-xl font-semibold transition-colors ${
+                      offSeason
+                        ? 'text-lilac/70'
+                        : isSelected
+                          ? 'text-tungsten'
+                          : 'text-linen group-hover:text-tungsten'
+                    }`}
+                  >
                     {info.name}
                   </h3>
                   {isSelected && (
@@ -121,15 +135,24 @@ export default function BookingSection() {
                     </span>
                   )}
                 </div>
-                <span className={`text-lg sm:text-xl tabular-nums transition-colors ${
-                  isSelected ? 'text-tungsten' : 'text-lilac'
-                }`}>
+                <span
+                  className={`text-lg sm:text-xl tabular-nums transition-colors ${
+                    offSeason ? 'text-lilac/50' : isSelected ? 'text-tungsten' : 'text-lilac'
+                  }`}
+                >
                   {info.price}
                 </span>
               </div>
-              <p className="mt-1 text-lilac/80 text-sm max-w-sm">
+              <p
+                className={`mt-1 text-sm max-w-sm ${
+                  offSeason ? 'text-lilac/50' : 'text-lilac/80'
+                }`}
+              >
                 {info.tagline}
               </p>
+              {offSeason && info.note && (
+                <p className="mt-1.5 text-xs text-sea/90 max-w-sm">{info.note}</p>
+              )}
             </button>
           );
         })}

@@ -7,6 +7,12 @@
  *   idiomatic phrasing is uncertain, the value is marked `<!-- TODO: VI review -->`
  *   in the consuming component rather than guessed here.
  * - Unresolved business facts are TODOs in the components, not invented here.
+ *
+ * SEASON PIVOT (2026-09): surf season is on — surf leads everywhere (title,
+ * hero, pricing order, default selection). SUP + freedive stay listed but are
+ * demoted with an off-season note; their copy keeps the SUP keywords indexed
+ * for the flip back when the flat-water season returns. The return month is
+ * deliberately unstated until competitor season data confirms it.
  */
 
 export type Lang = 'en' | 'vi';
@@ -15,12 +21,14 @@ export interface ServicePricing {
   id: 'sup' | 'surf' | 'freedive';
   /** Display price — identical for EN and VI. */
   price: string;
+  /** 'in' = bookable now, full weight. 'off' = demoted row + season note. */
+  season?: 'in' | 'off';
 }
 
 export const PRICING: ServicePricing[] = [
-  { id: 'sup', price: '$15' },
-  { id: 'surf', price: '$65' },
-  { id: 'freedive', price: '$65' },
+  { id: 'surf', price: '$65', season: 'in' },
+  { id: 'sup', price: '$15', season: 'off' },
+  { id: 'freedive', price: '$65', season: 'off' },
 ];
 
 /** Zalo deep link for VI booking funnel. */
@@ -84,9 +92,9 @@ export interface Copy {
   };
 
   services: {
-    sup: { name: string; tagline: string; price: string };
-    surf: { name: string; tagline: string; price: string };
-    freedive: { name: string; tagline: string; price: string };
+    sup: { name: string; tagline: string; price: string; note?: string };
+    surf: { name: string; tagline: string; price: string; note?: string };
+    freedive: { name: string; tagline: string; price: string; note?: string };
     /** VI-only Zalo invitation line shown under pricing. */
     zaloInvite?: string;
   };
@@ -137,9 +145,9 @@ const EN: Copy = {
   lang: 'en',
   htmlLang: 'en',
   dir: 'ltr',
-  title: 'Nhi Local — Sunrise SUP on Man Thai Beach',
+  title: 'Nhi Local — Surf Lessons on My An Beach, Da Nang',
   description:
-    'Stand-up paddleboard, surf, and freedive sessions on Man Thai Beach, Da Nang. Small groups, equipment provided, 60-minute sessions.',
+    'Beginner-friendly surf lessons on My An Beach, Da Nang — surf season is here. Stand-up paddleboard (SUP) and freedive sessions return to Man Thai Beach when the sea calms. Small groups, equipment provided.',
   nav: { book: 'Book', blog: 'Blog' },
   blog: {
     title: 'Blog',
@@ -151,15 +159,15 @@ const EN: Copy = {
     switchLang: 'Switch language',
   },
   hero: {
-    staticEyebrow: 'Man Thai Beach · Da Nang',
-    staticTitle: 'Sunrise Paddle.',
+    staticEyebrow: 'My An Beach · Da Nang',
+    staticTitle: 'Surf Season.',
     staticSubtitle:
-      'SUP, surf, and freedive sessions with Nhi Local. Small groups, equipment provided, 60 minutes on the water.',
+      'Beginner-friendly surf lessons on My An Beach — small groups, boards provided. SUP and freedive return when the sea calms.',
     staticCta: 'Book a session',
     intro: {
-      open: 'SUP SURF DIVE',
+      open: 'SURF · SUP · DIVE',
       mid: '',
-      brandSub: 'Man Thai Beach · Da Nang',
+      brandSub: 'My An Beach · Da Nang',
       skip: 'Skip intro',
       replay: 'Replay intro',
     },
@@ -169,6 +177,7 @@ const EN: Copy = {
       name: 'Stand-Up Paddleboard',
       tagline: 'Gentle dawn sessions on flat water.',
       price: '$15',
+      note: 'Off season now — SUP returns to Man Thai when the sea calms. Message us to plan ahead.',
     },
     surf: {
       name: 'Surfing',
@@ -179,11 +188,12 @@ const EN: Copy = {
       name: 'Freediving',
       tagline: 'Breath-hold sessions for calm water.',
       price: '$65',
+      note: 'Off season now — freediving returns with the flat-water season.',
     },
   },
   booking: {
     heading: 'Book your session',
-    body: 'Choose a time and date. Sessions run about 60 minutes; all equipment is provided on the beach.',
+    body: 'Surf is in season now. Pick a date and time — sessions run about 60 minutes, all equipment provided on the beach.',
     bookCta: 'Book online',
     bookVia: 'via cal.com',
     availabilityNote:
@@ -193,11 +203,11 @@ const EN: Copy = {
     meetNhi: {
       eyebrow: 'Meet Nhi',
       title: 'Your guide on the water',
-      body: 'Nhi runs every session personally — from the first message to the last stroke back to shore. This is a small, local operation: one instructor, small groups, and the same beach every morning.',
+      body: 'Nhi runs every session personally — from the first message to the last stroke back to shore. This is a small, local operation: one instructor, small groups, and the same stretches of sand every morning.',
     },
     media: {
       eyebrow: 'On the water',
-      title: 'Mornings at Man Thai',
+      title: 'Mornings on the water',
     },
     howItWorks: {
       eyebrow: 'How it works',
@@ -211,7 +221,7 @@ const EN: Copy = {
         {
           n: '02',
           title: 'Meet on the beach',
-          body: 'We meet on the beach before dawn — Man Thai for SUP, My An for surf. Boards and equipment are ready on the sand.',
+          body: 'We meet on the beach before dawn — My An for surf, Man Thai for SUP. Boards and equipment are ready on the sand.',
         },
         {
           n: '03',
@@ -222,8 +232,8 @@ const EN: Copy = {
     },
     meetingPoint: {
       eyebrow: 'Meeting point',
-      title: 'Man Thai Beach, Da Nang',
-      body: 'SUP sessions are on Man Thai Beach, on the Son Tra side of Da Nang. Surf sessions are on My An Beach, just to the south. Exact meeting points for all activities are confirmed in your booking message.',
+      title: 'My An Beach, Da Nang',
+      body: 'Surf sessions are on My An Beach, just south of central Da Nang. SUP and freedive sessions are on Man Thai Beach, on the Son Tra side — they return when the flat-water season does. Exact meeting points are confirmed in your booking message.',
     },
     faq: {
       eyebrow: 'Questions',
@@ -254,6 +264,10 @@ const EN: Copy = {
           a: 'Photos and videos are included with surf and freedive sessions, but not with SUP. Editing services are available for an additional fee — message us for details.',
         },
         {
+          q: 'When does SUP season start?',
+          a: 'SUP and freedive run in the flat-water season, roughly spring through summer. Message us and we will let you know as soon as the boards go back on the water.',
+        },
+        {
           q: 'How big are the groups?',
           a: '<!-- TODO: maximum group size not confirmed -->',
         },
@@ -264,7 +278,7 @@ const EN: Copy = {
       ],
     },
     footer: {
-      tagline: 'Sunrise SUP, surf, and freedive on Man Thai Beach.',
+      tagline: 'Sunrise surf, SUP, and freedive in Da Nang.',
       contact: 'Contact',
       socials: 'Follow',
       rights: 'All rights reserved.',
@@ -276,9 +290,9 @@ const VI: Copy = {
   lang: 'vi',
   htmlLang: 'vi',
   dir: 'ltr',
-  title: 'Nhi Local — Chèo SUP đón bình minh trên Man Thai',
+  title: 'Nhi Local — Lướt ván trên bãi Mỹ An, Đà Nẵng',
   description:
-    'Buổi chèo SUP, lướt ván và lặn tự do trên bãi Man Thái, Đà Nẵng. Nhóm nhỏ, có sẵn thiết bị, mỗi buổi 60 phút.',
+    'Buổi học lướt ván cho người mới trên bãi Mỹ An, Đà Nẵng — đã vào mùa lướt ván. Chèo SUP và lặn tự do trở lại bãi Man Thái khi biển lặng. Nhóm nhỏ, có sẵn thiết bị.',
   nav: { book: 'Đặt', blog: 'Blog' },
   blog: {
     title: 'Blog',
@@ -290,17 +304,15 @@ const VI: Copy = {
     switchLang: 'Đổi ngôn ngữ',
   },
   hero: {
-    staticEyebrow: 'Bãi Man Thái · Đà Nẵng',
-    // The \u00A0 keeps "Bình Minh." together, so the headline breaks after
-    // "SUP" — a deliberate two-line stack, not an orphaned "Minh.".
-    staticTitle: 'Chèo SUP Bình\u00A0Minh.',
+    staticEyebrow: 'Bãi Mỹ An · Đà Nẵng',
+    staticTitle: 'Mùa Lướt Ván.',
     staticSubtitle:
-      'Chèo SUP, lướt ván, lặn tự do cùng Nhi Local. Nhóm nhỏ, có sẵn thiết bị, 60 phút trên mặt nước.',
+      'Buổi học lướt ván thân thiện với người mới trên bãi Mỹ An — nhóm nhỏ, có sẵn ván. SUP và lặn tự do trở lại khi biển lặng.',
     staticCta: 'Đặt một buổi',
     intro: {
-      open: 'SUP SURF DIVE',
+      open: 'SURF · SUP · DIVE',
       mid: '',
-      brandSub: 'Bãi Man Thái · Đà Nẵng',
+      brandSub: 'Bãi Mỹ An · Đà Nẵng',
       skip: 'Bỏ qua',
       replay: 'Xem lại',
     },
@@ -310,6 +322,7 @@ const VI: Copy = {
       name: 'Chèo SUP',
       tagline: 'Buổi chèo nhẹ nhàng đón bình minh trên mặt nước phẳng.',
       price: '$15',
+      note: 'Hiện tạm nghỉ — SUP trở lại Man Thái khi biển lặng. Nhắn tin để hẹn trước cho mùa sau.',
     },
     surf: {
       name: 'Lướt ván',
@@ -320,12 +333,13 @@ const VI: Copy = {
       name: 'Lặn tự do',
       tagline: 'Buổi lặn nín thở dành cho mặt nước yên.',
       price: '$65',
+      note: 'Hiện tạm nghỉ — lặn tự do trở lại cùng mùa biển lặng.',
     },
     zaloInvite: 'Liên hệ Zalo để có giá tốt hơn.',
   },
   booking: {
     heading: 'Đặt buổi của bạn',
-    body: 'Chọn ngày và giờ. Mỗi buổi kéo dài khoảng 60 phút; toàn bộ thiết bị được chuẩn bị sẵn trên bãi.',
+    body: 'Đang mùa lướt ván. Chọn ngày và giờ — mỗi buổi khoảng 60 phút, toàn bộ thiết bị có sẵn trên bãi.',
     bookCta: 'Nhắn tin qua Zalo',
     bookVia: 'qua Zalo',
     availabilityNote:
@@ -335,11 +349,11 @@ const VI: Copy = {
     meetNhi: {
       eyebrow: 'Gặp Nhi',
       title: 'Người dẫn bạn trên mặt nước',
-      body: 'Nhi trực tiếp phụ trách mọi buổi — từ tin nhắn đầu tiên đến nhát chèo cuối cùng trở vào bờ. Đây là hoạt động nhỏ, địa phương: một huấn luyện viên, nhóm nhỏ, và cùng một bãi biển mỗi sáng.',
+      body: 'Nhi trực tiếp phụ trách mọi buổi — từ tin nhắn đầu tiên đến nhát chèo cuối cùng trở vào bờ. Đây là hoạt động nhỏ, địa phương: một huấn luyện viên, nhóm nhỏ, và những bãi biển quen thuộc mỗi sáng.',
     },
     media: {
       eyebrow: 'Trên mặt nước',
-      title: 'Những buổi sáng tại Man Thái',
+      title: 'Những buổi sáng trên mặt nước',
     },
     howItWorks: {
       eyebrow: 'Cách thức hoạt động',
@@ -353,7 +367,7 @@ const VI: Copy = {
         {
           n: '02',
           title: 'Gặp nhau trên bãi',
-          body: 'Chúng mình gặp nhau trên bãi trước bình minh — Man Thái cho SUP, Mỹ An cho lướt ván. Ván và thiết bị đã sẵn sàng trên cát.',
+          body: 'Chúng mình gặp nhau trên bãi trước bình minh — Mỹ An cho lướt ván, Man Thái cho SUP. Ván và thiết bị đã sẵn sàng trên cát.',
         },
         {
           n: '03',
@@ -364,8 +378,8 @@ const VI: Copy = {
     },
     meetingPoint: {
       eyebrow: 'Điểm hẹn',
-      title: 'Bãi Man Thái, Đà Nẵng',
-      body: 'Buổi SUP trên bãi Man Thái, phía Sơn Trà của Đà Nẵng. Buổi lướt ván trên bãi Mỹ An, ngay phía nam. Tọa độ chính xác cho mọi hoạt động được xác nhận trong tin nhắn đặt của bạn.',
+      title: 'Bãi Mỹ An, Đà Nẵng',
+      body: 'Buổi lướt ván trên bãi Mỹ An, ngay phía nam trung tâm Đà Nẵng. Buổi SUP và lặn tự do trên bãi Man Thái, phía Sơn Trà — trở lại cùng mùa biển lặng. Tọa độ chính xác được xác nhận trong tin nhắn đặt của bạn.',
     },
     faq: {
       eyebrow: 'Câu hỏi',
@@ -393,7 +407,11 @@ const VI: Copy = {
         },
         {
           q: 'Có dịch vụ chụp ảnh và quay video không?',
-          a: 'Ảnh và video được bao gồm trong buổi surf và freedive, nhưng không bao gồm trong buổi SUP. Dịch vụ chỉnh sửa có sẵn với phí thêm — nhắn tin để biết chi tiết.',
+          a: 'Ảnh và video được bao gồm trong buổi lướt ván và lặn tự do, nhưng không bao gồm trong buổi SUP. Dịch vụ chỉnh sửa có sẵn với phí thêm — nhắn tin để biết chi tiết.',
+        },
+        {
+          q: 'Mùa SUP bắt đầu khi nào?',
+          a: 'SUP và lặn tự do diễn ra vào mùa biển lặng, khoảng từ xuân đến hè. Nhắn tin cho mình — mình báo ngay khi ván trở lại mặt nước.',
         },
         {
           q: 'Nhóm bao nhiêu người?',
@@ -406,7 +424,7 @@ const VI: Copy = {
       ],
     },
     footer: {
-      tagline: 'Chèo SUP, lướt ván và lặn tự do đón bình minh tại bãi Man Thái.',
+      tagline: 'Lướt ván, chèo SUP và lặn tự do đón bình minh tại Đà Nẵng.',
       contact: 'Liên hệ',
       socials: 'Theo dõi',
       rights: 'Đã đăng ký bản quyền.',
