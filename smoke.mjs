@@ -138,12 +138,13 @@ log('\n=== 5. VIETNAMESE ===');
 
 // ---------- 6. BLOG ----------
 log('\n=== 6. BLOG ===');
-const BLOG = [
-  { path: 'blog/', lang: 'en', post: false },
-  { path: `blog/${SLUG}/`, lang: 'en', post: true },
-  { path: 'blog/vi/', lang: 'vi', post: false },
-  { path: `blog/vi/${SLUG}/`, lang: 'vi', post: true },
-];
+const SLUGS = [SLUG, 'surf-lesson-prices-da-nang'];
+const BLOG = SLUGS.flatMap((slug) => [
+  { path: `blog/${slug}/`, lang: 'en', post: true },
+  { path: `blog/vi/${slug}/`, lang: 'vi', post: true },
+]);
+BLOG.push({ path: 'blog/', lang: 'en', post: false });
+BLOG.push({ path: 'blog/vi/', lang: 'vi', post: false });
 const check = (name, ok) => { log(`  ${ok ? 'ok ' : 'FAIL'} ${name}`); if (!ok) failures++; };
 for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
   for (const b of BLOG) {
@@ -172,7 +173,7 @@ for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
     check(`${b.path} hreflang en+vi+x-default absolute`, s.hreflang.length === 3 && s.hreflang.every((h) => h.includes('https://nhilocal.com/')));
     check(`${b.path} footer follows page lang`, s.footerVi === (b.lang === 'vi' ? 'inline' : 'none'));
     if (b.post) check(`${b.path} BlogPosting JSON-LD`, s.jsonld >= 1);
-    check(`${b.path} toggle href`, s.toggle === (b.post ? (b.lang === 'en' ? `/blog/vi/${SLUG}/` : `/blog/${SLUG}/`) : (b.lang === 'en' ? '/blog/vi/' : '/blog/')));
+    check(`${b.path} toggle href`, s.toggle === (b.post ? (b.lang === 'en' ? `/blog/vi/${b.path.replace(/^blog\//, '').replace(/\/$/, '')}/` : `/blog/${b.path.replace(/^blog\/vi\//, '').replace(/\/$/, '')}/`) : (b.lang === 'en' ? '/blog/vi/' : '/blog/')));
     if (vp.width === 390) await page.screenshot({ path: `.claude/artifacts/shots/${b.lang}-${b.post ? 'post' : 'index'}-390.png`, fullPage: false });
     // homepage must follow the reader's last blog language
     await page.goto(URL, { waitUntil: 'load' });
